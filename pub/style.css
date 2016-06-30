@@ -1,0 +1,57 @@
+/*
+GUI:
+	Game Info:
+		Player data
+			Player #DevCards LongestRoad Knights LargestArmy VP
+		Trade
+		Build
+		Chat/Game messages
+		Buttons:
+			Expand Trade
+				# Resource for # Resource Trade
+			Expand Build
+				Road - 15 of each color
+				Settlement - 5 of each color
+				City - 4 of each color
+				Development Card
+					14 knights
+					6 progress
+					5 victory point
+			Chat
+			Start Game
+			End Turn
+			Spectate
+			Offer trade
+			Build Costs
+			Your Development Cards (click card to play, that way you can choose to play cards when most strategically advantagous)
+	Game Board:
+		Terrain Tiles - 19
+		Vertices
+		Edges
+		Harbors - 9
+		Sea Frame Pieces - 6
+		18 number tokens (one per terrain, none for desert)
+		Robber (starts on desert tile)
+	Resource Deck:
+		95 total
+		19 per resource
+Resources:
+	wool.png
+	grain.png
+	ore.png
+	lumber.png
+	brick.png
+Tiles:
+	hills.png (produces brick)
+	forest.png (produces lumber)
+	mountains.png (produces ore)
+	fields.png (produces grain)
+	pasture.png (produces wool)
+	desert.png (produces nothing)
+
+Buy:
+	road 
+	settlement
+	city
+	development card
+*/
