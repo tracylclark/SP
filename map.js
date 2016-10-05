@@ -44,7 +44,7 @@ module.exports = function(){
 				//randomize tiles if not a default (beginner) map, use a Knuth Shuffle (one of the variants)
 				while (tileTypeBuffer.length){
 					i = Math.floor(Math.random() * tileTypeBuffer.length);
-					shuffledTileLabels.push(tileTypeBuffer.splice(i, 1));
+					shuffledTileLabels.push(tileTypeBuffer.splice(i, 1)[0]);
 				}
 				tileTypeBuffer = shuffledTileLabels;
 			}
