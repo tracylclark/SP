@@ -8,7 +8,7 @@ module.exports = function(){
 		}
 		function GameMap(mapType){
 			this.vertices = new Array(11).fill(0).map((e)=>new Array(6).fill(0)); //create the vertices and fill with 0's
-			this.vertices.forEach((e,i)=>e.map((e,j)=>new Vertex({x:i,y:j}))); //this fills with base vertices, which holds references to Tiles/Edges
+			this.vertices.forEach((e,i,a)=>a[i]=e.map((e,j)=>new Vertex({x:i,y:j}))); //this fills with base vertices, which holds references to Tiles/Edges
 			this.tiles = initializeTiles(mapType);
           	this.edges = [];
             //use adjacency object to link tiles, vertices, and edges
