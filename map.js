@@ -30,8 +30,37 @@ module.exports = function(){
 			'04': [4, 3, 2, 1, 0, 11, 10, 9, 8, 7, 6, 5, 14, 13, 12, 17, 16, 15, 18],
 			'06': [6, 5, 4, 3, 2, 1, 0, 11, 10, 9, 8, 7, 15, 14, 13, 12, 17, 16, 18], 
 			'08': [8, 7, 6, 5, 4, 3, 2, 1, 0, 11, 10, 9, 16, 15, 14, 13, 12, 17, 18],
-			'10': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 11, 17, 16, 15, 14, 19, 12, 18],
+			'10': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 11, 17, 16, 15, 14, 19, 12, 18]
 		}
+		const frameSets = [ //all orientation edges start that the same vendor, so all vendor trades will happen in the same order
+			//as long as it's not a completely randomized vendor distribution
+			[ // 1 to 2 piece on bottom of board
+				[{x:5,y:5}, {x:6,y:5}], [{x:2,y:5}, {x:3,y:5}], [{x:1,y:3}, {x:1,y:4}], [{x:1,y:1}, {x:1,y:2}], 
+				[{x:2,y:0}, {x:3,y:0}], [{x:5,y:0}, {x:6,y:0}], [{x:8,y:1}, {x:9,y:1}], [{x:10,y:2}, {x:10,y:3}], [{x:9,y:4}, {x:8,y:4}]
+			],
+			[ // 1 to 2 piece on bottom left of board
+				[{x:1,y:4},{x:2,y:4}], [{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}], [{x:4,y:0},{x:5,y:0}], 
+				[{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}], [{x:9,y:3},{x:9,y:4}], [{x:8,y:5},{x:7,y:5}], [{x:4,y:5},{x:5,y:5}] 
+			],
+			[ // 1 to 2 piece on top left of board
+				[{x:1,y:1}, {x:1,y:2}], [{x:2,y:0}, {x:3,y:0}], [{x:5,y:0}, {x:6,y:0}], [{x:8,y:1}, {x:9,y:1}], 
+				[{x:10,y:2}, {x:10,y:3}], [{x:9,y:4}, {x:8,y:4}], [{x:5,y:5}, {x:6,y:5}], [{x:2,y:5}, {x:3,y:5}], [{x:1,y:3}, {x:1,y:4}]
+			],
+			[ // 1 to 2 piece on top of board
+				[{x:4,y:0},{x:5,y:0}], [{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}], [{x:9,y:3},{x:9,y:4}], 
+				[{x:8,y:5},{x:7,y:5}], [{x:4,y:5},{x:5,y:5}], [{x:1,y:4},{x:2,y:4}], [{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}] 
+			],
+			[	// 1 to 2 piece on top right of board
+				[{x:8,y:1}, {x:9,y:1}], [{x:10,y:2}, {x:10,y:3}], [{x:9,y:4}, {x:8,y:4}], [{x:5,y:5}, {x:6,y:5}], 
+				[{x:2,y:5}, {x:3,y:5}], [{x:1,y:3}, {x:1,y:4}], [{x:1,y:1}, {x:1,y:2}], [{x:2,y:0}, {x:3,y:0}], [{x:5,y:0}, {x:6,y:0}]
+			],
+			[	// 1 to 2 piece on bottom right of board
+				[{x:9,y:3},{x:9,y:4}], [{x:8,y:5},{x:7,y:5}], [{x:4,y:5},{x:5,y:5}], [{x:1,y:4},{x:2,y:4}], 
+				[{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}], [{x:4,y:0},{x:5,y:0}], [{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}] 
+			]
+		];
+		const defaultVendorLabels = ["threeToOne", "threeToOne", "bandwidth", "CPU", "threeToOne", "RAM", "storage", "threeToOne", "power"];
+
 		/**
 		* public properties
 		**/
@@ -66,6 +95,7 @@ module.exports = function(){
 			}
 			this.tiles = []; //array of 18 tiles
 			this.edges = [];
+			this.vendor = null;
 		}
 		function Edge(u, v){
 			this.u = u;
@@ -80,7 +110,8 @@ module.exports = function(){
 		}
   /*
   *	initializers
-  */	function initializeEdges(mapType){
+  */	
+		function initializeEdges(mapType){
 			var edges = [ //holds vertice coords
 				new Edge({x:07,y:05},{x:08,y:05}), new Edge({x:07,y:05},{x:06,y:05}),
 				new Edge({x:05,y:05},{x:06,y:05}), new Edge({x:05,y:05},{x:04,y:05}),
@@ -119,15 +150,13 @@ module.exports = function(){
 				new Edge({x:03,y:00},{x:04,y:00}), new Edge({x:04,y:00},{x:05,y:00}),
 				new Edge({x:05,y:00},{x:06,y:00}), new Edge({x:06,y:00},{x:07,y:00})
 			];
-  			return edges;
+			return edges;
 		}
 		function initializeVertices(mapType){
 			var vertices = new Array(11).fill(0).map((e)=>new Array(6).fill(0)); //create the vertices and fill with 0's
 			vertices.forEach((e,i,a)=>a[i]=e.map((e,j)=>new Vertex({x:i,y:j}))); //this fills with base vertices, which holds references to Tiles/Edges  
+			//implement vendors here
 			return vertices;
-		}
-		function initalizeEdges(mapType){
-			//initialize edges 
 		}
 		function initializeTiles(mapType, tokenDistributionType){
 			var tileTypeBuffer = defaultTileLabels.slice(); //make a copy of the defaultTileLabels using slice 
@@ -153,11 +182,40 @@ module.exports = function(){
 				//another option, randomly pick from the tokenLocationMap -- prefer this
 			}
 			else{
-				//true random, can't have 2 red tokens on adjacent tiles\
+				//true random, can't have 2 red tokens on adjacent tiles
 				//create a token distribution that's random
 			}
 			//now distribute tokens
 			tiles.forEach((e,i)=>e.token = defaultTokenObjects[tokenDistribution[i]]);
 			return tiles;
+		}
+		function initializeFrame(mapType){
+			var vendors = defaultVendorLabels.slice();//make a copy of the vendors list, if random will randomize this
+			var order = [];
+			if (mapType == "default"){
+				order = frameSets[0].slice(); //make a copy of the frameSet we want
+			}
+			else (mapType == "slightShift"){ //don't really like this name, think on it, this is when the frame shifts but still using default vendor list
+				var i = Math.floor(Math.random() * frameSets.length); //get a  random number between 0 and 6
+				order = frameSets[i].slice();
+			}
+			else{ //completely random, picks a random frame and then takes the default list and randomly assigns labels to the vendors 	
+				//randomly slice a label out build a new randomized array, make label equal to this before moving on
+				var randomizedVendors = [];
+				while (vendors.length){
+					var i = Math.floor(Math.random() * vendors.length);
+					randomizedVendors.push(vendors.splice(i, 1)[0]);
+				}
+				vendors = randomizedVendors;
+				var i = Math.floor(Math.random() * frameSets.length); //get a  random number between 0 and 6
+				order = frameSets[i].slice(); //assign the randomly picked frameSet to our order
+			}
+			//apply the label to the current vendor vertices we are looking at
+		}
+		function initializeVendors(frameList, vendorList){ 
+			//store as a property of a vertice
+			//vertices.forEach((e,i,a)=>a[i]=e.map((e,j)=>new Vertex({x:i,y:j})));
+			//for each pair of vertices in the assignment, grab one resource off the vendors list and apply it to both vertices
+			//frameList.forEach((e,i,a)=>a[i]
 		}
 };
