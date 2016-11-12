@@ -195,7 +195,7 @@ module.exports = function(){
 			if (mapType == "default"){
 				order = frameSets[0].slice(); //make a copy of the frameSet we want
 			}
-			else (mapType == "slightShift"){ //don't really like this name, think on it, this is when the frame shifts but still using default vendor list
+			else if(mapType == "slightShift"){ //don't really like this name, think on it, this is when the frame shifts but still using default vendor list
 				var i = Math.floor(Math.random() * frameSets.length); //get a  random number between 0 and 6
 				order = frameSets[i].slice();
 			}
