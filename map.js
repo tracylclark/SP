@@ -1,66 +1,7 @@
 //map.js
 
 module.exports = function(){
-		//at some point, pull all consts out and create a constants module 			
-		//const gameMapConstants = require('./gameData/tileLabels.JSON') -- possible option
-		const defaultTileLabels = ["storage","RAM","CPU","bandwidth","storage","RAM","RAM","power","bandwidth","CPU","power","power","bandwidth","RAM","CPU","power","storage","CPU","DarkNet"];
-		const defaultTokenObjects = [
-			{number: 5, color: "black", letter: 'A'}, 
-			{number: 2, color: "black", letter: 'B'}, 
-			{number: 6, color: "red", letter: 'C'},  
-			{number: 3, color: "black", letter: 'D'},
-			{number: 8, color: "red" , letter: 'E'},
-			{number: 10, color: "black", letter: 'F'}, 
-			{number: 9, color: "black", letter: 'G'}, 
-			{number: 12, color: "black", letter: 'H'}, 
-			{number: 11, color: "black", letter: 'I'}, 
-			{number: 4, color: "black", letter: 'J'}, 
-			{number: 8, color: "red", letter: 'K'}, 
-			{number: 10, color: "black", letter: 'L'},
-			{number: 9, color: "black", letter: 'M'}, 
-			{number: 4, color: "black", letter: 'N'}, 
-			{number: 5, color: "black", letter: 'O'},
-			{number: 6, color: "red", letter: 'P'},   
-			{number: 3, color: "black", letter: 'Q'}, 
-			{number: 11, color: "black", letter: 'R'}, 
-		];
-		const tokenLocationMap = {
-			'00': [0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 17, 16, 15, 14, 13, 18],
-			'02': [2, 1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 13, 12, 17, 16, 15, 14, 18],
-			'04': [4, 3, 2, 1, 0, 11, 10, 9, 8, 7, 6, 5, 14, 13, 12, 17, 16, 15, 18],
-			'06': [6, 5, 4, 3, 2, 1, 0, 11, 10, 9, 8, 7, 15, 14, 13, 12, 17, 16, 18], 
-			'08': [8, 7, 6, 5, 4, 3, 2, 1, 0, 11, 10, 9, 16, 15, 14, 13, 12, 17, 18],
-			'10': [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 11, 17, 16, 15, 14, 19, 12, 18]
-		}
-		const frameSets = [ //all orientation edges start that the same vendor, so all vendor trades will happen in the same order
-			//as long as it's not a completely randomized vendor distribution
-			[ // 1 to 2 piece on bottom of board
-				[{x:5,y:5}, {x:6,y:5}], [{x:2,y:5}, {x:3,y:5}], [{x:1,y:3}, {x:1,y:4}], [{x:1,y:1}, {x:1,y:2}], 
-				[{x:2,y:0}, {x:3,y:0}], [{x:5,y:0}, {x:6,y:0}], [{x:8,y:1}, {x:9,y:1}], [{x:10,y:2}, {x:10,y:3}], [{x:9,y:4}, {x:8,y:4}]
-			],
-			[ // 1 to 2 piece on bottom left of board
-				[{x:1,y:4},{x:2,y:4}], [{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}], [{x:4,y:0},{x:5,y:0}], 
-				[{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}], [{x:9,y:3},{x:9,y:4}], [{x:8,y:5},{x:7,y:5}], [{x:4,y:5},{x:5,y:5}] 
-			],
-			[ // 1 to 2 piece on top left of board
-				[{x:1,y:1}, {x:1,y:2}], [{x:2,y:0}, {x:3,y:0}], [{x:5,y:0}, {x:6,y:0}], [{x:8,y:1}, {x:9,y:1}], 
-				[{x:10,y:2}, {x:10,y:3}], [{x:9,y:4}, {x:8,y:4}], [{x:5,y:5}, {x:6,y:5}], [{x:2,y:5}, {x:3,y:5}], [{x:1,y:3}, {x:1,y:4}]
-			],
-			[ // 1 to 2 piece on top of board
-				[{x:4,y:0},{x:5,y:0}], [{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}], [{x:9,y:3},{x:9,y:4}], 
-				[{x:8,y:5},{x:7,y:5}], [{x:4,y:5},{x:5,y:5}], [{x:1,y:4},{x:2,y:4}], [{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}] 
-			],
-			[	// 1 to 2 piece on top right of board
-				[{x:8,y:1}, {x:9,y:1}], [{x:10,y:2}, {x:10,y:3}], [{x:9,y:4}, {x:8,y:4}], [{x:5,y:5}, {x:6,y:5}], 
-				[{x:2,y:5}, {x:3,y:5}], [{x:1,y:3}, {x:1,y:4}], [{x:1,y:1}, {x:1,y:2}], [{x:2,y:0}, {x:3,y:0}], [{x:5,y:0}, {x:6,y:0}]
-			],
-			[	// 1 to 2 piece on bottom right of board
-				[{x:9,y:3},{x:9,y:4}], [{x:8,y:5},{x:7,y:5}], [{x:4,y:5},{x:5,y:5}], [{x:1,y:4},{x:2,y:4}], 
-				[{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}], [{x:4,y:0},{x:5,y:0}], [{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}] 
-			]
-		];
-		const defaultVendorLabels = ["threeToOne", "threeToOne", "bandwidth", "CPU", "threeToOne", "RAM", "storage", "threeToOne", "power"];
-
+		const gameMapConstants = require('./constants.js');
 		/**
 		* public properties
 		**/
@@ -112,45 +53,7 @@ module.exports = function(){
   *	initializers
   */	
 		function initializeEdges(mapType){
-			var edges = [ //holds vertice coords
-				new Edge({x:07,y:05},{x:08,y:05}), new Edge({x:07,y:05},{x:06,y:05}),
-				new Edge({x:05,y:05},{x:06,y:05}), new Edge({x:05,y:05},{x:04,y:05}),
-				new Edge({x:03,y:05},{x:04,y:05}), new Edge({x:03,y:05},{x:02,y:05}),
-				new Edge({x:08,y:04},{x:08,y:05}), new Edge({x:06,y:04},{x:06,y:05}),
-				new Edge({x:04,y:04},{x:04,y:05}), new Edge({x:02,y:04},{x:02,y:05}),
-				new Edge({x:08,y:04},{x:09,y:04}), new Edge({x:08,y:04},{x:07,y:04}),
-				new Edge({x:06,y:04},{x:07,y:04}), new Edge({x:06,y:04},{x:05,y:04}),
-				new Edge({x:04,y:04},{x:05,y:04}), new Edge({x:04,y:04},{x:03,y:04}),
-				new Edge({x:02,y:04},{x:03,y:04}), new Edge({x:02,y:04},{x:01,y:04}),
-				new Edge({x:09,y:03},{x:09,y:04}), new Edge({x:07,y:03},{x:07,y:04}),
-				new Edge({x:05,y:03},{x:05,y:04}), new Edge({x:03,y:03},{x:03,y:04}),
-				new Edge({x:01,y:03},{x:01,y:04}), new Edge({x:09,y:03},{x:10,y:03}),
-				new Edge({x:09,y:03},{x:08,y:03}), new Edge({x:07,y:03},{x:08,y:03}),
-				new Edge({x:07,y:03},{x:06,y:03}), new Edge({x:05,y:03},{x:06,y:03}),
-				new Edge({x:05,y:03},{x:04,y:03}), new Edge({x:03,y:03},{x:04,y:03}),
-				new Edge({x:03,y:03},{x:02,y:03}), new Edge({x:01,y:03},{x:02,y:03}),
-				new Edge({x:01,y:03},{x:00,y:03}), new Edge({x:10,y:02},{x:10,y:03}),
-				new Edge({x:08,y:02},{x:08,y:03}), new Edge({x:06,y:02},{x:06,y:03}),
-				new Edge({x:04,y:02},{x:04,y:03}), new Edge({x:02,y:02},{x:02,y:03}),
-				new Edge({x:00,y:02},{x:00,y:03}), new Edge({x:09,y:02},{x:10,y:02}),
-				new Edge({x:09,y:02},{x:08,y:02}), new Edge({x:07,y:02},{x:08,y:02}),
-				new Edge({x:07,y:02},{x:06,y:02}), new Edge({x:05,y:02},{x:06,y:02}),
-				new Edge({x:05,y:02},{x:04,y:02}), new Edge({x:03,y:02},{x:04,y:02}),
-				new Edge({x:03,y:02},{x:02,y:02}), new Edge({x:01,y:02},{x:02,y:02}),
-				new Edge({x:01,y:02},{x:00,y:02}), new Edge({x:09,y:01},{x:09,y:02}),
-				new Edge({x:07,y:01},{x:07,y:02}), new Edge({x:05,y:01},{x:05,y:02}),
-				new Edge({x:03,y:01},{x:03,y:02}), new Edge({x:01,y:01},{x:01,y:02}),
-				new Edge({x:08,y:01},{x:09,y:01}), new Edge({x:08,y:01},{x:07,y:01}),
-				new Edge({x:06,y:01},{x:07,y:01}), new Edge({x:06,y:01},{x:05,y:01}),
-				new Edge({x:04,y:01},{x:05,y:01}), new Edge({x:04,y:01},{x:03,y:01}),
-				new Edge({x:02,y:01},{x:03,y:01}), new Edge({x:02,y:01},{x:01,y:01}),
-				new Edge({x:08,y:01},{x:08,y:00}), new Edge({x:06,y:00},{x:06,y:01}),
-				new Edge({x:04,y:00},{x:04,y:01}), new Edge({x:02,y:00},{x:02,y:01}),
-				new Edge({x:07,y:00},{x:08,y:00}), new Edge({x:02,y:00},{x:03,y:00}),
-				new Edge({x:03,y:00},{x:04,y:00}), new Edge({x:04,y:00},{x:05,y:00}),
-				new Edge({x:05,y:00},{x:06,y:00}), new Edge({x:06,y:00},{x:07,y:00})
-			];
-			return edges;
+			return gameMapConstants.defaultEdgeCoords.map(e=>new Edge(e.v,e.u));
 		}
 		function initializeVertices(mapType){
 			var vertices = new Array(11).fill(0).map((e)=>new Array(6).fill(0)); //create the vertices and fill with 0's
@@ -159,7 +62,7 @@ module.exports = function(){
 			return vertices;
 		}
 		function initializeTiles(mapType, tokenDistributionType){
-			var tileTypeBuffer = defaultTileLabels.slice(); //make a copy of the defaultTileLabels using slice 
+			var tileTypeBuffer = gameMapConstants.defaultTileLabels.slice(); //make a copy of the defaultTileLabels using slice 
 			if(mapType != "default"){
 				var shuffledTileLabels = []; 
 				//randomize tiles if not a default (beginner) map, use a Knuth Shuffle (one of the variants)
@@ -174,7 +77,7 @@ module.exports = function(){
 			if (tokenDistributionType == "default"){
 				//start at bottom left, assign counter-clockwise spiral 
 				//starting on hex 8 and working through our array
-				tokenDistribution = tokenLocationMap['08'];
+				tokenDistribution = gameMapConstants.tokenLocationMap['08'];
 			}
 			else if (tokenDistributionType == "variable"){
 				//start at any corner, assign counter-clockwise spiral
@@ -186,18 +89,18 @@ module.exports = function(){
 				//create a token distribution that's random
 			}
 			//now distribute tokens
-			tiles.forEach((e,i)=>e.token = defaultTokenObjects[tokenDistribution[i]]);
+			tiles.forEach((e,i)=>e.token = gameMapConstants.defaultTokenObjects[tokenDistribution[i]]);
 			return tiles;
 		}
 		function initializeFrame(mapType){
-			var vendors = defaultVendorLabels.slice();//make a copy of the vendors list, if random will randomize this
+			var vendors = gameMapConstants.defaultVendorLabels.slice();//make a copy of the vendors list, if random will randomize this
 			var order = [];
 			if (mapType == "default"){
-				order = frameSets[0].slice(); //make a copy of the frameSet we want
+				order = gameMapConstants.frameSets[0].slice(); //make a copy of the frameSet we want
 			}
 			else if(mapType == "slightShift"){ //don't really like this name, think on it, this is when the frame shifts but still using default vendor list
-				var i = Math.floor(Math.random() * frameSets.length); //get a  random number between 0 and 6
-				order = frameSets[i].slice();
+				var i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
+				order = gameMapConstants.frameSets[i].slice();
 			}
 			else{ //completely random, picks a random frame and then takes the default list and randomly assigns labels to the vendors 	
 				//randomly slice a label out build a new randomized array, make label equal to this before moving on
