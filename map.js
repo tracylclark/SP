@@ -16,7 +16,11 @@ module.exports = function(){
 			this.vertices = initializeVertices(mapType);
 			this.tiles = initializeTiles(mapType);
 			this.edges = initializeEdges(mapType);
-			//use adjacency object to link tiles, vertices, and edges
+			edges.forEach((e=>{
+				vertices[e.u.x][e.u.y].edges.push(e); 
+				vertices[e.v.x][e.v.y].edges.push(e);
+			}); //links vertices & edges
+			gameMapConstants.vertexTileAdjacencies.forEach(e=>vertices[e.x][e.y].tiles = e.tiles); //links vertices & tiles  
 			//tester, next five lines remove
 			var MapPrinter = require('./notes/print/MapPrinter.js');
 			var p = new MapPrinter();
@@ -58,7 +62,7 @@ module.exports = function(){
 		function initializeVertices(mapType){
 			var vertices = new Array(11).fill(0).map((e)=>new Array(6).fill(0)); //create the vertices and fill with 0's
 			vertices.forEach((e,i,a)=>a[i]=e.map((e,j)=>new Vertex({x:i,y:j}))); //this fills with base vertices, which holds references to Tiles/Edges  
-			//implement vendors here
+			initializeVendors(mapType);
 			return vertices;
 		}
 		function initializeTiles(mapType, tokenDistributionType){
@@ -83,16 +87,31 @@ module.exports = function(){
 				//start at any corner, assign counter-clockwise spiral
 				//for this option, another property will be passed, designating the start tile
 				//another option, randomly pick from the tokenLocationMap -- prefer this
+				var keys = ["00","02","04","06","08","10"];
+				tokenDistribution = gameMapConstants.tokenLocationMap[keys[Math.floor(Math.random()*6)]];
 			}
 			else{
 				//true random, can't have 2 red tokens on adjacent tiles
-				//create a token distribution that's random
+				//create a token distribution that's random, this would require an adj matrix, lots of work for little return, do later
+			        /*
+			    00   01   02
+
+			  11   12   13   03
+
+			10   17   18   14   04
+
+			  09   16   15   05
+
+			    08   07   06
+
+			        */
 			}
 			//now distribute tokens
 			tiles.forEach((e,i)=>e.token = gameMapConstants.defaultTokenObjects[tokenDistribution[i]]);
 			return tiles;
 		}
-		function initializeFrame(mapType){
+		//function initializeFrame(mapType){
+		function initializeVendors(mapType){
 			var vendors = gameMapConstants.defaultVendorLabels.slice();//make a copy of the vendors list, if random will randomize this
 			var order = [];
 			if (mapType == "default"){
@@ -114,11 +133,15 @@ module.exports = function(){
 				order = frameSets[i].slice(); //assign the randomly picked frameSet to our order
 			}
 			//apply the label to the current vendor vertices we are looking at
+			order.map((e,i)=> [{coords:e[0], type:vendors[i]}, {coords:e[1], type:vendors[i]}]).reduce((a,b)=>a.concat(b)).forEach(e=>{
+				//find the vertex described by e.coords & give it the vendor described by e.type
+				vertices[e.coords.x][e.coords.y].vendor = e.type;      
+			});
 		}
-		function initializeVendors(frameList, vendorList){ 
-			//store as a property of a vertice
-			//vertices.forEach((e,i,a)=>a[i]=e.map((e,j)=>new Vertex({x:i,y:j})));
-			//for each pair of vertices in the assignment, grab one resource off the vendors list and apply it to both vertices
-			//frameList.forEach((e,i,a)=>a[i]
-		}
+		// function initializeVendors(frameList, vendorList){ 
+		// 	//store as a property of a vertice
+		// 	//vertices.forEach((e,i,a)=>a[i]=e.map((e,j)=>new Vertex({x:i,y:j})));
+		// 	//for each pair of vertices in the assignment, grab one resource off the vendors list and apply it to both vertices
+		// 	//frameList.forEach((e,i,a)=>a[i]
+		// }
 };
