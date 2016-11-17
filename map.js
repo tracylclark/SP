@@ -16,12 +16,6 @@ module.exports = function(options){
 	var edges;
 	initializeEdges();
 	gameMapConstants.vertexTileAdjacencies.forEach(e=>vertices[e.x][e.y].tiles = e.tiles); //links vertices & tiles  
-	//tester, next five lines remove
-	var MapPrinter = require('./notes/print/MapPrinter.js');
-	var p = new MapPrinter();
-	p.printVertices(vertices); //take 2d array of vertex objects
-	p.printTiles(tiles); // takes array of tile objects
-	p.printEdges(edges); // takes array of edge objects
 	/* public properties */
 	this.getSerializedMap = function(){
 		return JSON.stringify({
