@@ -2,6 +2,8 @@
 var mongoClient = require("mongodb").MongoClient;
 var db = {};
 var collection = {};
+const playerColors = ["purple", "red", "green", "orange"];
+
 mongoClient.connect("mongodb://localhost:27017/tprestag", function(err, database){
 	if (err) throw err;
 	db = database;
@@ -13,7 +15,7 @@ var players = [];
 var spectators = [];
 function Spectator(socket){
 	this.socket = socket;
-	this.userName = "New User"; //later with username using login validation
+	this.username = "New User"; //later with username using login validation
 }
 var Player = require("./player.js");
 
@@ -32,7 +34,7 @@ module.exports = function(io){
 					socket.emit("loginResult", false);//message user about login failure
 				}
 				else{
-					login(socket, credentials.userName);       
+					login(socket, credentials.username);       
 				}
 			});
 		});
@@ -42,7 +44,7 @@ module.exports = function(io){
 					socket.emit("createAccountResult", false);//message user about account creation failure 
 				}
 				else{
-					login(socket, credentials.userName);
+					login(socket, credentials.username, io);
 				}
 			});
 		});
@@ -54,25 +56,27 @@ function login(s, name, io){//credentials have been vetted at this point
 	function spectatorLeaves(){
 		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
 		if (indexOfUser != -1){
-			console.log( s.userName + " left.");
-			io.emit("system", s.userName + " left.");
+			console.log( s.username + " left.");
+			io.emit("system", s.username + " left.");
 			spectators.splice(indexOfUser, 1); //index to remove at, how many elements to remove.
 		}
 	}
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
-		io.emit("broadcast", s.userName + ":: " +msg);
+		io.emit("broadcast", s.username + ":: " +msg);
 	});
 	s.on("joinGame", ()=>{
 		if(players.length >= 4){
 			s.emit("system", "This game is full.");
+			return;
 		}
 		if(gameEngine.status !== "joining"){
 			s.emit("system", "This game has started.");
+			return;
 		}
 		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
-		console.log( s.userName + " is becoming a player.");
-		var p = new Player(spectators.splice(indexOfUser, 1)); //index to remove at, how many elements to remove.
+		console.log( s.username + " is becoming a player.");
+		var p = new Player(spectators.splice(indexOfUser, 1), playerColors[players.length]); //index to remove at, how many elements to remove.
 		players.push(p);
 		p.socket.removeListener("disconnect", spectatorLeaves);
 		setupPlayerSocket(p, io);
@@ -83,7 +87,7 @@ function login(s, name, io){//credentials have been vetted at this point
 function setupPlayerSocket(player, io){
 	function playerLeaves(){
 		io.emit("system", "A player left, game over");
-		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(s);
+		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(player.socket);
 		if(indexOfUser != -1){
 			players.splice(indexOfUser, 1);
 			throw "Player Quit!";
@@ -120,7 +124,7 @@ function setupPlayerSocket(player, io){
 	player.socket.on("staticTrade", trade=>{ //trade object defines vendor or bank (based on vendors in player obj)
 		player.socket.emit("system", gameEngine.staticTrade(player, trade));
 	});
-	player.socket.on("tradeResponse", offer=>{ //accept or reject, if everyone rejects trade is taken down
+	player.socket.on("tradeResponse", response=>{ //accept or reject, if everyone rejects trade is taken down
 		player.socket.emit("system", gameEngine.tradeResponse(player, response));
 	});
 	player.socket.on("placeHacker", tile=>{
