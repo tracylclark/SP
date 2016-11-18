@@ -59,12 +59,6 @@ function login(s, name, io){//credentials have been vetted at this point
 			spectators.splice(indexOfUser, 1); //index to remove at, how many elements to remove.
 		}
 	}
-	function playerLeaves(){
-		io.emit("system", "A player left, game over");
-		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(s);
-		players.splice(indexOfUser, 1);
-		throw "Player Quit!";
-	}
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
 		io.emit("broadcast", s.userName + ":: " +msg);
@@ -80,13 +74,21 @@ function login(s, name, io){//credentials have been vetted at this point
 		console.log( s.userName + " is becoming a player.");
 		var p = new Player(spectators.splice(indexOfUser, 1)); //index to remove at, how many elements to remove.
 		players.push(p);
+		p.socket.removeListener("disconnect", spectatorLeaves);
 		setupPlayerSocket(p, io);
 		//set up player socket callbacks
 	});
 }
 
 function setupPlayerSocket(player, io){
-	player.socket.removeListener("disconnect", spectatorLeaves);
+	function playerLeaves(){
+		io.emit("system", "A player left, game over");
+		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(s);
+		if(indexOfUser != -1){
+			players.splice(indexOfUser, 1);
+			throw "Player Quit!";
+		}
+	}
 	player.socket.on("disconnect", playerLeaves);
 	player.socket.on("startGame", options=>{
 		player.socket.emit("system", gameEngine.startGame(options)); //engine either responds with affirmative or negative
