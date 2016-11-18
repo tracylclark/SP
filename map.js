@@ -101,7 +101,7 @@ module.exports = function(options){
 			}
 			vendors = randomizedVendors;
 			var i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
-			order = frameSets[i].slice(); //assign the randomly picked frameSet to our order
+			order = gameMapConstants.frameSets[i].slice(); //assign the randomly picked frameSet to our order
 		}
 			//apply the label to the current vendor vertices we are looking at
 			order.map((e,i)=> [{coords:e[0], type:vendors[i]}, {coords:e[1], type:vendors[i]}]).reduce((a,b)=>a.concat(b)).forEach(e=>{
