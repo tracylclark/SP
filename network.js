@@ -3,70 +3,128 @@ var mongoClient = require("mongodb").MongoClient;
 var db = {};
 var collection = {};
 mongoClient.connect("mongodb://localhost:27017/tprestag", function(err, database){
-    if (err) throw err;
-    db = database;
-    collection = db.collection("users");
-    console.log("We connected to Mongo");
+	if (err) throw err;
+	db = database;
+	collection = db.collection("users");
+	console.log("We connected to Mongo");
 });
 var gameEngine = {};
 var players = [];
 var spectators = [];
 function Spectator(socket){
-  this.socket = socket;
+	this.socket = socket;
 	this.userName = "New User"; //later with username using login validation
 }
-function userQuery(db, un, callback) {
-  collection.find({username: un}).toArray(function(err, docs) {
-  	if (err != null) {
-  		console.log("Error on attempting to find: " + err);
-    	callback("error"); //error on trying to query the db
-  	}
-  	else callback(docs); //the docs object is null if the name doesn't exist
-  });
-}
-function createUser(db, un, pw, callback){ //don't have to check for unique username here, handled in userQuery
-  collection.insertOne({username : un, password: pw}, function(err, result){
-  	if (err!=null) callback("error");
-    else callback(result);
-  });
-}
+var Player = require("./player.js");
+
 module.exports = function(io){
 	//handles all of the network traffic
-  this.init = function(gameEngineReference, playersReference){
+	this.init = function(gameEngineReference, playersReference){
 		gameEngine = gameEngineReference;
-    players = playersReference;
-  }
+		players = playersReference;
+	};
 	io.on("connect", socket=>{
 		console.log("Client connected.");
 		socket.on("msg", msg=>console.log(msg)); //debug test
-		
-		function login(s, name){//credentials have been vetted at this point
-      spectators.push(new Spectator(s, name));
-      s.on("disconnect", ()=>{});
-      s.on("joinGame", ()=>{});
-      s.on("broadcast", msg=>{});
-    }
 		socket.on("login", credentials=>{ 
-    	collection.find(credentials).toArray((err, docs)=>{
-      	if(err !== null){
-      		socket.emit("loginResult", false);//message user about login failure
-        }
-        else{
-      		login(socket, credentials.userName);       
-        }
+			collection.find(credentials).toArray((err, docs)=>{
+				if(err !== null){
+					socket.emit("loginResult", false);//message user about login failure
+				}
+				else{
+					login(socket, credentials.userName);       
+				}
+			});
 		});
 		socket.on("createAccount", credentials=>{
-      collection.insert(credentials).toArray((err,docs)=>{
-      	if(err){ //db is set up to only allow unique usernames, an error will occur if a duplicate is chosen
-      		socket.emit("createAccountResult", false);//message user about account creation failure 
-        }
-        else{
-     			login(socket, credentials.userName);
-        }
-      });
+			collection.insert(credentials).toArray((err,docs)=>{
+				if(err){ //db is set up to only allow unique usernames, an error will occur if a duplicate is chosen
+					socket.emit("createAccountResult", false);//message user about account creation failure 
+				}
+				else{
+					login(socket, credentials.userName);
+				}
+			});
 		});
-    
-		socket.on("buildRoad", edgeCoords=>{});   
-		socket.on("startGame", options=>{});
 	});
 };
+
+function login(s, name, io){//credentials have been vetted at this point
+	spectators.push(new Spectator(s, name));
+	function spectatorLeaves(){
+		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
+		if (indexOfUser != -1){
+			console.log( s.userName + " left.");
+			io.emit("system", s.userName + " left.");
+			spectators.splice(indexOfUser, 1); //index to remove at, how many elements to remove.
+		}
+	}
+	function playerLeaves(){
+		io.emit("system", "A player left, game over");
+		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(s);
+		players.splice(indexOfUser, 1);
+		throw "Player Quit!";
+	}
+	s.on("disconnect", spectatorLeaves);
+	s.on("broadcast", msg=>{
+		io.emit("broadcast", s.userName + ":: " +msg);
+	});
+	s.on("joinGame", ()=>{
+		if(players.length >= 4){
+			s.emit("system", "This game is full.");
+		}
+		if(gameEngine.status !== "joining"){
+			s.emit("system", "This game has started.");
+		}
+		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
+		console.log( s.userName + " is becoming a player.");
+		var p = new Player(spectators.splice(indexOfUser, 1)); //index to remove at, how many elements to remove.
+		players.push(p);
+		setupPlayerSocket(p, io);
+		//set up player socket callbacks
+	});
+}
+
+function setupPlayerSocket(player, io){
+	player.socket.removeListener("disconnect", spectatorLeaves);
+	player.socket.on("disconnect", playerLeaves);
+	player.socket.on("startGame", options=>{
+		player.socket.emit("system", gameEngine.startGame(options)); //engine either responds with affirmative or negative
+	});
+	player.socket.on("buildNetwork", location=>{
+		player.socket.emit("system", gameEngine.buildNetwork(player, location));
+	});
+	player.socket.on("buildDatabase", location=>{
+		player.socket.emit("system", gameEngine.buildDatabase(player, location));
+	});
+	player.socket.on("buildServer", location=>{
+		player.socket.emit("system", gameEngine.buildServer(player, location));
+	});
+	player.socket.on("buyDevelopment", ()=>{
+		player.socket.emit("system", gameEngine.buyDevelopment(player));
+	});
+	player.socket.on("endTurn", ()=>{
+		player.socket.emit("system", gameEngine.endTurn(player));
+	});
+	player.socket.on("rollDice", ()=>{
+		player.socket.emit("system", gameEngine.rollDice(player)); //this generates resources (unless a 7)
+	});
+	player.socket.on("playDevelopment", development=>{
+		player.socket.emit("system", gameEngine.playDevelopment(player, development));
+	});
+	player.socket.on("offerTrade", offer=>{
+		player.socket.emit("system", gameEngine.offerTrade(player, offer));
+	});
+	player.socket.on("staticTrade", trade=>{ //trade object defines vendor or bank (based on vendors in player obj)
+		player.socket.emit("system", gameEngine.staticTrade(player, trade));
+	});
+	player.socket.on("tradeResponse", offer=>{ //accept or reject, if everyone rejects trade is taken down
+		player.socket.emit("system", gameEngine.tradeResponse(player, response));
+	});
+	player.socket.on("placeHacker", tile=>{
+		player.socket.emit("system", gameEngine.placeHacker(player, tile));
+	});
+	player.socket.on("claimLongestPath", coords=>{ //check against stored longest path
+		player.socket.emit("system", gameEngine.claimLongestPath(player, coords));
+	});
+}
