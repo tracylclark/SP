@@ -1,26 +1,29 @@
 {
-  "name": "senior_project",
-  "version": "1.0.0",
-  "description": "Senior Project for Computer Science, Northern Michigan University",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tracylclark/SP.git"
-  },
-  "author": "Tracy Clark",
-  "license": "UNLICENSED",
-  "bugs": {
-    "url": "https://github.com/tracylclark/SP/issues"
-  },
-  "homepage": "https://github.com/tracylclark/SP#readme",
-  "dependencies": {
-    "express": "^4.14.0",
-    "http": "0.0.0",
-    "mongodb": "^2.2.11",
-    "socket.io": "^1.0.0"
-  }
+	"name": "senior_project",
+	"version": "1.0.0",
+	"description": "Senior Project for Computer Science, Northern Michigan University",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tracylclark/SP.git"
+	},
+	"author": "Tracy Clark",
+	"license": "UNLICENSED",
+	"bugs": {
+		"url": "https://github.com/tracylclark/SP/issues"
+	},
+	"homepage": "https://github.com/tracylclark/SP#readme",
+	"dependencies": {
+		"express": "^4.14.0",
+		"http": "0.0.0",
+		"mongodb": "^2.2.11",
+		"socket.io": "^1.0.0"
+	},
+	"engines": {
+		"node": "6.9.1"
+	}
 }
