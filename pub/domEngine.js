@@ -11,7 +11,8 @@ var domEngine = new (function(){
                 loginButton:get("loginButton"),
                 createButton:get("loginCreateButton"),
                 username:get("loginUsername"),
-                password:get("loginPassword")
+                password:get("loginPassword"),
+                error:get("loginError")
             },
             chat:{
                 container:get("chatContainer"),
@@ -31,5 +32,9 @@ var domEngine = new (function(){
     }
     this.hideLogin =function(){
         dom.login.container.style.display = "none";
+    }
+    this.loginError = function(msg){
+        dom.login.error.innerHTML = msg;
+        dom.login.error.style.visibility = "visible";
     }
 })();

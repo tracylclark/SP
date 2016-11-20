@@ -34,6 +34,7 @@ module.exports = function(io){
 					socket.emit("loginResult", false);//message user about login failure
 				}
 				else{
+					socket.emit("loginResult", true);
 					login(socket, credentials.username);       
 				}
 			});
@@ -41,18 +42,11 @@ module.exports = function(io){
 		socket.on("createAccount", credentials=>{
 			try{
 				collection.insertOne(credentials);
+				socket.emit("createAccountResult", true);
 				login(socket, credentials.username, io);
 			} catch(e){
 				socket.emit("createAccountResult", false);
 			}
-			// collection.insert(credentials).toArray((err,docs)=>{
-			// 	if(err){ //db is set up to only allow unique usernames, an error will occur if a duplicate is chosen
-			// 		socket.emit("createAccountResult", false);//message user about account creation failure 
-			// 	}
-			// 	else{
-			// 		login(socket, credentials.username, io);
-			// 	}
-			// });
 		});
 	});
 };

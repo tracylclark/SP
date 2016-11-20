@@ -21,6 +21,10 @@
 	width:50%;
 	height:25%;
 }
+#loginError{
+	color:#a10000;
+	visibility: hidden;
+}
 .container{
 	display: block;
 	background-color: #a1a1a1;
