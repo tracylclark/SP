@@ -39,14 +39,20 @@ module.exports = function(io){
 			});
 		});
 		socket.on("createAccount", credentials=>{
-			collection.insert(credentials).toArray((err,docs)=>{
-				if(err){ //db is set up to only allow unique usernames, an error will occur if a duplicate is chosen
-					socket.emit("createAccountResult", false);//message user about account creation failure 
-				}
-				else{
-					login(socket, credentials.username, io);
-				}
-			});
+			try{
+				collection.insertOne(credentials);
+				login(socket, credentials.username, io);
+			} catch(e){
+				socket.emit("createAccountResult", false);
+			}
+			// collection.insert(credentials).toArray((err,docs)=>{
+			// 	if(err){ //db is set up to only allow unique usernames, an error will occur if a duplicate is chosen
+			// 		socket.emit("createAccountResult", false);//message user about account creation failure 
+			// 	}
+			// 	else{
+			// 		login(socket, credentials.username, io);
+			// 	}
+			// });
 		});
 	});
 };
