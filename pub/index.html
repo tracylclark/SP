@@ -7,15 +7,35 @@
 		<link rel="shortcut icon" href="myfavicon.ico" type="image/x-icon"/>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<script>
-				var DEBUG = true;
+				var DEBUG = false;
 				function o(s){if(DEBUG){console.log(s);}}
 		</script>
 		<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 		<script src="rAF.js"></script>
-		<script src="client.js"></script>
+		<script src="canvasEngine.js"></script>
+		<script src="domEngine.js"></script>
+		<script src="network-client.js"></script>
+		<script>
+			window.onload = ()=>{
+				canvasEngine.init();
+				domEngine.init();
+			};
+		</script>
 	</head>
 	<body id='b'>
 		<canvas id="c"></canvas>
-		<div id="overlay"></div>
+		<div id="overlay">
+			<div id="loginContainer" class="container">
+				Username: <input id="loginUsername"><br>
+				Password: <input id="loginPassword" type="password"><br>
+				<input type="button" value="Log In" id="loginButton">
+				<input type="button" value="Create Account" id="loginCreateButton">
+			</div>
+			<div id="chatContainer" class="container">
+				<div id="chatViewport">DURR HURR</div>
+				<input id="chatInput"> </input>
+				<input id="chatButton" type="button" value="say"></input>
+			</div>
+		</div>
 	</body>
 </html>
