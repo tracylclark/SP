@@ -90,17 +90,17 @@ module.exports = function(options){
 			order = gameMapConstants.frameSets[0].slice(); //make a copy of the frameSet we want
 		}
 		else if(vendorDistribution == "slightShift"){ //don't really like this name, think on it, this is when the frame shifts but still using default vendor list
-			var i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
+			let i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
 			order = gameMapConstants.frameSets[i].slice();
 		}
 		else{ //completely random, picks a random frame and then takes the default list and randomly assigns labels to the vendors 	
 			var randomizedVendors = []; //randomly slice a label out build a new randomized array, make label equal to this before moving on
 			while (vendors.length){
-				var i = Math.floor(Math.random() * vendors.length);
+				let i = Math.floor(Math.random() * vendors.length);
 				randomizedVendors.push(vendors.splice(i, 1)[0]);
 			}
 			vendors = randomizedVendors;
-			var i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
+			let i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
 			order = gameMapConstants.frameSets[i].slice(); //assign the randomly picked frameSet to our order
 		}
 			//apply the label to the current vendor vertices we are looking at
