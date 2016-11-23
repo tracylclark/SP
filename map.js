@@ -37,7 +37,7 @@ module.exports = function(options){
 		if(vertices[vertex.x][vertex.y].accessible == false){
 			return false;
 		}
-		if(vertices[vertex.x][vertex.y].edges.find(e=>vertices[e.u.x][e.u.y].owner !== null || vertices[e.v.x][e.v.y].owner !== null)){
+		if(vertices[vertex.x][vertex.y].edges.find(e=>vertices[edges[e].u.x][edges[e].u.y].owner !== null || vertices[edges[e].v.x][edges[e].v.y].owner !== null)){
 			return false;
 		}
 		return true;
