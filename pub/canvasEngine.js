@@ -107,7 +107,7 @@ var canvasEngine = new (function(){
 				ctx.fillStyle = "#ffffff";
 				ctx.font = size*.2 + "px arial";
 				ctx.fillText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
-				ctx.StrokeText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
+				ctx.strokeText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
 			}
 		};
 		//assuming you have a hex image (transparent corners, hex top is on first row of the image, hex left is in first column)
