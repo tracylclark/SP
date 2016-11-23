@@ -24,6 +24,7 @@ module.exports = function(io){
 		gameEngine = gameEngineReference;
 		players = playersReference;
 	};
+	this.io = io;
 	this.updateResources = function(){
 		players.forEach(e=>e.socket.emit("resourceUpdate", e.resources));
 	};

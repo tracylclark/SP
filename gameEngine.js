@@ -65,7 +65,7 @@ function initializeDevelopmentDeck(){
 				currentTurn.cardPlayed = e;
 				if(cardFunctionMap[e]()){
 					var cardIndex = currentTurn.player.developmentCards.indexOf(this);
-					io.emit("playedDevelopment", {player: currentTurn.player, card:e});
+					network.io.emit("playedDevelopment", {player: currentTurn.player, card:e});
 					currentTurn.player.developmentCards.splice(cardIndex, 1);//remove from player deck
 					return true;			
 				}
@@ -111,7 +111,7 @@ module.exports = function(){
 		}
 		map = new Map(gameOptions);
 		this.gamePhase = "setup";
-		io.emit("rollOff");
+		network.io.emit("rollOff");
 		network.updateMap();
 		return true;
 	};
@@ -123,7 +123,7 @@ module.exports = function(){
 			return false;
 		}
 		player.rollOff = new Roll();
-		io.emit("rollOffResult", {player:player.username, rollOff:player.rollOff});
+		network.io.emit("rollOffResult", {player:player.username, rollOff:player.rollOff});
 		if(!players.find(e=>e.rollOff === null)){
 			players.sort((a,b)=>{
 				if(a.rollOff.total > b.rollOff.total) return -1;
@@ -135,7 +135,7 @@ module.exports = function(){
 			currentSetup.freeNetworks = 1;
 			currentSetup.freeServers = 1;
 			currentSetup.round = 1;
-			io.emit("setupBuild", currentSetup.player.username);
+			network.io.emit("setupBuild", currentSetup.player.username);
 		}
 	};
   	this.currentPlayerOnly = function(player, payload, callback){
@@ -226,7 +226,7 @@ module.exports = function(){
 					currentTurn = new Turn(players[0]);
 					network.updateResources();
 					//start the first game turn
-					io.emit("gameTurn", currentTurn.player.username);
+					network.io.emit("gameTurn", currentTurn.player.username);
 					return true;
 				}
 				else{
@@ -236,7 +236,7 @@ module.exports = function(){
 			}
 			currentSetup.buildServer = 1;
 			currentSetup.buildNetwork = 1;
-			io.emit("setupBuild", currentSetup.player.username);
+			network.io.emit("setupBuild", currentSetup.player.username);
 			return true;
 		}
 		if(currentTurn.phase !== "roll"){
@@ -259,7 +259,7 @@ module.exports = function(){
 				players.forEach(e=>e.generateResources(roll.total)); 
 				network.updateResources();
 				currentTurn.phase = "trade";
-				io.emit("tradePhase", player.username);
+				network.io.emit("tradePhase", player.username);
 			}
 			else{
 				currentTurn.placeHacker = true;
@@ -321,17 +321,17 @@ module.exports = function(){
 			currentTurn.player.resources.sub(currentTurn.currentOffer.have);
 			currentOffer = null;
 			network.updateResources();
-			io.emit("tradeComplete", player.username);
+			network.io.emit("tradeComplete", player.username);
 			return true;
 		}
 		else {
 			//reject
-			io.emit("tradeRejected", player.username);
+			network.io.emit("tradeRejected", player.username);
 			rejectList.push(player.username);
 			if(rejectList.length === players.length-1){
 				//rescind offer
 				currentOffer = null;
-				io.emit("offerRescinded");
+				network.io.emit("offerRescinded");
 				rejectList = [];
 			}
 			return true;
@@ -342,7 +342,7 @@ module.exports = function(){
 			currentTurn.phase = "buy";
 			currentOffer = null;
 			rejectList = [];
-			io.emit("buyPhase", currentTurn.player.username);
+			network.io.emit("buyPhase", currentTurn.player.username);
 			return true;
 		}
 		return false;
@@ -357,14 +357,14 @@ module.exports = function(){
 				return false;
 			} 
 			player.resources.add(target.steal());
-			io.emit("hacked", {hacker:player.username, target:hackerAction.target});
+			network.io.emit("hacked", {hacker:player.username, target:hackerAction.target});
 			network.updateResources();
 			network.updateMap();
 
 			if(currentTurn.phase === "roll"){
 				currentTurn.phase = "trade";
 			}
-			io.emit("tradePhase", player.username);
+			network.io.emit("tradePhase", player.username);
 
 			return true;
 		}
