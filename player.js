@@ -20,8 +20,8 @@ module.exports = function(player, color){
 	this.whiteHats = 0;
 	this.rollOff = null;
 	this.getVPs = function(){
-		return  infrastructure.servers.length +
-				infrastructure.databases.length +
+		return  this.infrastructure.servers.length +
+				this.infrastructure.databases.length +
 				(this.largestNetwork?2:0) +
 				(this.mostSecure?2:0);
 	}
