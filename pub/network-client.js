@@ -27,7 +27,10 @@ var network = new (function(){
 	});
 	socket.on("system", msg=>{
 		o(`<system> ${msg}`);
-	})
+	});
+	socket.on("actionSuccess", successMsg=>{
+		o(`<actionSuccess> ${successMsg}`);
+	});
 	socket.on("playerUpdate", playerArray=>{
 		o(`<playerUpdate> ${playerArray}`);
 		canvasEngine.setPlayers(playerArray);
