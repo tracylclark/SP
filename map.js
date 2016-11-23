@@ -7,6 +7,15 @@
 	  vendorDistribution:"default", //"slightShift" //other
 	});
 */
+var findEdge = function(edge){ //takes {xy}{xy} vertex coord pair to find a reference to a specific edge piece
+	return edges.find(e=>{
+		return (e.u.x === edge.u.x && e.u.y === edge.u.y && e.v.x === edge.v.x && e.v.y === edge.v.y)
+			|| (e.u.x === edge.v.x && e.u.y === edge.v.y && e.v.x === edge.u.x && e.v.y === edge.u.y);
+	});
+}
+
+var Resources = require("./resources.js");
+
 module.exports = function(options){
 		const gameMapConstants = require('./constants.js'); //load the constants
 	var vertices;
@@ -24,6 +33,85 @@ module.exports = function(options){
 			edges: edges
 		});
 	};
+	this.initialServerAvailable = function(vertex){
+		if(vertices[vertex.x][vertex.y].accessible == false){
+			return false;
+		}
+		if(vertices[vertex.x][vertex.y].edges.find(e=>vertices[e.u.x][e.u.y].owner !== null || vertices[e.v.x][e.v.y].owner !== null)){
+			return false;
+		}
+		return true;
+	};
+	this.initialNetworkAvailable = function(player, edge){
+		var e = findEdge(edge);
+		if (!e || e.owner !== null){
+			return false;
+		} 
+		//must be attached to player.lastBuiltServer
+		if((e.u.x === player.lastBuiltServer.x && e.u.y === player.lastBuiltServer.y)
+			|| (e.v.x === player.lastBuiltServer.x && e.v.y === player.lastBuiltServer.y)){
+			return true;
+		}
+		return false;
+	};
+	this.serverAvailable = function(player, vertex){
+		if(!this.initialServerAvailable(vertex)){
+			return false;
+		}
+		if(!vertices[vertex.x][vertex.y].edges.find(e=>e.owner === player.username)){
+			return false;
+		}
+		return true;		
+	}
+	this.networkAvailable = function(player, edge){
+		var e = findEdge(edge);
+		if (!e || e.owner !== null){
+			return false;
+		} 
+		//check u
+		if(vertices[e.u.x][e.u.y].owner === player.username || vertices[e.u.x][e.u.y].owner === null){
+			if(vertices[e.u.x][e.u.y].edges.find(e=>e.owner === player.username)){
+				return true;
+			}
+		}
+		//check v
+		if(vertices[e.v.x][e.v.y].owner === player.username || vertices[e.v.x][e.v.y].owner === null){
+			if(vertices[e.v.x][e.v.y].edges.find(e=>e.owner === player.username)){
+				return true;
+			}
+		}
+		return false;
+	};
+	this.databaseAvailable = function(player, vertex){
+		return vertices[vertex.x][vertex.y].server && !vertices[vertex.x][vertex.y].database && vertices[vertex.x][vertex.y].owner === player.username;
+	};
+	this.buildServer = function(player, vertex){
+		vertices[vertex.x][vertex.y].owner = player.username;
+		vertices[vertex.x][vertex.y].server = true;
+		player.infrastructure.servers.push(vertices[vertex.x][vertex.y]);
+		player.vp += 1;
+	};
+	this.buildNetwork = function(player, edge){
+		var e = findEdge(edge);
+		e.owner = player.username;
+		player.infrastructure.networks.push(e);
+	}
+	this.getResource = function(tileId, roll){
+		var retVal = new Resources();
+		if(this.tiles[tileId].token === roll && !this.tiles[tileId].hacker){
+			retVal[this.tiles[tileId].resource] = 1;
+		}
+		return retVal;
+	};
+	this.placeHacker = function(tileId){
+		if(tileId === tiles.find(e=>e.hacker).id){
+			return false;
+		}
+		tiles.find(e=>e.hacker).hacker = false;
+		tiles[tileId].hacker = true;
+		return true;
+	};
+
 	function Vertex(coords){
 		var invalidCoords = [
 			{x:0, y:0}, {x:1, y:0}, {x:0, y:1}, {x:9, y:0}, {x:10, y:0}, {x:10, y:1},
@@ -36,12 +124,15 @@ module.exports = function(options){
 		}
 		this.tiles = []; //array of 18 tiles
 		this.edges = [];
+		this.owner = null;
 		this.vendor = null;
+		this.server = false;
+		this.database = false;
 	}
 	function Edge(u, v){
 		this.u = u;
 		this.v = v;
-		this.road = null; //when a player places a road, it is created and contained in the edge object
+		this.owner = null; //when a player places a road, it is created and contained in the edge object
 	}
 	function Tile(id, type){
 		this.id = id;

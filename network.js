@@ -3,7 +3,6 @@ var mongoClient = require("mongodb").MongoClient;
 var db = {};
 var collection = {};
 const playerColors = ["purple", "red", "green", "orange"];
-
 mongoClient.connect("mongodb://localhost:27017/tprestag", function(err, database){
 	if (err) throw err;
 	db = database;
@@ -13,9 +12,9 @@ mongoClient.connect("mongodb://localhost:27017/tprestag", function(err, database
 var gameEngine = {};
 var players = [];
 var spectators = [];
-function Spectator(socket){
+function Spectator(socket, username){
 	this.socket = socket;
-	this.username = "New User"; //later with username using login validation
+	this.username = username || "New User"; //later with username using login validation
 }
 var Player = require("./player.js");
 
@@ -24,6 +23,25 @@ module.exports = function(io){
 	this.init = function(gameEngineReference, playersReference){
 		gameEngine = gameEngineReference;
 		players = playersReference;
+	};
+	this.updateResources = function(){
+		players.forEach(e=>e.socket.emit("resourceUpdate", e.resources));
+	};
+	this.diceRoll = function(roll){
+		io.emit("diceRollResult", roll);
+	}
+	this.updatePlayers = function(){
+		io.emit("playerUpdate" players.map((e,i)=>{
+			return {
+				username: e.username,
+				color: e.color,
+				order: i,
+				whiteHats: e.whiteHats,
+				mostSecure: e.mostSecure,
+				largestNetwork: e.largestNetwork,
+				VPs: e.getVPs()
+			};
+		}));
 	};
 	io.on("connect", socket=>{
 		console.log("Client connected.");
@@ -70,7 +88,7 @@ function login(s, name, io){//credentials have been vetted at this point
 			s.emit("system", "This game is full.");
 			return;
 		}
-		if(gameEngine.status !== "joining"){
+		if(gameEngine.gamePhase !== "pregame"){
 			s.emit("system", "This game has started.");
 			return;
 		}
@@ -85,52 +103,62 @@ function login(s, name, io){//credentials have been vetted at this point
 }
 
 function setupPlayerSocket(player, io){
-	function playerLeaves(){
+	player.socket.on("disconnect", ()=>{
 		io.emit("system", "A player left, game over");
 		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(player.socket);
 		if(indexOfUser != -1){
 			players.splice(indexOfUser, 1);
 			throw "Player Quit!";
 		}
-	}
-	player.socket.on("disconnect", playerLeaves);
+	});
 	player.socket.on("startGame", options=>{
-		player.socket.emit("system", gameEngine.startGame(options)); //engine either responds with affirmative or negative
+		player.socket.emit("actionSuccess", gameEngine.startGame(options)); //engine either responds with affirmative or negative
+	});
+	player.socket.on("rollOff", ()=>{
+		player.socket.emit("actionSuccess", gameEngine.rollOff(player));
 	});
 	player.socket.on("buildNetwork", location=>{
-		player.socket.emit("system", gameEngine.buildNetwork(player, location));
-	});
-	player.socket.on("buildDatabase", location=>{
-		player.socket.emit("system", gameEngine.buildDatabase(player, location));
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, location, gameEngine.buildNetwork));
 	});
 	player.socket.on("buildServer", location=>{
-		player.socket.emit("system", gameEngine.buildServer(player, location));
-	});
-	player.socket.on("buyDevelopment", ()=>{
-		player.socket.emit("system", gameEngine.buyDevelopment(player));
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, location, gameEngine.buildServer));
 	});
 	player.socket.on("endTurn", ()=>{
-		player.socket.emit("system", gameEngine.endTurn(player));
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, undefined, gameEngine.endTurn));
 	});
+
 	player.socket.on("rollDice", ()=>{
-		player.socket.emit("system", gameEngine.rollDice(player)); //this generates resources (unless a 7)
-	});
-	player.socket.on("playDevelopment", development=>{
-		player.socket.emit("system", gameEngine.playDevelopment(player, development));
-	});
-	player.socket.on("offerTrade", offer=>{
-		player.socket.emit("system", gameEngine.offerTrade(player, offer));
-	});
-	player.socket.on("staticTrade", trade=>{ //trade object defines vendor or bank (based on vendors in player obj)
-		player.socket.emit("system", gameEngine.staticTrade(player, trade));
-	});
-	player.socket.on("tradeResponse", response=>{ //accept or reject, if everyone rejects trade is taken down
-		player.socket.emit("system", gameEngine.tradeResponse(player, response));
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, undefined, gameEngine.rollDice)); //this generates resources (unless a 7)
 	});
 	player.socket.on("placeHacker", tile=>{
-		player.socket.emit("system", gameEngine.placeHacker(player, tile));
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, tile, gameEngine.placeHacker));
 	});
+
+	player.socket.on("offerTrade", offer=>{
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, offer, gameEngine.offerTrade));
+	});
+	player.socket.on("staticTrade", trade=>{ //trade object defines vendor or bank (based on vendors in player obj)
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, trade, gameEngine.staticTrade));
+	});
+	player.socket.on("tradeResponse", response=>{ //accept or reject, if everyone rejects trade is taken down
+		player.socket.emit("actionSuccess", gameEngine.tradeResponse(player, response));
+	});
+	player.socket.on("endTrading", ()=>{ //accept or reject, if everyone rejects trade is taken down
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, undefined, gameEngine.endTrading));
+	});
+
+	player.socket.on("buildDatabase", location=>{
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, location, gameEngine.buildDatabase));
+	});
+	player.socket.on("buyDevelopment", ()=>{
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, undefined, gameEngine.buyDevelopment));
+	});
+	player.socket.on("playDevelopment", development=>{
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, development, gameEngine.playDevelopment));
+	});
+
 	player.socket.on("claimLongestPath", coords=>{ //check against stored longest path
-		player.socket.emit("system", gameEngine.claimLongestPath(player, coords));
+		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, coords, gameEngine.claimLongestPath));
 	});
+
 }
