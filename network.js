@@ -43,6 +43,9 @@ module.exports = function(io){
 			};
 		}));
 	};
+	this.updateMap = function(){
+		io.emit("mapUpdate", gameEngine.getMap());
+	}
 	io.on("connect", socket=>{
 		console.log("Client connected.");
 		socket.on("msg", msg=>console.log(msg)); //debug test
@@ -53,7 +56,8 @@ module.exports = function(io){
 				}
 				else{
 					socket.emit("loginResult", true);
-					login(socket, credentials.username);       
+					login(socket, credentials.username); 
+					socket.emit("mapUpdate", gameEngine.getMap());      
 				}
 			});
 		});
@@ -62,6 +66,7 @@ module.exports = function(io){
 				collection.insertOne(credentials);
 				socket.emit("createAccountResult", true);
 				login(socket, credentials.username, io);
+				socket.emit("mapUpdate", gameEngine.getMap());
 			} catch(e){
 				socket.emit("createAccountResult", false);
 			}

@@ -63,29 +63,39 @@ function initializeDevelopmentDeck(){
 			new: true,
 			play:function(){
 				currentTurn.cardPlayed = e;
-				cardFunctionMap[e]();
-				var cardIndex = currentTurn.player.developmentCards.indexOf(this);
-				currentTurn.player.developmentCards.slice(cardIndex, 1);//remove from player deck
+				if(cardFunctionMap[e]()){
+					var cardIndex = currentTurn.player.developmentCards.indexOf(this);
+					io.emit("playedDevelopment", {player: currentTurn.player, card:e});
+					currentTurn.player.developmentCards.splice(cardIndex, 1);//remove from player deck
+					return true;			
+				}
+				return false;
 			}
 		}
 	}); 
 	var cardFunctionMap = {
 		'goodQuarter': function(){
 			currentTurn.player.socket.emit("SelectGoodQuarterResources");
+			return true;
 		},
 		'whiteHat': function(){
 			currentTurn.player.whiteHats++;
 			currentTurn.placeHacker = true;
 			currentTurn.player.emit("placeHacker");
+			return true;
 		},
 		'networkBuilding': function(){
 			currentTurn.player.socket.emit("networkBuilding");
 			currentTurn.freeNetworks = 2;
+			return true;
 		},
 		'monopoly': function(){
 			currentTurn.player.socket.emit("monopoly"); //choose a resource to monopolize
+			return true;
 		},
-		'VPSupport': function(){}
+		'VPSupport': function(){
+			return false;
+		}
 	};
 }
 
@@ -102,8 +112,12 @@ module.exports = function(){
 		map = new Map(gameOptions);
 		this.gamePhase = "setup";
 		io.emit("rollOff");
+		network.updateMap();
 		return true;
 	};
+	this.getMap = function(){
+		return map.getSerializedMap();
+	}
 	this.rollOff = function(player){
 		if(player.rollOff !== null || this.gamePhase !== "setup"){
 			return false;
@@ -135,10 +149,13 @@ module.exports = function(){
 			currentSetup.freeServers = 0;
 			player.lastBuiltServer = location;
 			gameMap.buildServer(player, location);
+			network.updateMap();
+			return true;
 		}
 		if(currentTurn.phase === "buy" && gameMap.serverAvailable(location) && player.hasResources(costs.server)){
 			gameMap.buildServer(player, location);
 			player.resources.sub(costs.server);
+			network.updateMap();
 			return true;
 		}
 		return false;
@@ -147,16 +164,19 @@ module.exports = function(){
 		if(this.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && gameMap.initialNetworkAvailable(player, location)){
 			currentSetup.freeNetworks = 0;
 			gameMap.buildNetwork(player, location);
+			network.updateMap();
 			return true;
 		}
 		if(this.gamePhase === "game" && currentTurn.freeNetworks > 0 && gameMap.networkAvailable(player, location)){
 			currentTurn.freeNetworks--;
 			gameMap.buildNetwork(player, location);
+			network.updateMap();
 			return true;
 		}
 		if(this.gamePhase === "game" && currentTurn.phase === "buy" && gameMap.networkAvailable(player, location) && player.hasResources(costs.network)){
 			gameMap.buildNetwork(player, location);
 			player.resources.sub(costs.network);
+			network.updateMap();
 			return true;
 		}
 		return false;
@@ -165,6 +185,7 @@ module.exports = function(){
 		if(this.gamePhase === "game" && currentTurn.phase === "buy" && gameMap.databaseAvailable(player, location) && player.hasResources(costs.database)){
 			gameMap.buildDatabase(player, location);
 			player.resources.sub(costs.database);
+			network.updateMap();
 			return true;
 		}
 		return false;
@@ -173,8 +194,8 @@ module.exports = function(){
 	this.buyDevelopment = function(player){
 		if(this.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(costs.development) && developmentDeck.length > 0){
 			player.resources.sub(costs.development);
-			var card = developmentDeck.slice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
-			player.developmentCards.push(card);
+			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
+			player.developmentCards.push(card[0]);
 			player.socket.emit("cardDraw", card.name); //draws a random card and adds to players development deck (returns the card)
 			return true;
 		}
@@ -338,6 +359,7 @@ module.exports = function(){
 			player.resources.add(target.steal());
 			io.emit("hacked", {hacker:player.username, target:hackerAction.target});
 			network.updateResources();
+			network.updateMap();
 
 			if(currentTurn.phase === "roll"){
 				currentTurn.phase = "trade";
@@ -367,7 +389,7 @@ module.exports = function(){
 		var total = new Resources();
 		players.filter(e=>e!==player).forEach(e=>total.add(e.monopolize(resourceChosen))); //remove resources from otherPlayers
 		player.resources.add(total); //add the created resource obj to the current players resources
-		//io.emit("system", )
+		network.updateResources();
 		//find out how many of the chosen resource all players but current have
 		//set other players resource to zero
 		//add total to currentPlayers resource

@@ -15,6 +15,13 @@ var canvasEngine = new (function(){
 		edges:[],
 		tiles:[]
 	};
+	var playerColors = {
+		"purple":"#660066", 
+		"red": "#990000", 
+		"green": "#008141", 
+		"orange": "#ff3300"
+	}
+	var players = [];
 	function Vertex(vertex){
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
@@ -70,6 +77,9 @@ var canvasEngine = new (function(){
 		map.vertices = m.vertices.map(arr=>arr.map(e=>new Vertex(e))).reduce((a,b)=>a.concat(b));
 		map.edges = m.edges.map(e=>new Edge(e))
 		map.tiles = m.tiles.map(e=>new Tile(e))
+	}
+	this.setPlayers = function(p){
+		players = p.map();
 	}
 	this.init = function(){
 		canvas = document.getElementById("c");

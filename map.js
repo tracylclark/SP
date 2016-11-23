@@ -27,11 +27,11 @@ module.exports = function(options){
 	gameMapConstants.vertexTileAdjacencies.forEach(e=>vertices[e.x][e.y].tiles = e.tiles); //links vertices & tiles  
 	/* public properties */
 	this.getSerializedMap = function(){
-		return JSON.stringify({
+		return {//JSON.stringify({
 			vertices: vertices,
 			tiles: tiles,
 			edges: edges
-		});
+		};//);
 	};
 	this.initialServerAvailable = function(vertex){
 		if(vertices[vertex.x][vertex.y].accessible == false){
