@@ -1,6 +1,6 @@
 module.exports = {
 
-	defaultTileLabels : ["storage","RAM","CPU","bandwidth","storage","RAM","RAM","power","bandwidth","CPU","power","power","bandwidth","RAM","CPU","power","storage","CPU","DarkNet"],
+	defaultTileLabels : ["storage","ram","cpu","bandwidth","storage","ram","ram","power","bandwidth","cpu","power","power","bandwidth","ram","cpu","power","storage","cpu","DarkNet"],
 	defaultTokenObjects : [
 		{number: 5, color: "black", letter: 'A'},
 		{number: 2, color: "black", letter: 'B'},
@@ -56,7 +56,7 @@ module.exports = {
 			[{x:0,y:2},{x:0,y:3}], [{x:2,y:1},{x:1,y:1}], [{x:4,y:0},{x:5,y:0}], [{x:7,y:0},{x:8,y:0}], [{x:9,y:1},{x:9,y:2}]
 		]
 	],
-	defaultVendorLabels : ["threeToOne", "threeToOne", "bandwidth", "CPU", "threeToOne", "RAM", "storage", "threeToOne", "power"],
+	defaultVendorLabels : ["threeToOne", "threeToOne", "bandwidth", "cpu", "threeToOne", "ram", "storage", "threeToOne", "power"],
 	defaultEdgeCoords : [ //edges are defined as pairs of vectors (xy coord pairs)
 			{v:{x:7,y:5}, u:{x:8,y:5}},
 			{v:{x:7,y:5}, u:{x:6,y:5}},
