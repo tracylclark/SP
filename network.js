@@ -31,7 +31,7 @@ module.exports = function(io){
 		io.emit("diceRollResult", roll);
 	}
 	this.updatePlayers = function(){
-		io.emit("playerUpdate" players.map((e,i)=>{
+		io.emit("playerUpdate", players.map((e,i)=>{
 			return {
 				username: e.username,
 				color: e.color,
