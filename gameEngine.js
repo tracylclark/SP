@@ -101,6 +101,7 @@ function initializeDevelopmentDeck(){
 
 module.exports = function(){
 	this.gamePhase = "pregame";
+	var self = this;
 	this.init = function(networkReference, playersReference){
 		network = networkReference; //create a reference to the network module for communication purposes
 		players = playersReference;
@@ -110,7 +111,7 @@ module.exports = function(){
 			return false;
 		}
 		map = new Map(gameOptions);
-		this.gamePhase = "setup";
+		self.gamePhase = "setup";
 		network.io.emit("rollOff");
 		network.updateMap();
 		return true;
@@ -119,7 +120,7 @@ module.exports = function(){
 		return map.getSerializedMap();
 	}
 	this.rollOff = function(player){
-		if(player.rollOff !== null || this.gamePhase !== "setup"){
+		if(player.rollOff !== null || self.gamePhase !== "setup"){
 			return false;
 		}
 		player.rollOff = new Roll();
@@ -145,7 +146,7 @@ module.exports = function(){
 		return false;
 	};
 	this.buildServer = function(player, location){
-		if(this.gamePhase === "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
+		if(self.gamePhase === "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
 			currentSetup.freeServers = 0;
 			player.lastBuiltServer = location;
 			map.buildServer(player, location);
@@ -161,19 +162,19 @@ module.exports = function(){
 		return false;
 	};
 	this.buildNetwork = function(player, location){
-		if(this.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && map.initialNetworkAvailable(player, location)){
+		if(self.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && map.initialNetworkAvailable(player, location)){
 			currentSetup.freeNetworks = 0;
 			map.buildNetwork(player, location);
 			network.updateMap();
 			return true;
 		}
-		if(this.gamePhase === "game" && currentTurn.freeNetworks > 0 && map.networkAvailable(player, location)){
+		if(self.gamePhase === "game" && currentTurn.freeNetworks > 0 && map.networkAvailable(player, location)){
 			currentTurn.freeNetworks--;
 			map.buildNetwork(player, location);
 			network.updateMap();
 			return true;
 		}
-		if(this.gamePhase === "game" && currentTurn.phase === "buy" && map.networkAvailable(player, location) && player.hasResources(costs.network)){
+		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.networkAvailable(player, location) && player.hasResources(costs.network)){
 			map.buildNetwork(player, location);
 			player.resources.sub(costs.network);
 			network.updateMap();
@@ -182,7 +183,7 @@ module.exports = function(){
 		return false;
 	};
 	this.buildDatabase = function(player, location){
-		if(this.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(costs.database)){
+		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(costs.database)){
 			map.buildDatabase(player, location);
 			player.resources.sub(costs.database);
 			network.updateMap();
@@ -192,7 +193,7 @@ module.exports = function(){
 	};
 
 	this.buyDevelopment = function(player){
-		if(this.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(costs.development) && developmentDeck.length > 0){
+		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(costs.development) && developmentDeck.length > 0){
 			player.resources.sub(costs.development);
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
 			player.developmentCards.push(card[0]);
@@ -203,7 +204,7 @@ module.exports = function(){
 	};
 	this.endTurn = function(player){
 		var indexOfUser = players.indexOf(player);
-		if(this.gamePhase === "setup" && currentSetup.freeNetworks === 0 && currentSetup.freeServers === 0){
+		if(self.gamePhase === "setup" && currentSetup.freeNetworks === 0 && currentSetup.freeServers === 0){
 			if(currentSetup.round === 1){
 				if(indexOfUser === players.length-1){
 					currentSetup = new Setup(player);
@@ -221,7 +222,7 @@ module.exports = function(){
 							e.generateResources(i);
 						}
 					});
-					this.gamePhase = "game";
+					self.gamePhase = "game";
 					currentSetup = new Setup(null);
 					currentTurn = new Turn(players[0]);
 					network.updateResources();
@@ -251,7 +252,7 @@ module.exports = function(){
 		return false;
 	};
 	this.rollDice = function(player){
-		if(this.gamePhase === "game" && currentTurn.phase==="roll"){
+		if(self.gamePhase === "game" && currentTurn.phase==="roll"){
 			currentTurn.player.developmentCards.forEach(c=>c.new = false);
 			var roll = new Roll();
 			network.diceRoll(roll); //send the roll to the network to be emitted 
@@ -270,7 +271,7 @@ module.exports = function(){
 		return false;
 	};
 	this.playDevelopment = function(player, development){
-		if(this.gamePhase === "game" && currentTurn.playedDevelopment || currentTurn.phase == "roll"){
+		if(self.gamePhase === "game" && currentTurn.playedDevelopment || currentTurn.phase == "roll"){
 			return false;
 		}
 		var card = player.development.find(e=>e.name===development && e.new);
@@ -281,7 +282,7 @@ module.exports = function(){
 		return false;
 	};
 	this.offerTrade = function(player, offer){ 
-		if(this.gamePhase === "game" && currentTurn.phase === "trade" && player.hasResources(offer.have)){ //have x for y {have:{power:3}, for:{ram:2}}
+		if(self.gamePhase === "game" && currentTurn.phase === "trade" && player.hasResources(offer.have)){ //have x for y {have:{power:3}, for:{ram:2}}
 			if(Object.keys(offer.for).find(e=>!validResource(e))){
 				return false;
 			}
@@ -293,7 +294,7 @@ module.exports = function(){
 		return false;
 	};
 	this.staticTrade = function(player, offer){//have x for y  {have:{power:3}, for:"ram"}
-		if (this.gamePhase !== "game" || currentTurn.phase !== "trade" 
+		if (self.gamePhase !== "game" || currentTurn.phase !== "trade" 
 			|| !player.hasResources(offer.have) || !validResource(offer.for) 
 			|| Object.keys(offer.have).length > 1){
 			return false;
@@ -310,7 +311,7 @@ module.exports = function(){
 		return false;
 	};
 	this.tradeResponse = function(player, response){
-		if(this.gamePhase !== "game" || currentTurn.phase !== "trade" || currentTurn.currentOffer === null || player === currentTurn.player) {
+		if(self.gamePhase !== "game" || currentTurn.phase !== "trade" || currentTurn.currentOffer === null || player === currentTurn.player) {
 			return false;
 		}
 		if(response){
@@ -348,7 +349,7 @@ module.exports = function(){
 		return false;
 	}
 	this.placeHacker = function(player, hackerAction){ //{tile:id, target:id}
-		if(this.gamePhase === "game" && currentTurn.placeHacker){ //set when a 7 is rolled (rollDice) or a whitehat is played (development card action)
+		if(self.gamePhase === "game" && currentTurn.placeHacker){ //set when a 7 is rolled (rollDice) or a whitehat is played (development card action)
 			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
 				return false;
 			}
