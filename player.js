@@ -2,6 +2,7 @@
 var Resources = require("./resources.js");
 
 module.exports = function(player, color){
+	console.log(player.username + "is a new player!" + player.socket); //debug message
 	this.socket = player.socket;
 	this.username = player.username;
 	this.color = color;
