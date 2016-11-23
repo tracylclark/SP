@@ -138,7 +138,7 @@ module.exports = function(options){
 		this.id = id;
 		this.token = null;
 		this.resource = type;
-		this.robber = type==="DarkNet"; 
+		this.hacker = type==="DarkNet"; 
 	}
 	/*initializers*/	
 	function initializeEdges(){

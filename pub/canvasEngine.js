@@ -21,20 +21,44 @@ var canvasEngine = new (function(){
 		"green": "#008141", 
 		"orange": "#ff3300"
 	}
+	var resourceStyle = {
+		"cpu": {img:"url(./cpu.png)", color:"#ffe6f9"},
+		"ram": {img:"url(./ram.png)", color:"#ffd9b3"},
+		"power": {img:"url(./power.png)", color:"#99b3ff"},
+		"storage": {img:"url(./storage.png)", color:"#b3ffb3"},
+		"bandwidth": {img:"url(./bandwidth.png)", color:"#ffff99"},
+		"darkNet": {img:"url(./darknet.png)", color:"#aaaaaa"},
+	}
 	var players = [];
 	function Vertex(vertex){
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
 		this.draw = function(ctx){
 			if(!vertex.accessible){return;}
+			var vertexSize = size*0.05;
 			var coords = translateVertexCoords(vertex.coords);
-			ctx.fillStyle = "#a1a1a1";
+			var structure = '';
+			if(vertex.owner != null){
+				vertexSize = size*0.1;
+				structure = 'S';
+				if(vertex.database){
+					structure+=' D';
+				}
+				var playerColor = players.find(e=>e.username === vertex.owner).color;
+				ctx.fillStyle = playerColors[playerColor];
+			}
+			else{
+				ctx.fillStyle = "#a1a1a1";
+			}
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
 			ctx.beginPath();
 			ctx.arc(coords.x,coords.y,size*.1,0,2*Math.PI);
 			ctx.stroke();
 			ctx.fill();
+			ctx.fillStyle = "#000000";
+			ctx.font=size*.1+"px Arial";
+			ctx.fillText(structure, coords-(size*.1), coords-(size*.05));
 		};
 	}
 	function Edge(edge){
@@ -43,6 +67,11 @@ var canvasEngine = new (function(){
 			var coordsU = translateVertexCoords(edge.u);
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
+			if(edge.owner){
+				ctx.lineWidth = size/20;	
+				var playerColor = players.find(e=>e.username === edge.owner).color;
+				ctx.strokeStyle = playerColors[playerColor];
+			}
 			ctx.beginPath();
 			ctx.moveTo(coordsV.x, coordsV.y);
 			ctx.lineTo(coordsU.x, coordsU.y);
@@ -58,10 +87,9 @@ var canvasEngine = new (function(){
 		//this results in a list of corners in clockwise order starting with the top left
 		var corners = map.vertices.filter(e=>e.tiles.find(t=>t===tile.id) !== undefined).map(e=>e.coords).sort((a,b)=>a.y - b.y);//sorts top half and bottom half
 		corners = corners.slice(0,3).sort((a,b)=>a.x-b.x).concat(corners.slice(3,6).sort((a,b)=>b.x-a.x));
-		o(corners);
 		this.draw = function(ctx){
 			ctx.strokeStyle = "#a1a1a1";
-			ctx.fillStyle = "#008141";
+			ctx.fillStyle = resourceStyle[tile.resource].color;
 			ctx.beginPath();
 			corners.forEach(e=>{
 				var coords = translateVertexCoords(e);
@@ -69,6 +97,16 @@ var canvasEngine = new (function(){
 			})
 			ctx.stroke();
 			ctx.fill();
+			ctx.fillStyle = "#000000";
+			ctx.font = size*.3 + "px arial";
+			ctx.fillText(tile.token, corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y);
+			if(tile.hacker){
+				ctx.strokeStyle = "#000000";
+				ctx.fillStyle = "#ffffff";
+				ctx.font = size*.2 + "px arial";
+				ctx.fillText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
+				ctx.StrokeText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
+			}
 		};
 		//assuming you have a hex image (transparent corners, hex top is on first row of the image, hex left is in first column)
 		//you can find the top left corner postition by the converted x-coord of the first corner, and the converted y-coord of the second corner.

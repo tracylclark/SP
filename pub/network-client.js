@@ -88,51 +88,67 @@ var network = new (function(){
 	
 	this.broadcast = function(msg){
 		socket.emit("msg", `<broadcast> ${msg}`);
+		socket.emit("broadcast", msg);
 	};
 	this.joinGame = function(){
 		socket.emit("msg", `<joinGame>`);
+		socket.emit("joinGame");
 	};
 	this.startGame = function(options){
 		socket.emit("msg", `<startGame> ${options}`);
+		socket.emit("startGame", options);
 	};
 	this.buildNetwork = function(location){
 		socket.emit("msg", `<buildNetwork> ${location}`);
+		socket.emit("buildNetwork", location);
 	};
 	this.buildDatabase = function(location){
 		socket.emit("msg", `<buildDatabase> ${location}`);
+		socket.emit("buildDatabase", location);
 	};
 	this.buildServer = function(location){
 		socket.emit("msg", `<buildServer> ${location}`);
+		socket.emit("buildServer", location);
 	};
 	this.buyDevelopment = function(){
 		socket.emit("msg", `<buyDevelopment>`);
+		socket.emit("buyDevelopment");
 	};
 	this.endTurn = function(){
 		socket.emit("msg", `<endTurn>`);
+		socket.emit("endTurn");
 	};
 	this.rollDice = function(){
 		socket.emit("msg", `<rollDice>`);
+		socket.emit("rollDice");
 	};
 	this.playDevelopment = function(card){
 		socket.emit("msg", `<playDevelopment> ${card}`);
+		socket.emit("playDevelopment", card);
 	};
 	this.offerTrade = function(offer){
 		socket.emit("msg", `<offerTrade> ${offer}`);
+		socket.emit("offerTrade", offer);
 	};
 	this.staticTrade = function(trade){
 		socket.emit("msg", `<staticTrade> ${trade}`);
+		socket.emit("staticTrade", trade);
 	};
 	this.tradeResponse = function(response){
 		socket.emit("msg", `<tradeResponse> ${response}`);
+		socket.emit("tradeResponse", response);
 	};
 	this.placeHacker = function(hackerAction){
 		socket.emit("msg", `<placeHacker> ${hackerAction}`);
+		socket.emit("placeHacker", hackerAction);
 	};
 	this.claimLongestPath = function(pathList){
 		socket.emit("msg", `<claimLongestPath> ${pathList}`);
+		socket.emit("claimLongestPath", pathList);
 	};
 	this.rollOff = function(){
 		socket.emit("msg", `<rollOff>`);
+		socket.emit("rollOff");
 	};
 	this.create = function(un,pw){
 		socket.emit("createAccount", {username:un, password:pw});
