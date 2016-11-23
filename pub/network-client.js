@@ -60,7 +60,7 @@ var network = new (function(){
     	o(`<tradePhase> ${currentPlayer}`);
     });
     socket.on("gameTurn", (currentPlayer)=>{
-    	o(`<gameTurn> ${currenPlayer}`);
+    	o(`<gameTurn> ${currentPlayer}`);
     });
     socket.on("cardDraw", (card)=>{
     	o(`<cardDraw> ${card}`);
