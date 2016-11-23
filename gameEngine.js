@@ -252,7 +252,7 @@ module.exports = function(){
 		if(this.gamePhase === "game" && currentTurn.playedDevelopment || currentTurn.phase == "roll"){
 			return false;
 		}
-		var card = player.development.find(e=>e.name==development && e.new);
+		var card = player.development.find(e=>e.name===development && e.new);
 		if(typeof card !== "undefined"){ 
 			//TODO:remove from dev cards
 			return card.play(player); //may return false if not allowed to play (VP)
@@ -264,8 +264,9 @@ module.exports = function(){
 			if(Object.keys(offer.for).find(e=>!validResource(e))){
 				return false;
 			}
-			player.socket.broadcast("tradeOffer", offer);
+			player.socket.broadcast.emit("tradeOffer", offer);
 			currentTurn.currentOffer = offer;
+			rejectList = [];
 			return true;
 		}
 		return false;
@@ -318,7 +319,9 @@ module.exports = function(){
 	this.endTrading = function(){
 		if(currentTurn.phase === "trade"){
 			currentTurn.phase = "buy";
-			io.emit("tradingEnded");
+			currentOffer = null;
+			rejectList = [];
+			io.emit("buyPhase", currentTurn.player.username);
 			return true;
 		}
 		return false;
