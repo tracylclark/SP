@@ -60,4 +60,11 @@ module.exports = function(player, color){
 		});
 		this.resources.add(total);
 	}
+	this.hasResources = function(resources){
+		return 	this.resources.cpu >= (resources.cpu||0) &&
+				this.resources.bandwidth >= (resources.bandwidth||0) &&
+				this.resources.storage >= (resources.storage||0) &&
+				this.resources.power >= (resources.power||0) &&
+				this.resources.ram >= (resources.ram||0); 
+	}.bind(this);
 };
