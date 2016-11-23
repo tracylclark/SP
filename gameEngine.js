@@ -235,8 +235,8 @@ module.exports = function(){
 					currentSetup.round = 2;
 				}
 			}
-			currentSetup.buildServer = 1;
-			currentSetup.buildNetwork = 1;
+			currentSetup.freeServers = 1;
+			currentSetup.freeNetworks = 1;
 			network.io.emit("setupBuild", currentSetup.player.username);
 			return true;
 		}
