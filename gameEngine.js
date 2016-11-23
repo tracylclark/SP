@@ -145,7 +145,7 @@ module.exports = function(){
 		return false;
 	};
 	this.buildServer = function(player, location){
-		if(this.gamePhase = "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
+		if(this.gamePhase === "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
 			currentSetup.freeServers = 0;
 			player.lastBuiltServer = location;
 			map.buildServer(player, location);
