@@ -145,15 +145,15 @@ module.exports = function(){
 		return false;
 	};
 	this.buildServer = function(player, location){
-		if(this.gamePhase = "setup" && currentSetup.freeServers > 0 && gameMap.initialServerAvailable(location)){
+		if(this.gamePhase = "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
 			currentSetup.freeServers = 0;
 			player.lastBuiltServer = location;
-			gameMap.buildServer(player, location);
+			map.buildServer(player, location);
 			network.updateMap();
 			return true;
 		}
-		if(currentTurn.phase === "buy" && gameMap.serverAvailable(location) && player.hasResources(costs.server)){
-			gameMap.buildServer(player, location);
+		if(currentTurn.phase === "buy" && map.serverAvailable(location) && player.hasResources(costs.server)){
+			map.buildServer(player, location);
 			player.resources.sub(costs.server);
 			network.updateMap();
 			return true;
@@ -161,20 +161,20 @@ module.exports = function(){
 		return false;
 	};
 	this.buildNetwork = function(player, location){
-		if(this.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && gameMap.initialNetworkAvailable(player, location)){
+		if(this.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && map.initialNetworkAvailable(player, location)){
 			currentSetup.freeNetworks = 0;
-			gameMap.buildNetwork(player, location);
+			map.buildNetwork(player, location);
 			network.updateMap();
 			return true;
 		}
-		if(this.gamePhase === "game" && currentTurn.freeNetworks > 0 && gameMap.networkAvailable(player, location)){
+		if(this.gamePhase === "game" && currentTurn.freeNetworks > 0 && map.networkAvailable(player, location)){
 			currentTurn.freeNetworks--;
-			gameMap.buildNetwork(player, location);
+			map.buildNetwork(player, location);
 			network.updateMap();
 			return true;
 		}
-		if(this.gamePhase === "game" && currentTurn.phase === "buy" && gameMap.networkAvailable(player, location) && player.hasResources(costs.network)){
-			gameMap.buildNetwork(player, location);
+		if(this.gamePhase === "game" && currentTurn.phase === "buy" && map.networkAvailable(player, location) && player.hasResources(costs.network)){
+			map.buildNetwork(player, location);
 			player.resources.sub(costs.network);
 			network.updateMap();
 			return true;
@@ -182,8 +182,8 @@ module.exports = function(){
 		return false;
 	};
 	this.buildDatabase = function(player, location){
-		if(this.gamePhase === "game" && currentTurn.phase === "buy" && gameMap.databaseAvailable(player, location) && player.hasResources(costs.database)){
-			gameMap.buildDatabase(player, location);
+		if(this.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(costs.database)){
+			map.buildDatabase(player, location);
 			player.resources.sub(costs.database);
 			network.updateMap();
 			return true;
@@ -349,11 +349,11 @@ module.exports = function(){
 	}
 	this.placeHacker = function(player, hackerAction){ //{tile:id, target:id}
 		if(this.gamePhase === "game" && currentTurn.placeHacker){ //set when a 7 is rolled (rollDice) or a whitehat is played (development card action)
-			if(!gameMap.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
+			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
 				return false;
 			}
 			var target = players.find(e=>e.username === hackerAction.target);
-			if(target === undefined && !gameMap.hasTile(target)){
+			if(target === undefined && !map.hasTile(target)){
 				return false;
 			} 
 			player.resources.add(target.steal());
