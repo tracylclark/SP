@@ -7,17 +7,12 @@
 	  vendorDistribution:"default", //"slightShift" //other
 	});
 */
-var findEdge = function(edge){ //takes {xy}{xy} vertex coord pair to find a reference to a specific edge piece
-	return edges.find(e=>{
-		return (e.u.x === edge.u.x && e.u.y === edge.u.y && e.v.x === edge.v.x && e.v.y === edge.v.y)
-			|| (e.u.x === edge.v.x && e.u.y === edge.v.y && e.v.x === edge.u.x && e.v.y === edge.u.y);
-	});
-}
+
 
 var Resources = require("./resources.js");
 
 module.exports = function(options){
-		const gameMapConstants = require('./constants.js'); //load the constants
+	const gameMapConstants = require('./constants.js'); //load the constants
 	var vertices;
 	var tiles;
 	initializeVertices(options.vendorDistribution);
@@ -111,7 +106,12 @@ module.exports = function(options){
 		tiles[tileId].hacker = true;
 		return true;
 	};
-
+	function findEdge(edge){ //takes {xy}{xy} vertex coord pair to find a reference to a specific edge piece
+		return edges.find(e=>{
+			return (e.u.x === edge.u.x && e.u.y === edge.u.y && e.v.x === edge.v.x && e.v.y === edge.v.y)
+				|| (e.u.x === edge.v.x && e.u.y === edge.v.y && e.v.x === edge.u.x && e.v.y === edge.u.y);
+		});
+	}
 	function Vertex(coords){
 		var invalidCoords = [
 			{x:0, y:0}, {x:1, y:0}, {x:0, y:1}, {x:9, y:0}, {x:10, y:0}, {x:10, y:1},
