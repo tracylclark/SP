@@ -119,7 +119,7 @@ var canvasEngine = new (function(){
 		map.tiles = m.tiles.map(e=>new Tile(e))
 	}
 	this.setPlayers = function(p){
-		players = p.map();
+		players = p;
 	}
 	this.init = function(){
 		canvas = document.getElementById("c");
