@@ -96,8 +96,8 @@ function login(s, name, io){//credentials have been vetted at this point
 			return;
 		}
 		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
-		console.log( s.username + " is becoming a player.");
-		var p = new Player(spectators.splice(indexOfUser, 1), playerColors[players.length]); //index to remove at, how many elements to remove.
+		console.log( spectators[indexOfUser].username + " is becoming a player." + indexOfUser);
+		var p = new Player(spectators.splice(indexOfUser, 1)[0], playerColors[players.length]); //index to remove at, how many elements to remove.
 		players.push(p);
 		p.socket.removeListener("disconnect", spectatorLeaves);
 		setupPlayerSocket(p, io);
