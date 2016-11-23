@@ -27,7 +27,7 @@ var canvasEngine = new (function(){
 		"power": {img:"url(./power.png)", color:"#99b3ff"},
 		"storage": {img:"url(./storage.png)", color:"#b3ffb3"},
 		"bandwidth": {img:"url(./bandwidth.png)", color:"#ffff99"},
-		"darkNet": {img:"url(./darknet.png)", color:"#aaaaaa"},
+		"DarkNet": {img:"url(./darknet.png)", color:"#aaaaaa"},
 	}
 	var players = [];
 	function Vertex(vertex){
@@ -97,9 +97,11 @@ var canvasEngine = new (function(){
 			})
 			ctx.stroke();
 			ctx.fill();
-			ctx.fillStyle = "#000000";
-			ctx.font = size*.3 + "px arial";
-			ctx.fillText(tile.token, corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y);
+			if(!tile.resource==="DarkNet"){
+				ctx.fillStyle = "#000000";
+				ctx.font = size*.3 + "px arial";
+				ctx.fillText(tile.token.number, corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y);
+			}
 			if(tile.hacker){
 				ctx.strokeStyle = "#000000";
 				ctx.fillStyle = "#ffffff";
