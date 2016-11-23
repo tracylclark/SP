@@ -46,7 +46,7 @@ module.exports = function(player, color){
 		this.resources[resource] = 0;
 		return loss;
 	}
-	this.generateResources = function(roll){
+	this.generateResources = function(roll, gameMap){
 		var total = new Resources();
 		this.infrastructure.servers.forEach(s=>{
 			s.tiles.forEach(tileId=>{

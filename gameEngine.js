@@ -219,7 +219,7 @@ module.exports = function(){
 				if(indexOfUser === 0){
 					players.forEach(e=>{
 						for(var i=2; i<13; i++){
-							e.generateResources(i);
+							e.generateResources(i, map);
 						}
 					});
 					self.gamePhase = "game";
@@ -257,7 +257,7 @@ module.exports = function(){
 			var roll = new Roll();
 			network.diceRoll(roll); //send the roll to the network to be emitted 
 			if(roll.total!=7){
-				players.forEach(e=>e.generateResources(roll.total)); 
+				players.forEach(e=>e.generateResources(roll.total, map)); 
 				network.updateResources();
 				currentTurn.phase = "trade";
 				network.io.emit("tradePhase", player.username);
