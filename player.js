@@ -59,7 +59,7 @@ module.exports = function(player, color){
 			});
 		});
 		this.resources.add(total);
-	}
+	}.bind(this);
 	this.hasResources = function(resources){
 		return 	this.resources.cpu >= (resources.cpu||0) &&
 				this.resources.bandwidth >= (resources.bandwidth||0) &&
