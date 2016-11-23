@@ -18,6 +18,7 @@ module.exports = function(player, color){
 	this.largestNetwork = false;
 	this.mostSecure = false;
 	this.whiteHats = 0;
+	this.rollOff = null;
 	this.getVPs = function(){
 		return  infrastructure.servers.length +
 				infrastructure.databases.length +
