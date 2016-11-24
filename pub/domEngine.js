@@ -44,7 +44,7 @@ var domEngine = new (function(){
     this.hideLogin =function(){
         dom.login.container.style.display = "none";
         dom.resources.container.style.visibility = "visible";
-        dom.chat.resources.container.style.visibility = "visible";
+        dom.chat.container.style.visibility = "visible";
     }
     this.loginError = function(msg){
         dom.login.error.innerHTML = msg;
