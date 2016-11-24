@@ -247,6 +247,7 @@ module.exports = function(){
 			else{
 				currentTurn = new Turn(players[indexOfUser+1]);
 			}
+			network.io.emit("gameTurn", currentTurn.player.username);
 			return true;
 		}
 		return false;
