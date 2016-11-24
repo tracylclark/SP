@@ -19,7 +19,7 @@ var domEngine = new (function(){
                 viewport:get("chatViewport"),
                 button:get("chatButton"),
                 input:get("chatInput")
-            }
+            },
             resources:{
                 container:get("resourcesContainer"),
                 cpu:get("resourcesCPU"),

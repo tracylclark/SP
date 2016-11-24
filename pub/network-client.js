@@ -25,9 +25,9 @@ var network = new (function(){
 			domEngine.loginError("Failed to create account, try a different username.");
 		}
 	});
-	socket.on("broadcast", function(msg)){
+	socket.on("broadcast", function(msg){
 		domEngine.chatDisplay(msg);
-	}
+	});
 	socket.on("system", msg=>{
 		o(`<system> ${msg}`);
 	});
