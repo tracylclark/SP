@@ -286,7 +286,8 @@ module.exports = function(){
 			if(Object.keys(offer.for).find(e=>!validResource(e))){
 				return false;
 			}
-			player.socket.broadcast.emit("tradeOffer", offer);
+			//player.socket.broadcast.emit("tradeOffer", offer);
+			network.io.emit("tradeOffer", offer);
 			currentTurn.currentOffer = offer;
 			rejectList = [];
 			return true;
