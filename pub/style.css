@@ -35,12 +35,17 @@
 	position:absolute;
 	width: 40%;
 	bottom:0;
+	visibility: hidden;
 }
 #chatViewport{
 	overflow-y:scroll;
 	background-color: #ffffff;
 	height:7em;
 	border:2px solid black;
+}
+#resourcesContainer{
+	
+	visibility: hidden;
 }
 #chatInput{
 	width:80%;

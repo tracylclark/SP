@@ -97,17 +97,19 @@ var canvasEngine = new (function(){
 			})
 			ctx.stroke();
 			ctx.fill();
-			if(!tile.resource==="DarkNet"){
+			if(tile.token){
+				var tokenCoords = translateVertexCoords(corners[0]);
 				ctx.fillStyle = "#000000";
 				ctx.font = size*.3 + "px arial";
-				ctx.fillText(tile.token.number, corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y);
+				ctx.fillText(tile.token.number, tokenCoords.x+(size*.2), tokenCoords.y+(size*.2));
 			}
 			if(tile.hacker){
+				var hackerCoords = translateVertexCoords(corners[0]);
 				ctx.strokeStyle = "#000000";
 				ctx.fillStyle = "#ffffff";
 				ctx.font = size*.2 + "px arial";
-				ctx.fillText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
-				ctx.strokeText("H", corners[0].x+((corners[2].x-corners[0].x)/2)-size*.15, corners[0].y-size*.1);
+				ctx.fillText("H", hackerCoords.x+(size*.2),hackerCoords.y-(size*.1));
+				ctx.strokeText("H",  hackerCoords.x+(size*.2),hackerCoords.y-(size*.1));
 			}
 		};
 		//assuming you have a hex image (transparent corners, hex top is on first row of the image, hex left is in first column)

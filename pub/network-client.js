@@ -25,6 +25,9 @@ var network = new (function(){
 			domEngine.loginError("Failed to create account, try a different username.");
 		}
 	});
+	socket.on("broadcast", function(msg)){
+		domEngine.chatDisplay(msg);
+	}
 	socket.on("system", msg=>{
 		o(`<system> ${msg}`);
 	});
@@ -36,7 +39,8 @@ var network = new (function(){
 		canvasEngine.setPlayers(playerArray);
 	});
     socket.on("resourceUpdate", (resources)=>{
-    	o(`<resourcesUpdate> ${resources}`);
+    	o(`<resourceUpdate> ${resources}`);
+    	domEngine.resourceUpdate(resources);
     });
     socket.on("tradeOffer", (offer)=>{
     	o(`<tradeOffer> ${offer}`);
