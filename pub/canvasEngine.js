@@ -31,6 +31,13 @@ var canvasEngine = new (function(){
 	}
 	var players = [];
 	function Vertex(vertex){
+		var selected = false;
+		this.select = function(){ 
+			selected = true; 
+		};
+		this.deselect = function(){
+			selected = false;
+		};
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
 		this.wasClicked = function(click){
@@ -61,6 +68,10 @@ var canvasEngine = new (function(){
 			}
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
+			if(selected){
+				ctx.lineWidth = size/15;
+				ctx.strokeStyle = "#ededed";
+			}
 			ctx.beginPath();
 			ctx.arc(coords.x,coords.y,size*.1,0,2*Math.PI);
 			ctx.stroke();
@@ -99,7 +110,7 @@ var canvasEngine = new (function(){
 			box.right += camera.x;
 			box.bottom += camera.y;
 
-			if(edge.u.x === 2 && edge.u.y === 2 && edge.v.x == 3 && edge.u.y === 2){
+			if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
 				console.log(`dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
 			}
 			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
@@ -159,10 +170,13 @@ var canvasEngine = new (function(){
 		canvas.addEventListener("mousedown", (event)=>{
 			var rect = canvas.getBoundingClientRect();
 			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
-			console.log(click);
 			var vert = map.vertices.find(e=>e.wasClicked(click));
+			if(vert){
+				vert.select();
+				vertices.forEach(e=>e.deselect());
+			}
 			var edge = map.edges.find(e=>e.wasClicked(click));
-			console.log(vert);
+			
 		}, true)
 		render();
 	};
