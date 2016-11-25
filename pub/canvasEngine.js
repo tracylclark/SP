@@ -36,9 +36,9 @@ var canvasEngine = new (function(){
 		this.wasClicked = function(click){
 			var coords = translateVertexCoords(vertex.coords);
 			if(vertex.coords.x === 2 && vertex.coords.y === 2){
-				console.log(`[2,2] dx: ${clickCoords.x - coords.x}  dy: ${clickCoords.y - coords.y}`);
+				console.log(`[2,2] dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
 			}
-			return size*.1 >= Math.sqrt(Math.pow(clickCoords.x - coords.x, 2) + Math.pow(clickCoords.y - coords.y, 2));
+			return size*.1 >= Math.sqrt(Math.pow(click.x - coords.x, 2) + Math.pow(click.y - coords.y, 2));
 		}
 		this.draw = function(ctx){
 			if(!vertex.accessible){return;}
@@ -94,7 +94,7 @@ var canvasEngine = new (function(){
 			}
 
 			if(edge.u.x === 2 && edge.u.y === 2 && edge.v.x == 3 && edge.u.y === 2){
-				console.log(`dx: ${clickCoords.x - coords.x}  dy: ${clickCoords.y - coords.y}`);
+				console.log(`dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
 			}
 			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
 		};
