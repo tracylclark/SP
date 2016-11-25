@@ -55,7 +55,7 @@ var domEngine = new (function(){
 	}
 	this.hideLogin =function(){
 		dom.login.container.style.display = "none";
-		dom.resources.container.style.visibility = "visible";
+		dom.resources.container.style.visibility = "hidden";
 		dom.chat.container.style.visibility = "visible";
 		domEngine.showJoinGame();
 	}
@@ -86,21 +86,13 @@ var domEngine = new (function(){
 		dom.popup[item].container.style.visibility = "visible";
 	}
 	this.showJoinGame = function(){
+		dom.resources.container.style.visibility = "visible";
 		dom.popup.singleAction.button.value="Join Game";
 		dom.popup.singleAction.button.onclick = ()=>network.joinGame();
 		domEngine.popup("singleAction");
 	}
 	this.showStartGame = function(){
-		o(dom.popup.startGame.tile);
-		o(dom.popup.startGame.token);
-		o(dom.popup.startGame.vendor);
-
 		dom.popup.startGame.button.onclick = ()=>{
-			console.log({
-			tileDistribution:dom.popup.startGame.tile.value, //other
-			tokenDistribution:dom.popup.startGame.token.value, //"random"
-			vendorDistribution:dom.popup.startGame.vendor.value, //"slightShift" //other
-			});
 			network.startGame({
 				tileDistribution:dom.popup.startGame.tile.value, //other
 				tokenDistribution:dom.popup.startGame.token.value, //"random"
@@ -108,5 +100,10 @@ var domEngine = new (function(){
 			});
 		};
 		domEngine.popup("startGame");
+	}
+	this.showRollOff = function(){
+		dom.popup.singleAction.button.value="Roll Off";
+		dom.popup.singleAction.button.onclick = ()=>network.rollOff();
+		domEngine.popup("singleAction");
 	}
 })();

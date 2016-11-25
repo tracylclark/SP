@@ -41,6 +41,7 @@ var network = new (function(){
 	});
 	socket.on("joinedGame", ()=>{
 		domEngine.showStartGame();
+		domEngine.systemMessage("Welcome to the Game");
 	})
 	socket.on("playerUpdate", playerArray=>{
 		o(`<playerUpdate> ${playerArray}`);
@@ -92,7 +93,7 @@ var network = new (function(){
 			domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll1 + ") : " + rollResult.rollOff.total);
   });
   socket.on("rollOff", ()=>{
-	  domEngine.showRollOff();
+		domEngine.showRollOff();
 		domEngine.systemMessage("It is time to roll off to determine player order.");
   });
   socket.on("monopoly", ()=>{
