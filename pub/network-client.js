@@ -33,7 +33,7 @@ var network = new (function(){
 	});
 	socket.on("actionSuccess", successMsg=>{
 		o(`<actionSuccess> ${successMsg}`);
-		if(DEBUG)domEngine.systemMessage("actionSuccess:"+msg);
+		if(DEBUG)domEngine.systemMessage("actionSuccess:"+successMsg);
 		if(!successMsg){
 				domEngine.systemMessage("action failed!");
 		}
@@ -45,7 +45,7 @@ var network = new (function(){
 	socket.on("playerUpdate", playerArray=>{
 		o(`<playerUpdate> ${playerArray}`);
 		canvasEngine.setPlayers(playerArray);
-		domEngine.setPlayers(player);
+		domEngine.setPlayers(playerArray);
 	});
    socket.on("rollOffResult", (rollResult)=>{
  			domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll2 + ") : " + rollResult.rollOff.total);
