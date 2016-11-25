@@ -50,14 +50,14 @@ module.exports = function(io){
 	io.on("connect", socket=>{
 		console.log("Client connected.");
 		socket.on("msg", msg=>console.log(msg)); //debug test
-		socket.on("login", credentials=>{ 
+		socket.on("login", credentials=>{
 			collection.find(credentials).toArray((err, docs)=>{
 				if(err !== null){
 					socket.emit("loginResult", false);//message user about login failure
 				}
 				else{
 					socket.emit("loginResult", true);
-					login(socket, credentials.username);       
+					login(socket, credentials.username);
 				}
 			});
 		});
@@ -102,6 +102,7 @@ function login(s, name, io){//credentials have been vetted at this point
 		players.push(p);
 		p.socket.removeListener("disconnect", spectatorLeaves);
 		setupPlayerSocket(p, io);
+		p.emit("joinedGame");
 		//set up player socket callbacks
 	});
 }

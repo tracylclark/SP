@@ -27,9 +27,22 @@ var domEngine = new (function(){
 				power:("resourcesPower"),
 				ram:get("resourcesRAM"),
 				storage:get("resourcesStorage")
+			},
+			popup:{
+				container:get("popupContainer"),
+				singleAction:{
+					container:get("popupSingleAction"),
+					button:get("popupSingleActionButton")
+				},
+				startGame:{
+					container:get("popupStartGame"),
+					button:get("startGame"),
+					token: get("startGameTokenOption"),
+					tile: get("startGameTileOption"),
+					vendor: get("startGameVendorOption")
+				}
 			}
 		};
-
 		dom.login.loginButton.onclick = ()=>{
 			network.login(dom.login.username.value, dom.login.password.value);
 		};
@@ -39,12 +52,12 @@ var domEngine = new (function(){
 		dom.chat.button.onlick = ()=>{
 			network.broadcast(dom.chat.input.value); //clean on the server side
 		}
-
 	}
 	this.hideLogin =function(){
 		dom.login.container.style.display = "none";
 		dom.resources.container.style.visibility = "visible";
 		dom.chat.container.style.visibility = "visible";
+		domEngine.showJoinGame();
 	}
 	this.loginError = function(msg){
 		dom.login.error.innerHTML = msg;
@@ -63,5 +76,37 @@ var domEngine = new (function(){
 		dom.resources.power.innerHTML = resources.power;
 		dom.resources.ram.innerHTML = resources.ram;
 		dom.resources.storage.innerHTML = resources.storage;
+	}
+	this.popup = function(item){
+		Object.keys(dom.popup).forEach(e=>{
+			if(e==="container")return;
+			dom.popup[e].container.style.visibility = "hidden";
+		});
+		dom.popup.container.style.visibility = "visible";
+		dom.popup[item].container.style.visibility = "visible";
+	}
+	this.showJoinGame = function(){
+		dom.popup.singleAction.button.value="Join Game";
+		dom.popup.singleAction.button.onclick = ()=>network.joinGame();
+		domEngine.popup("singleAction");
+	}
+	this.showStartGame = function(){
+		o(dom.popup.startGame.tile);
+		o(dom.popup.startGame.token);
+		o(dom.popup.startGame.vendor);
+
+		dom.popup.startGame.button.onclick = ()=>{
+			console.log({
+			tileDistribution:dom.popup.startGame.tile.value, //other
+			tokenDistribution:dom.popup.startGame.token.value, //"random"
+			vendorDistribution:dom.popup.startGame.vendor.value, //"slightShift" //other
+			});
+			network.startGame({
+				tileDistribution:dom.popup.startGame.tile.value, //other
+				tokenDistribution:dom.popup.startGame.token.value, //"random"
+				vendorDistribution:dom.popup.startGame.vendor.value, //"slightShift" //other
+			});
+		};
+		domEngine.popup("startGame");
 	}
 })();

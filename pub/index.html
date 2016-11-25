@@ -44,13 +44,36 @@
 				<div class='row'><div class='cell'>Storage: </div><div id="resourcesStorage" class='cell'>0</div></div>
 				<div class='row'><div class='cell'>Power: </div><div id="resourcesPower" class='cell'>0</div></div>
 			</div>
+
 			<div id="developmentCards" class="container table">
 				<div class='row'><div class='cell'>Development Cards</div></div>
 			</div>
+
 			<div id="playerData" class="container table">
 				<div class='row'><div class='playerDataCell cell' id='username'>User Name</div><div class='playerDataCell cell' id='whiteHats'>White Hats</div><div class='playerDataCell cell' id='mostSecure'>Most Secure</div><div class='playerDataCell cell' id='largestNetwork'>Largest Network</div><div class='playerDataCell cell' id='vp'>Victory Points</div></div>
 			</div>
-			<div id="popupContainer" class="container"> HELLO</div>
+
+			<div id="popupContainer" class="container">
+				<div id="popupSingleAction">
+					<input type="button" value="action" id="popupSingleActionButton">
+				</div>
+				<div id="popupStartGame">
+					Tile Distribution <select id="startGameTileOption">
+						<option value="default">Default</option>
+						<option value="random">Random</option>
+					</select><br>
+					Token Distribution <select id="startGameTokenOption">
+						<option value="default">Default</option>
+						<option value="random">Random</option>
+					</select><br>
+					Vendor Distribution <select id="startGameVendorOption">
+						<option value="default">Default</option>
+						<option value="slightShift">Random Rotation</option>
+						<option value="random">Full Random</option>
+					</select><br>
+					<input type="button" value="Start Game" id="startGame">
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

@@ -39,6 +39,9 @@ var network = new (function(){
 				domEngine.systemMessage("action failed!");
 		}
 	});
+	socket.on("joinedGame", ()=>{
+		domEngine.showStartGame();
+	})
 	socket.on("playerUpdate", playerArray=>{
 		o(`<playerUpdate> ${playerArray}`);
 		canvasEngine.setPlayers(playerArray);
@@ -82,13 +85,14 @@ var network = new (function(){
   socket.on("cardDraw", (card)=>{
 		domEngine.systemMessage("You gained a new development: " + card);
   });
-  socket.on("setupBuild", (currentPlayer)=>{]
+  socket.on("setupBuild", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " must set up one server and one network.");
   });
   socket.on("rollOffResult", (rollResult)=>{
 			domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll1 + ") : " + rollResult.rollOff.total);
   });
   socket.on("rollOff", ()=>{
+	  domEngine.showRollOff();
 		domEngine.systemMessage("It is time to roll off to determine player order.");
   });
   socket.on("monopoly", ()=>{
