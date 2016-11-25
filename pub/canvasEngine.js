@@ -33,10 +33,10 @@ var canvasEngine = new (function(){
 	function Vertex(vertex){
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
-		this.wasClicked = function(clickCoords){
+		this.wasClicked = function(click){
 			var coords = translateVertexCoords(vertex.coords);
 			if(vertex.coords.x === 2 && vertex.coords.y === 2){
-				console.log("dx:"+clickCoords.x - coords.x + "  dy:"+clickCoords.y - coords.y);
+				console.log(`[2,2] dx: ${clickCoords.x - coords.x}  dy: ${clickCoords.y - coords.y}`);
 			}
 			return size*.1 >= Math.sqrt(Math.pow(clickCoords.x - coords.x, 2) + Math.pow(clickCoords.y - coords.y, 2));
 		}
@@ -84,12 +84,17 @@ var canvasEngine = new (function(){
 			ctx.lineTo(coordsU.x, coordsU.y);
 			ctx.stroke();
 		};
-		this.wasClicked= function(click){
+		this.wasClicked(click){
+
 			var box = {
 				left:Math.min(edge.v.x, edge.u.x),
 				right:Math.max(edge.v.x, edge.u.x),
 				top:Math.min(edge.v.y, edge.u.y),
 				bottom:Math.max(edge.v.y, edge.u.y)
+			}
+
+			if(edge.u.x === 2 && edge.u.y === 2 && edge.v.x == 3 && edge.u.y === 2){
+				console.log(`dx: ${clickCoords.x - coords.x}  dy: ${clickCoords.y - coords.y}`);
 			}
 			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
 		};
