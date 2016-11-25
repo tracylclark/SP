@@ -31,13 +31,7 @@ var canvasEngine = new (function(){
 	}
 	var players = [];
 	function Vertex(vertex){
-		var selected = false;
-		this.select = function(){ 
-			selected = true; 
-		};
-		this.deselect = function(){
-			selected = false;
-		};
+		this.selected = false;
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
 		this.wasClicked = function(click){
@@ -66,7 +60,7 @@ var canvasEngine = new (function(){
 			}
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
-			if(selected){
+			if(this.selected){
 				ctx.lineWidth = size/15;
 				ctx.strokeStyle = "#ededed";
 			}
@@ -77,7 +71,7 @@ var canvasEngine = new (function(){
 			ctx.fillStyle = "#000000";
 			ctx.font=size*.1+"px Arial";
 			ctx.fillText(structure, coords-(size*.1), coords-(size*.05));
-		};
+		}.bind(this);
 	}
 	function Edge(edge){
 		this.selected = false;
@@ -132,6 +126,10 @@ var canvasEngine = new (function(){
 		//this results in a list of corners in clockwise order starting with the top left
 		var corners = map.vertices.filter(e=>e.tiles.find(t=>t===tile.id) !== undefined).map(e=>e.coords).sort((a,b)=>a.y - b.y);//sorts top half and bottom half
 		corners = corners.slice(0,3).sort((a,b)=>a.x-b.x).concat(corners.slice(3,6).sort((a,b)=>b.x-a.x));
+		this.selected = false;
+		this.wasClicked = function(click){
+			return false;
+		}
 		this.draw = function(ctx){
 			ctx.strokeStyle = "#a1a1a1";
 			ctx.fillStyle = resourceStyle[tile.resource].color;
@@ -140,6 +138,10 @@ var canvasEngine = new (function(){
 				var coords = translateVertexCoords(e);
 				ctx.lineTo(coords.x,coords.y);
 			})
+			if(this.selected){
+				ctx.lineWidth = size/4;
+				ctx.strokeStyle = "#ededed";
+			}
 			ctx.stroke();
 			ctx.fill();
 			if(tile.token){
@@ -178,20 +180,33 @@ var canvasEngine = new (function(){
 			var rect = canvas.getBoundingClientRect();
 			var click = {x:event.pageX - rect.left - camera.x, y:event.pageY - rect.top - camera.y};
 			var vert = map.vertices.find(e=>e.wasClicked(click));
+			map.vertices.forEach(e=>e.selected = false;);
 			if(vert){
-				map.vertices.forEach(e=>e.deselect());
-				vert.select();
+				vert.selected = true;
 			}
 			var edge = map.edges.find(e=>e.wasClicked(click));
-			console.log(edge);
+			map.edges.forEach(e=>e.selected = false);
 			if(edge){
-				map.edges.forEach(e=>e.selected = false);
 				edge.selected = true;
+			}
+			var tile = map.tiles.find(e=>e.wasClicked(click));
+			map.tiles.forEach(e=>e.selected = false);
+			if(tile){
+				tile.selected = true;
 			}
 			
 		}, true)
 		render();
 	};
+	this.getSelectedVertex = function(){
+
+	};
+	this.getSelectedEdge = function(){
+
+	}
+	this.getSelectedTile = function(){
+
+	}
 	this.resize = function(){
 		canvas.style.width = canvas.width = window.innerWidth;
 		canvas.style.height = canvas.height = window.innerHeight;
