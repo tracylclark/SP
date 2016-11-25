@@ -39,7 +39,7 @@ var domEngine = new (function(){
 						row:get("player1"),
 						username:get("username1"),
 						whiteHats:get("whiteHats1"),
-						mostsecure:get("mostSecure1"),
+						mostSecure:get("mostSecure1"),
 						largestNetwork:get("largestNetwork1"),
 						vp:get("vp1")
 					},
@@ -47,7 +47,7 @@ var domEngine = new (function(){
 						row:get("player2"),
 						username:get("username2"),
 						whiteHats:get("whiteHats2"),
-						mostsecure:get("mostSecure2"),
+						mostSecure:get("mostSecure2"),
 						largestNetwork:get("largestNetwork2"),
 						vp:get("vp2")
 					},
@@ -55,7 +55,7 @@ var domEngine = new (function(){
 						row:get("player3"),
 						username:get("username3"),
 						whiteHats:get("whiteHats3"),
-						mostsecure:get("mostSecure3"),
+						mostSecure:get("mostSecure3"),
 						largestNetwork:get("largestNetwork3"),
 						vp:get("vp3")
 					},
@@ -63,7 +63,7 @@ var domEngine = new (function(){
 						row:get("player4"),
 						username:get("username4"),
 						whiteHats:get("whiteHats4"),
-						mostsecure:get("mostSecure4"),
+						mostSecure:get("mostSecure4"),
 						largestNetwork:get("largestNetwork4"),
 						vp:get("vp4")
 					}
