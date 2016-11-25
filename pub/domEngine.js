@@ -147,7 +147,7 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.onclick = ()=>network.rollOff();
 		domEngine.popup("singleAction");
 	}
-	this.updatePlayers = function(players){
+	this.setPlayers = function(players){
 		players.sort((a,b)=>a.order < b.order).forEach((e,i)=>{
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;

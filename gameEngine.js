@@ -138,6 +138,7 @@ module.exports = function(){
 			currentSetup.round = 1;
 			network.io.emit("setupBuild", currentSetup.player.username);
 		}
+		return true;
 	};
   	this.currentPlayerOnly = function(player, payload, callback){
 		if(currentTurn.player === player || currentSetup.player === player){
