@@ -74,10 +74,6 @@ var canvasEngine = new (function(){
 		this.draw = function(ctx){
 			var coordsV = translateVertexCoords(edge.v);
 			var coordsU = translateVertexCoords(edge.u);
-			coordsV.x += camera.x;
-			coordsV.y += camera.y;
-			coordsU.x += camera.x;
-			coordsU.y += camera.y;
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
 			if(edge.owner){
@@ -98,6 +94,10 @@ var canvasEngine = new (function(){
 				top:Math.min(edge.v.y, edge.u.y),
 				bottom:Math.max(edge.v.y, edge.u.y)
 			}
+			box.left += camera.x;
+			box.top += camera.y;
+			box.right += camera.x;
+			box.bottom += camera.y;
 
 			if(edge.u.x === 2 && edge.u.y === 2 && edge.v.x == 3 && edge.u.y === 2){
 				console.log(`dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
