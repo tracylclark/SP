@@ -172,10 +172,11 @@ var canvasEngine = new (function(){
 			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
 			var vert = map.vertices.find(e=>e.wasClicked(click));
 			if(vert){
-				vert.select();
 				map.vertices.forEach(e=>e.deselect());
+				vert.select();
 			}
 			var edge = map.edges.find(e=>e.wasClicked(click));
+			console.log(edge);
 			
 		}, true)
 		render();
