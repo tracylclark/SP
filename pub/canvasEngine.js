@@ -80,19 +80,13 @@ var canvasEngine = new (function(){
 		};
 	}
 	function Edge(edge){
-		var selected = false;
-		this.select = function(){ 
-			selected = true; 
-		};
-		this.deselect = function(){
-			selected = false;
-		};
+		this.selected = false;
 		this.draw = function(ctx){
 			var coordsV = translateVertexCoords(edge.v);
 			var coordsU = translateVertexCoords(edge.u);
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
-			if(selected){
+			if(this.selected){
 				ctx.lineWidth = size/15;
 				ctx.strokeStyle = "#ededed";
 			}
@@ -105,7 +99,7 @@ var canvasEngine = new (function(){
 			ctx.moveTo(coordsV.x, coordsV.y);
 			ctx.lineTo(coordsU.x, coordsU.y);
 			ctx.stroke();
-		};
+		}.bind(this);
 		this.wasClicked = function(click){
 			var coordsV = translateVertexCoords(edge.v);
 			var coordsU = translateVertexCoords(edge.u);
@@ -191,8 +185,8 @@ var canvasEngine = new (function(){
 			var edge = map.edges.find(e=>e.wasClicked(click));
 			console.log(edge);
 			if(edge){
-				map.edges.forEach(e=>e.deselect());
-				edge.select();
+				map.edges.forEach(e=>e.selected = false);
+				edge.selected = true;
 			}
 			
 		}, true)
