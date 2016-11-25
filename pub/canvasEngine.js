@@ -104,12 +104,12 @@ var canvasEngine = new (function(){
 				ctx.fillText(tile.token.number, tokenCoords.x+(size*.2), tokenCoords.y+(size*.2));
 			}
 			if(tile.hacker){
-				var hackerCoords = translateVertexCoords(corners[0]);
+				var hackerCoords = translateVertexCoords(corners[2]);
 				ctx.strokeStyle = "#000000";
 				ctx.fillStyle = "#ffffff";
 				ctx.font = size*.2 + "px arial";
-				ctx.fillText("H", hackerCoords.x+(size*.4),hackerCoords.y+(size*.2));
-				ctx.strokeText("H",  hackerCoords.x+(size*.4),hackerCoords.y+(size*.2));
+				ctx.fillText("H", hackerCoords.x-(size*.2),hackerCoords.y+(size*.2));
+				ctx.strokeText("H",  hackerCoords.x-(size*.2),hackerCoords.y+(size*.2));
 			}
 		};
 		//assuming you have a hex image (transparent corners, hex top is on first row of the image, hex left is in first column)
