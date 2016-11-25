@@ -42,8 +42,6 @@ var canvasEngine = new (function(){
 		this.coords = vertex.coords;
 		this.wasClicked = function(click){
 			var coords = translateVertexCoords(vertex.coords);
-			coords.x += camera.x;
-			coords.y += camera.y;
 			if(vertex.coords.x === 2 && vertex.coords.y === 2){
 				console.log(`[2,2] dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
 			}
@@ -117,13 +115,13 @@ var canvasEngine = new (function(){
 				top:Math.min(coordsV.y, coordsU.y),
 				bottom:Math.max(coordsV.y, coordsU.y)
 			}
-			box.left += camera.x;
-			box.top += camera.y;
-			box.right += camera.x;
-			box.bottom += camera.y;
 
 			if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
 				console.log(`[2,2]->[3,2] dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
+				console.log(click.x < box.right);
+				console.log(click.c > box.left);
+				console.log(click.y > box.top);
+				console.log(click.y < box.bottom);
 			}
 			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
 		};
@@ -181,13 +179,14 @@ var canvasEngine = new (function(){
 
 		canvas.addEventListener("mousedown", (event)=>{
 			var rect = canvas.getBoundingClientRect();
-			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
+			var click = {x:event.pageX - rect.left - camera.x, y:event.pageY - rect.top - camera.y};
 			var vert = map.vertices.find(e=>e.wasClicked(click));
 			if(vert){
 				map.vertices.forEach(e=>e.deselect());
 				vert.select();
 			}
 			var edge = map.edges.find(e=>e.wasClicked(click));
+			console.log(edge);
 			if(edge){
 				map.edges.forEach(e=>e.deselect());
 				edge.select();
