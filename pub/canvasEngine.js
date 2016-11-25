@@ -115,14 +115,17 @@ var canvasEngine = new (function(){
 				top:Math.min(coordsV.y, coordsU.y),
 				bottom:Math.max(coordsV.y, coordsU.y)
 			}
-
-			if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
-				console.log(`[2,2]->[3,2] dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
-				console.log(click.x < box.right);
-				console.log(click.x > box.left);
-				console.log(click.y > box.top);
-				console.log(click.y < box.bottom);
+			if(box.left - box.right < 1){
+				box.left -= size*.2;
+				box.right += size*.2;
 			}
+			// if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
+			// 	console.log(`[2,2]->[3,2] dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
+			// 	console.log(click.x < box.right);
+			// 	console.log(click.x > box.left);
+			// 	console.log(click.y > box.top);
+			// 	console.log(click.y < box.bottom);
+			// }
 			return click.x < box.right && click.x > box.left && click.y > box.top && click.y < box.bottom;
 		};
 	}
