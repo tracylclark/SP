@@ -177,7 +177,7 @@ module.exports = function(options){
 		var j = 0;
 		while(i<19){
 			if(!tiles[i].hacker){
-				tiles[i].token = gameMapContansts.defaultTokenObjects[tokenSet[j]]; 
+				tiles[i].token = gameMapConstants.defaultTokenObjects[tokenSet[j]]; 
 				j++;
 			} 
 			i++;
