@@ -37,13 +37,20 @@
 				<input id="chatInput"> </input>
 				<input id="chatButton" type="button" value="say"></input>
 			</div>
-			<div id="resourcesContainer" class ="resources">
-				<div id="resourcesCPU"></div>
-				<div id="resourcesBandwidth"></div>
-				<div id="resourcesRAM"></div>
-				<div id="resourcesStorage"></div>
-				<div id="resourcesPower"></div>
+			<div id="resourcesContainer" class ="container table">
+				<div class='row'><div class='cell'>Resources: </div><div id="resourcesCPU" class='cell'>0</div></div>
+				<div class='row'><div class='cell'>Bandwidth: </div><div id="resourcesBandwidth" class='cell'>0</div></div>
+				<div class='row'><div class='cell'>RAM: </div><div id="resourcesRAM" class='cell'>0</div></div>
+				<div class='row'><div class='cell'>Storage: </div><div id="resourcesStorage" class='cell'>0</div></div>
+				<div class='row'><div class='cell'>Power: </div><div id="resourcesPower" class='cell'>0</div></div>
 			</div>
+			<div id="developmentCards" class="container table">
+				<div class='row'><div class='cell'>Development Cards</div></div>
+			</div>
+			<div id="playerData" class="container table">
+				<div class='row'><div class='playerDataCell cell' id='username'>User Name</div><div class='playerDataCell cell' id='whiteHats'>White Hats</div><div class='playerDataCell cell' id='mostSecure'>Most Secure</div><div class='playerDataCell cell' id='largestNetwork'>Largest Network</div><div class='playerDataCell cell' id='vp'>Victory Points</div></div>
+			</div>
+			<div id="popupContainer" class="container"> HELLO</div>
 		</div>
 	</body>
 </html>
