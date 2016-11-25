@@ -35,6 +35,9 @@ var canvasEngine = new (function(){
 		this.coords = vertex.coords;
 		this.wasClicked = function(clickCoords){
 			var coords = translateVertexCoords(vertex.coords);
+			if(vertex.coords.x === 2 && vertex.coords.y === 2){
+				console.log("dx:"+clickCoords.x - coords.x + "  dy:"+clickCoords.y - coords.y);
+			}
 			return size*.1 >= Math.sqrt(Math.pow(clickCoords.x - coords.x, 2) + Math.pow(clickCoords.y - coords.y, 2));
 		}
 		this.draw = function(ctx){
@@ -80,6 +83,15 @@ var canvasEngine = new (function(){
 			ctx.moveTo(coordsV.x, coordsV.y);
 			ctx.lineTo(coordsU.x, coordsU.y);
 			ctx.stroke();
+		};
+		this.wasClicked(click){
+			var box = {
+				left:Math.min(edge.v.x, edge.u.x),
+				right:Math.max(edge.v.x, edge.u.x),
+				top:Math.min(edge.v.y, edge.u.y),
+				bottom:Math.max(edge.v.y, edge.u.y)
+			}
+			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
 		};
 	}
 	function Tile(tile){
@@ -136,7 +148,9 @@ var canvasEngine = new (function(){
 		canvas.addEventListener("mousedown", (event)=>{
 			var rect = canvas.getBoundingClientRect();
 			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
+			console.log(click);
 			var vert = map.vertices.find(e=>e.wasClicked(click));
+			var edge = map.edge.find(e=>e.wasClicked(click));
 			console.log(vert);
 		}, true)
 		render();
