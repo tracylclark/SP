@@ -108,7 +108,7 @@ var canvasEngine = new (function(){
 				ctx.strokeStyle = "#000000";
 				ctx.fillStyle = "#ffffff";
 				ctx.font = size*.2 + "px arial";
-				ctx.fillText("H", hackerCoords.x+(size*.2),hackerCoords.y-(size*.1));
+				ctx.fillText("H", hackerCoords.x-(size*.2),hackerCoords.y+(size*.1));
 				ctx.strokeText("H",  hackerCoords.x+(size*.2),hackerCoords.y-(size*.1));
 			}
 		};
