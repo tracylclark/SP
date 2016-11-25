@@ -111,7 +111,7 @@ var canvasEngine = new (function(){
 			box.bottom += camera.y;
 
 			if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
-				console.log(`dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
+				console.log(`dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
 			}
 			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
 		};
@@ -173,7 +173,7 @@ var canvasEngine = new (function(){
 			var vert = map.vertices.find(e=>e.wasClicked(click));
 			if(vert){
 				vert.select();
-				vertices.forEach(e=>e.deselect());
+				map.vertices.forEach(e=>e.deselect());
 			}
 			var edge = map.edges.find(e=>e.wasClicked(click));
 			
