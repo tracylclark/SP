@@ -133,7 +133,7 @@ var canvasEngine = new (function(){
 		canvasEngine.resize();
 		window.onresize = canvasEngine.resize;
 
-		dom.canvas.addEventListener("mousedown", (event)=>{
+		canvas.addEventListener("mousedown", (event)=>{
 			var rect = canvas.getBoundingClientRect();
 			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
 			var vert = map.vertices.find(e=>e.wasClicked(click));
