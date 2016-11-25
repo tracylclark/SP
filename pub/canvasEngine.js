@@ -180,17 +180,17 @@ var canvasEngine = new (function(){
 			var rect = canvas.getBoundingClientRect();
 			var click = {x:event.pageX - rect.left - camera.x, y:event.pageY - rect.top - camera.y};
 			var vert = map.vertices.find(e=>e.wasClicked(click));
-			map.vertices.forEach(e=>e.selected = false;);
+			var edge = map.edges.find(e=>e.wasClicked(click));
+			var tile = map.tiles.find(e=>e.wasClicked(click));
+			map.vertices.forEach(e=>e.selected = false);
+			map.edges.forEach(e=>e.selected = false);
+			map.tiles.forEach(e=>e.selected = false);
 			if(vert){
 				vert.selected = true;
 			}
-			var edge = map.edges.find(e=>e.wasClicked(click));
-			map.edges.forEach(e=>e.selected = false);
 			if(edge){
 				edge.selected = true;
 			}
-			var tile = map.tiles.find(e=>e.wasClicked(click));
-			map.tiles.forEach(e=>e.selected = false);
 			if(tile){
 				tile.selected = true;
 			}
