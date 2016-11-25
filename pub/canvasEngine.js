@@ -82,11 +82,22 @@ var canvasEngine = new (function(){
 		};
 	}
 	function Edge(edge){
+		var selected = false;
+		this.select = function(){ 
+			selected = true; 
+		};
+		this.deselect = function(){
+			selected = false;
+		};
 		this.draw = function(ctx){
 			var coordsV = translateVertexCoords(edge.v);
 			var coordsU = translateVertexCoords(edge.u);
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
+			if(selected){
+				ctx.lineWidth = size/15;
+				ctx.strokeStyle = "#ededed";
+			}
 			if(edge.owner){
 				ctx.lineWidth = size/20;
 				var playerColor = players.find(e=>e.username === edge.owner).color;
@@ -177,7 +188,10 @@ var canvasEngine = new (function(){
 				vert.select();
 			}
 			var edge = map.edges.find(e=>e.wasClicked(click));
-			console.log(edge);
+			if(edge){
+				map.edges.forEach(e=>e.deselect());
+				edge.select();
+			}
 			
 		}, true)
 		render();
