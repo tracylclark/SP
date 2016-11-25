@@ -84,7 +84,7 @@ var canvasEngine = new (function(){
 			ctx.lineTo(coordsU.x, coordsU.y);
 			ctx.stroke();
 		};
-		this.wasClicked(click){
+		this.wasClicked= function(click){
 			var box = {
 				left:Math.min(edge.v.x, edge.u.x),
 				right:Math.max(edge.v.x, edge.u.x),
