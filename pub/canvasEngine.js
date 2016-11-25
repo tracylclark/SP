@@ -98,12 +98,13 @@ var canvasEngine = new (function(){
 			ctx.stroke();
 		};
 		this.wasClicked = function(click){
-
+			var coordsV = translateVertexCoords(edge.v);
+			var coordsU = translateVertexCoords(edge.u);
 			var box = {
-				left:Math.min(edge.v.x, edge.u.x),
-				right:Math.max(edge.v.x, edge.u.x),
-				top:Math.min(edge.v.y, edge.u.y),
-				bottom:Math.max(edge.v.y, edge.u.y)
+				left:Math.min(coordsV.x, coordsU.x),
+				right:Math.max(coordsV.x, coordsU.x),
+				top:Math.min(coordsV.y, coordsU.y),
+				bottom:Math.max(coordsV.y, coordsU.y)
 			}
 			box.left += camera.x;
 			box.top += camera.y;
@@ -111,7 +112,7 @@ var canvasEngine = new (function(){
 			box.bottom += camera.y;
 
 			if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
-				console.log(`dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
+				console.log(`[2,2]->[3,2] dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
 			}
 			return click.x < box.right && click.c > box.left && click.y > box.top && click.y < box.bottom;
 		};
