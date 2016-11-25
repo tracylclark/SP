@@ -45,9 +45,9 @@ function Setup(player){
 	this.round = 0; //when everybody is at round 2 we have completed the setup phase
 }
 function Roll(){
-	this.roll1 = (Math.random()*6)+1, 
-	this.roll2 = (Math.random()*6)+1, 
-	this.total = this.roll1 + this.roll2;
+	this.roll1 = Math.floor((Math.random()*6)+1), 
+	this.roll2 = Math.floor((Math.random()*6)+1), 
+	this.total = Math.floor(this.roll1 + this.roll2);
 };
 
 function initializeDevelopmentDeck(){
