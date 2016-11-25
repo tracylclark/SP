@@ -172,7 +172,16 @@ module.exports = function(options){
 			var keys = ["00","02","04","06","08","10"]; //randomly choose starting position from tokenLocationMap
 			tokenSet = gameMapConstants.tokenLocationMap[keys[Math.floor(Math.random()*6)]]; 
 		}
-		tiles.forEach((e,i)=>e.token = gameMapConstants.defaultTokenObjects[tokenSet[i]]); //now distribute tokens
+		//tiles.forEach((e,i)=>e.token = gameMapConstants.defaultTokenObjects[tokenSet[i]]); //now distribute tokens
+		var i = 0;
+		var j = 0;
+		while(i<19){
+			if(!tiles[i].hacker){
+				tiles[i].token = gameMapContansts.defaultTokenObjects[tokenSet[j]]; 
+				j++;
+			} 
+			i++;
+		}
 	}
 	function initializeVendors(vendorDistribution){
 		var vendors = gameMapConstants.defaultVendorLabels.slice();//make a copy of the vendors list, if random will randomize this
