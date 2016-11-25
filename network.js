@@ -102,7 +102,7 @@ function login(s, name, io){//credentials have been vetted at this point
 		players.push(p);
 		p.socket.removeListener("disconnect", spectatorLeaves);
 		setupPlayerSocket(p, io);
-		p.emit("joinedGame");
+		p.socket.emit("joinedGame");
 		//set up player socket callbacks
 	});
 }
