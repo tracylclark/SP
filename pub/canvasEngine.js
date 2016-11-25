@@ -16,9 +16,9 @@ var canvasEngine = new (function(){
 		tiles:[]
 	};
 	var playerColors = {
-		"purple":"#660066", 
-		"red": "#990000", 
-		"green": "#008141", 
+		"purple":"#660066",
+		"red": "#990000",
+		"green": "#008141",
 		"orange": "#ff3300"
 	}
 	var resourceStyle = {
@@ -33,6 +33,10 @@ var canvasEngine = new (function(){
 	function Vertex(vertex){
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
+		this.wasClicked(clickCoords){
+			var coords = translateVertexCoords(vertex.coords);
+			return size*.1 >= Math.sqrt(Math.pow(clickCoords.x - coords.x, 2) + Math.pow(clickCoords.y - coords.y, 2));
+		}
 		this.draw = function(ctx){
 			if(!vertex.accessible){return;}
 			var vertexSize = size*0.05;
@@ -68,7 +72,7 @@ var canvasEngine = new (function(){
 			ctx.lineWidth = size/25;
 			ctx.strokeStyle = "#000000";
 			if(edge.owner){
-				ctx.lineWidth = size/20;	
+				ctx.lineWidth = size/20;
 				var playerColor = players.find(e=>e.username === edge.owner).color;
 				ctx.strokeStyle = playerColors[playerColor];
 			}
@@ -128,6 +132,13 @@ var canvasEngine = new (function(){
 		ctx = canvas.getContext( "2d" );
 		canvasEngine.resize();
 		window.onresize = canvasEngine.resize;
+
+		dom.canvas.addEventListener("mousedown", (event)=>{
+			var rect = canvas.getBoundingClientRect();
+			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
+			var vert = map.vertices.find(e=>e.wasClicked(click));
+			console.log(vert);
+		}, true)
 		render();
 	};
 	this.resize = function(){

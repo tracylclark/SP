@@ -5,6 +5,7 @@ var domEngine = new (function(){
 	var get = (f)=>{return document.getElementById(f)};
 	this.init = function(){
 		dom = {
+			canvas: get("c"),
 			overlay:get("overlay"),
 			login:{
 				container:get("loginContainer"),
@@ -27,6 +28,46 @@ var domEngine = new (function(){
 				power:("resourcesPower"),
 				ram:get("resourcesRAM"),
 				storage:get("resourcesStorage")
+			},
+			developments:{
+				container:get("developmentCardContainer")
+			},
+			playerData:
+				container:get("playerDataContainer"),
+				players:[
+					{
+						row:get("player1"),
+						username:get("username1"),
+						whiteHats:get("whiteHats1"),
+						mostsecure:get("mostSecure1"),
+						largestNetwork:get("largestNetwork1"),
+						vp:get("vp1")
+					},
+					{
+						row:get("player2"),
+						username:get("username2"),
+						whiteHats:get("whiteHats2"),
+						mostsecure:get("mostSecure2"),
+						largestNetwork:get("largestNetwork2"),
+						vp:get("vp2")
+					},
+					{
+						row:get("player3"),
+						username:get("username3"),
+						whiteHats:get("whiteHats3"),
+						mostsecure:get("mostSecure3"),
+						largestNetwork:get("largestNetwork3"),
+						vp:get("vp3")
+					},
+					{
+						row:get("player4"),
+						username:get("username4"),
+						whiteHats:get("whiteHats4"),
+						mostsecure:get("mostSecure4"),
+						largestNetwork:get("largestNetwork4"),
+						vp:get("vp4")
+					}
+				]
 			},
 			popup:{
 				container:get("popupContainer"),
@@ -106,4 +147,14 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.onclick = ()=>network.rollOff();
 		domEngine.popup("singleAction");
 	}
+	this.updatePlayers = function(players){
+		players.sort((a,b)=>a.order < b.order).forEach((e,i)=>{
+			dom.playerData.players[i].username.innerHTML = e.username;
+			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
+			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
+			dom.playerData.players[i].largestNetwork.innerHTML = e.largestNetwork;
+			dom.playerData.players[i].vp.innerHTML = e.vp;
+			dom.playerData.players[i].row.display = "table-row";
+		});
+	};
 })();

@@ -84,6 +84,9 @@
 .playerDataCell{
 	border: 2px solid black;
 }
+.playerRow{
+	display:none;
+}
 #developmentCards{
 	font-size: 20px;
 	position: absolute;
