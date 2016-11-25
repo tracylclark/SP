@@ -33,7 +33,7 @@ var canvasEngine = new (function(){
 	function Vertex(vertex){
 		this.tiles = vertex.tiles;
 		this.coords = vertex.coords;
-		this.wasClicked(clickCoords){
+		this.wasClicked = function(clickCoords){
 			var coords = translateVertexCoords(vertex.coords);
 			return size*.1 >= Math.sqrt(Math.pow(clickCoords.x - coords.x, 2) + Math.pow(clickCoords.y - coords.y, 2));
 		}

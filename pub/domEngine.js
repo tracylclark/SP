@@ -32,7 +32,7 @@ var domEngine = new (function(){
 			developments:{
 				container:get("developmentCardContainer")
 			},
-			playerData:
+			playerData:{
 				container:get("playerDataContainer"),
 				players:[
 					{
