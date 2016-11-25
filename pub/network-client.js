@@ -90,7 +90,7 @@ var network = new (function(){
 		domEngine.systemMessage(currentPlayer + " must set up one server and one network.");
   });
   socket.on("rollOffResult", (rollResult)=>{
-			domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll1 + ") : " + rollResult.rollOff.total);
+			domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll2 + ") : " + rollResult.rollOff.total);
   });
   socket.on("rollOff", ()=>{
 		domEngine.showRollOff();
