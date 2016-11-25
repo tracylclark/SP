@@ -35,6 +35,8 @@ var canvasEngine = new (function(){
 		this.coords = vertex.coords;
 		this.wasClicked = function(click){
 			var coords = translateVertexCoords(vertex.coords);
+			coords.x -= camera.x;
+			coords.y -= camera.y;
 			if(vertex.coords.x === 2 && vertex.coords.y === 2){
 				console.log(`[2,2] dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
 			}
@@ -155,7 +157,7 @@ var canvasEngine = new (function(){
 			var click = {x:event.pageX - rect.left, y:event.pageY - rect.top};
 			console.log(click);
 			var vert = map.vertices.find(e=>e.wasClicked(click));
-			var edge = map.edge.find(e=>e.wasClicked(click));
+			var edge = map.edges.find(e=>e.wasClicked(click));
 			console.log(vert);
 		}, true)
 		render();
