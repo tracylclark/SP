@@ -369,13 +369,13 @@ module.exports = function(){
 		}
 		return false;
 	}
-	this.placeHacker = function(player, hackerAction){ //{tile:id, target:id}
+	this.placeHacker = function(player, hackerAction){ //{tile:id, target:username}
 		if(self.gamePhase === "game" && currentTurn.placeHacker){ //set when a 7 is rolled (rollDice) or a whitehat is played (development card action)
 			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
 				return false;
 			}
 			var target = players.find(e=>e.username === hackerAction.target);
-			if(target === undefined && !map.hasTile(target)){
+			if(target === undefined || !map.hasTile(target, hackerAction.tile)){ 
 				return false;
 			} 
 			var stolen = target.steal();

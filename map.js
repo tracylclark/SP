@@ -101,6 +101,9 @@ module.exports = function(options){
 		}
 		return retVal;
 	};
+	this.hasTile = function(targetPlayer, targetTile){
+		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)) != undefined;
+	}
 	this.placeHacker = function(tileId){
 		if(!tiles[tileId] || tileId === tiles.find(e=>e.hacker).id){
 			return false;
