@@ -75,8 +75,11 @@ var network = new (function(){
 	socket.on("gameTurn", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " has begun a new turn.");
 		if(currentPlayer === name){
-		domEngine.showRollDice();
-	}
+			domEngine.showRollDice();
+		}
+		else{
+			domEngine.hidePopup();
+		}
 	});
 	socket.on("tradePhase", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " has entered the trade phase of their turn.");

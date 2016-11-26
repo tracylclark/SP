@@ -98,6 +98,7 @@ function initializeDevelopmentDeck(){
 			return false;
 		}
 	};
+	developmentDeck.forEach(e=>console.log(e.name));
 }
 
 module.exports = function(){
@@ -161,17 +162,12 @@ module.exports = function(){
 			map.buildServer(player, location);
 			player.resources.sub(gameConstants.costs.server);
 			network.updateMap();
+			network.updateResources();
 			return true;
 		}
 		return false;
 	};
 	this.buildNetwork = function(player, location){
-		console.log(location.u);
-		console.log(location.v);
-		console.log(self.gamePhase);
-		console.log(currentTurn.phase);
-		console.log(map.initialNetworkAvailable(player,location));
-		console.log(player.hasResources(gameConstants.costs.network));
 		if(location == null || location.u == null || location.v == null || location.u.x == null || location.u.y == null || location.v.x == null || location.v.y == null) return false;
 		if(self.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && map.initialNetworkAvailable(player, location)){
 			currentSetup.freeNetworks = 0;
@@ -190,6 +186,7 @@ module.exports = function(){
 			map.buildNetwork(player, location);
 			player.resources.sub(gameConstants.costs.network);
 			network.updateMap();
+			network.updateResources();
 			return true;
 		}
 		return false;
@@ -200,6 +197,7 @@ module.exports = function(){
 			map.buildDatabase(player, location);
 			player.resources.sub(gameConstants.costs.database);
 			network.updateMap();
+			network.updateResources();
 			return true;
 		}
 		return false;
@@ -208,6 +206,7 @@ module.exports = function(){
 	this.buyDevelopment = function(player){
 		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(gameConstants.costs.development) && developmentDeck.length > 0){
 			player.resources.sub(gameConstants.costs.development);
+			network.updateResources();
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
 			player.developmentCards.push(card[0]);
 			player.socket.emit("cardDraw", card.name); //draws a random card and adds to players development deck (returns the card)
