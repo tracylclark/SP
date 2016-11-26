@@ -371,15 +371,18 @@ module.exports = function(){
 	}
 	this.placeHacker = function(player, hackerAction){ //{tile:id, target:username}
 		if(self.gamePhase === "game" && currentTurn.placeHacker){ //set when a 7 is rolled (rollDice) or a whitehat is played (development card action)
-			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
-				return false;
-			}
+			console.log("placeHacker");
 			var target = players.find(e=>e.username === hackerAction.target);
 			if(target === undefined || !map.hasTile(target, hackerAction.tile)){ 
 				return false;
 			} 
+			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
+				return false;
+			}
+			currentTurn.placeHacker = false;
 			var stolen = target.steal();
 			player.resources.add(stolen);
+			console.log(player.username + " hacked "+hackerAction.target);
 			network.io.emit("hacked", {hacker:player.username, target:hackerAction.target});
 			player.socket.emit("system", "You stole 1 "+Object.keys(stolen).find(e=>stolen[e]>0)+" from "+target.username);
 			target.socket.emit("system", "You had 1 "+Object.keys(stolen).find(e=>stolen[e]>0)+" stolen by "+player.username);
