@@ -53,6 +53,9 @@ module.exports = function(io){
 		socket.on("msg", msg=>console.log(msg)); //debug test
 		socket.on("login", credentials=>{
 			credentials.username = sanitize(credentials.username);
+			if(players.find(e=>e.username===credentials.username)||spectators.find(e=>e.username===credentials.username)){
+				socket.emit("loginResult", false); //can't login twice using the same account
+			}
 			collection.find(credentials).toArray((err, docs)=>{
 				if(err !== null || docs.length==0){
 					socket.emit("loginResult", false);//message user about login failure
