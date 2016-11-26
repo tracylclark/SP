@@ -207,7 +207,7 @@ module.exports = function(){
 		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(gameConstants.costs.development) && developmentDeck.length > 0){
 			player.resources.sub(gameConstants.costs.development);
 			network.updateResources();
-			developmentDeck.forEach(e=>console.log(e.name));
+			// developmentDeck.forEach(e=>console.log(e.name));
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
 			console.log("Drew: " + card[0].name);
 			player.developmentCards.push(card[0]);
