@@ -341,7 +341,7 @@ module.exports = function(){
 			if(rejectList.length === players.length-1){
 				//rescind offer
 				currentOffer = null;
-				network.io.emit("offerRescinded");
+				network.io.emit("offerRescinded", currentTurn.player.username);
 				rejectList = [];
 			}
 			return true;

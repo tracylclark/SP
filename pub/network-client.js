@@ -93,9 +93,10 @@ var network = new (function(){
 		o(`<hacked> ${hackerResults}`)
 		domEngine.systemMessage(hackerResults.hacker + " has targeted " + hackerResults.target + " with a cyberattack.");
 	});
-	socket.on("offerRescinded", ()=>{
+	socket.on("offerRescinded", (currentPlayer)=>{
 		o(`<offerRescinded>`);
 		domEngine.systemMessage("The current offer has been rescinded.");
+		if(name != currentPlayer)domEngine.hidePopup();
 	});
 	socket.on("tradeRejected", (rejectingPlayer)=>{
 		o(`<tradeRejected> ${rejectingPlayer}`);
@@ -106,7 +107,8 @@ var network = new (function(){
 		domEngine.systemMessage(acceptingPlayer + " has accepted the trade offer!");
 	});
 	socket.on("buyPhase", (currentPlayer)=>{
-	domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");
+		domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");
+		if(currentPlayer == name)domEngine.showBuyMenu();
 	});
 	socket.on("cardDraw", (card)=>{
 		domEngine.systemMessage("You gained a new development: " + card);
