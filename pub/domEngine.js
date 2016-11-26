@@ -75,6 +75,11 @@ var domEngine = new (function(){
 					container:get("popupSingleAction"),
 					button:get("popupSingleActionButton")
 				},
+				doubleAction:{
+					container:get("popupDoubleAction"),
+					top:get("doubleActionTop"),
+					bottom:get("doubleActionBottom")
+				},
 				startGame:{
 					container:get("popupStartGame"),
 					button:get("startGame"),
@@ -124,7 +129,8 @@ var domEngine = new (function(){
 					server: get("buildServerbutton"),
 					database: get("buildDatabaseButton"),
 					network: get("buildNetworkButton"),
-					development: get("buyDevelopmentButton")
+					development: get("buyDevelopmentButton"),
+					endTurn:get("endTurn")
 				}
 			}
 		};
@@ -207,7 +213,8 @@ var domEngine = new (function(){
 		domEngine.popup("singleAction");
 	}
 	this.setPlayers = function(players){
-		players.sort((a,b)=>a.order < b.order).forEach((e,i)=>{
+		players.forEach(e=>console.log(e));
+		players.sort((a,b)=>a.order - b.order).forEach((e,i)=>{
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
 			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
@@ -216,23 +223,41 @@ var domEngine = new (function(){
 			dom.playerData.players[i].row.display = "table-row";
 		});
 	};
-	this.showBuildServer = function(){
+	this.showSetupBuildServer = function(){
 		dom.popup.singleAction.button.value="Build Server";
 		canvasEngine.select = "vertex";
 		dom.popup.singleAction.button.onclick = ()=>network.buildServer(canvasEngine.getSelectedVertex().coords);
 		domEngine.popup("singleAction");
 	}
-	this.showBuildNetwork = function(){
+	this.showSetupBuildNetwork = function(){
 		dom.popup.singleAction.button.value="Build Network";
 		canvasEngine.select = "edge";
 		dom.popup.singleAction.button.onclick = ()=>network.buildNetwork(canvasEngine.getSelectedEdge().coords);
 		domEngine.popup("singleAction");
 	}
-	this.showBuildDatabase = function(){
-		dom.popup.singleAction.button.value="Build Database";
+	this.showBuildServer = function(){
+		dom.popup.doubleAction.top.value="Build Server";
+		dom.popup.doubleAction.bottom.value="Cancel";
 		canvasEngine.select = "vertex";
-		dom.popup.singleAction.button.onclick = ()=>network.buildDatabase(canvasEngine.getSelectedVertex().coords);
-		domEngine.popup("singleAction");
+		dom.popup.doubleAction.top.onclick = ()=>network.buildServer(canvasEngine.getSelectedVertex().coords);
+		dom.popup.doubleAction.bottom.onclick = domEngine.showBuyMenu;
+		domEngine.popup("doubleAction");
+	}
+	this.showBuildNetwork = function(){
+		dom.popup.doubleAction.top.value="Build Network";
+		dom.popup.doubleAction.bottom.value="Cancel";
+		canvasEngine.select = "edge";
+		dom.popup.doubleAction.top.onclick = ()=>network.buildNetwork(canvasEngine.getSelectedEdge().coords);
+		dom.popup.doubleAction.bottom.onclick = domEngine.showBuyMenu;
+		domEngine.popup("doubleAction");
+	}
+	this.showBuildDatabase = function(){
+		dom.popup.doubleAction.top.value="Build Database";
+		dom.popup.doubleAction.bottom.value="Cancel";
+		canvasEngine.select = "vertex";
+		dom.popup.doubleAction.top.onclick = ()=>network.buildDatabase(canvasEngine.getSelectedVertex().coords);
+		dom.popup.doubleAction.bottom.onclick = domEngine.showBuyMenu;
+		domEngine.popup("doubleAction");
 	}
 	this.showEndTurn = function(){
 		dom.popup.singleAction.button.value = "End Turn";
@@ -296,5 +321,10 @@ var domEngine = new (function(){
 	}
 	this.showBuyMenu = function(){
 		domEngine.popup("buyMenu");
+		dom.popup.buyMenu.endTurn.onclick = ()=>network.endTurn();
+		dom.popup.buyMenu.server.onclick = domMenu.showBuildServer;
+		dom.popup.buyMenu.database.onclick = domMenu.showBuildNetwork;
+		dom.popup.buyMenu.network.onclick = domMenu.showBuildDatabase;
+		dom.popup.buyMenu.development.onclick = ()=>network.buyDevelopment();
 	}
 })();

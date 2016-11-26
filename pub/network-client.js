@@ -58,14 +58,14 @@ var network = new (function(){
 		domEngine.systemMessage(currentPlayer + " must set up a server.");
 		domEngine.hidePopup();
 		if(currentPlayer === name){
-			domEngine.showBuildServer();
+			domEngine.showSetupBuildServer();
 		}
 	});
 	socket.on("setupBuildNetwork", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " must set up a network.");
 		domEngine.hidePopup();
 		if(currentPlayer === name){
-			domEngine.showBuildNetwork();
+			domEngine.showSetupBuildNetwork();
 		}
 	});
 	socket.on("resourceUpdate", (resources)=>{
