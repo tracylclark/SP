@@ -55,6 +55,7 @@ module.exports = function(io){
 			credentials.username = sanitize(credentials.username);
 			if(players.find(e=>e.username===credentials.username)||spectators.find(e=>e.username===credentials.username)){
 				socket.emit("loginResult", false); //can't login twice using the same account
+				return;
 			}
 			collection.find(credentials).toArray((err, docs)=>{
 				if(err !== null || docs.length==0){
