@@ -60,20 +60,19 @@ module.exports = function(options){
 	}
 	this.networkAvailable = function(player, edge){
 		var e = findEdge(edge);
-		if (!e || e.owner !== null){
+		console.log(e);
+		console.log(e.owner);
+		console.log(vertices.[e.u.x][e.u.y].owner);
+		if (!e || e.owner != null){
 			return false;
 		} 
 		//check u
-		if(vertices[e.u.x][e.u.y].owner === player.username || vertices[e.u.x][e.u.y].owner === null){
-			if(vertices[e.u.x][e.u.y].edges.find(e=>e.owner === player.username)){
+		if(vertices[e.u.x][e.u.y].owner === player.username || (vertices[e.u.x][e.u.y].owner === null&&vertices[e.u.x][e.u.y].edges.find(e=>e.owner === player.username))){
 				return true;
-			}
 		}
 		//check v
-		if(vertices[e.v.x][e.v.y].owner === player.username || vertices[e.v.x][e.v.y].owner === null){
-			if(vertices[e.v.x][e.v.y].edges.find(e=>e.owner === player.username)){
+		if(vertices[e.v.x][e.v.y].owner === player.username || (vertices[e.v.x][e.v.y].owner === null&&vertices[e.v.x][e.v.y].edges.find(e=>e.owner === player.username))){
 				return true;
-			}
 		}
 		return false;
 	};
@@ -84,6 +83,7 @@ module.exports = function(options){
 		vertices[vertex.x][vertex.y].owner = player.username;
 		vertices[vertex.x][vertex.y].server = true;
 		player.infrastructure.servers.push(vertices[vertex.x][vertex.y]);
+		if(vertices[vertex.x][vertex.y].vendor)player.vendors.push(vertices[vertex.x][vertex.y].vendor);
 		player.vp += 1;
 	};
 	this.buildNetwork = function(player, edge){
