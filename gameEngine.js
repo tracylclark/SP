@@ -54,7 +54,7 @@ function Roll(){
 function initializeDevelopmentDeck(){
 	//shuffle developmentDeck
 	var shuffledDevelopmentDeck = []; 
-	while (develomentDeck.length){ 
+	while (developmentDeck.length){ 
 		var i = Math.floor(Math.random() * developmentDeck.length);
 		shuffledDevelopmentDeck.push(developmentDeck.splice(i, 1)[0]);
 	}
