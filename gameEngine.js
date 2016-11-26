@@ -316,6 +316,7 @@ module.exports = function(){
 			tradeOut[offer.for] += 1;
 			player.resources.add(tradeOut);
 			player.resources.sub(offer.have);
+			network.updateResources();
 			return true;
 		}
 		return false;
