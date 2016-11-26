@@ -90,7 +90,7 @@ var domEngine = new (function(){
 		dom.login.createButton.onclick = ()=>{
 			network.create(dom.login.username.value, dom.login.password.value);
 		};
-		dom.chat.button.onlick = ()=>{
+		dom.chat.button.onclick = ()=>{
 			network.broadcast(dom.chat.input.value); //clean on the server side
 		}
 	}
