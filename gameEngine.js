@@ -243,7 +243,7 @@ module.exports = function(){
 			}
 			currentSetup.freeServers = 1;
 			currentSetup.freeNetworks = 1;
-			network.io.emit("setupBuild", currentSetup.player.username);
+			network.io.emit("setupBuildServer", currentSetup.player.username);
 			return true;
 		}
 		if(currentTurn.phase !== "roll"){
