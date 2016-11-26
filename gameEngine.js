@@ -157,9 +157,9 @@ module.exports = function(){
 			network.io.emit("setupBuildNetwork", currentSetup.player.username);
 			return true;
 		}
-		if(currentTurn.phase === "buy" && map.serverAvailable(location) && player.hasResources(costs.server)){
+		if(currentTurn.phase === "buy" && map.serverAvailable(location) && player.hasResources(gameConstants.costs.server)){
 			map.buildServer(player, location);
-			player.resources.sub(costs.server);
+			player.resources.sub(gameConstants.costs.server);
 			network.updateMap();
 			return true;
 		}
@@ -180,9 +180,9 @@ module.exports = function(){
 			network.updateMap();
 			return true;
 		}
-		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.networkAvailable(player, location) && player.hasResources(costs.network)){
+		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.networkAvailable(player, location) && player.hasResources(gameConstants.costs.network)){
 			map.buildNetwork(player, location);
-			player.resources.sub(costs.network);
+			player.resources.sub(gameConstants.costs.network);
 			network.updateMap();
 			return true;
 		}
@@ -190,9 +190,9 @@ module.exports = function(){
 	};
 	this.buildDatabase = function(player, location){
 		if(location == null || location.x == null || location.y == null) return false;
-		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(costs.database)){
+		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(gameConstants.costs.database)){
 			map.buildDatabase(player, location);
-			player.resources.sub(costs.database);
+			player.resources.sub(gameConstants.costs.database);
 			network.updateMap();
 			return true;
 		}
@@ -200,8 +200,8 @@ module.exports = function(){
 	};
 
 	this.buyDevelopment = function(player){
-		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(costs.development) && developmentDeck.length > 0){
-			player.resources.sub(costs.development);
+		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(gameConstants.costs.development) && developmentDeck.length > 0){
+			player.resources.sub(gameConstants.costs.development);
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
 			player.developmentCards.push(card[0]);
 			player.socket.emit("cardDraw", card.name); //draws a random card and adds to players development deck (returns the card)

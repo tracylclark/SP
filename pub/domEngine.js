@@ -323,8 +323,8 @@ var domEngine = new (function(){
 		domEngine.popup("buyMenu");
 		dom.popup.buyMenu.endTurn.onclick = ()=>network.endTurn();
 		dom.popup.buyMenu.server.onclick = domEngine.showBuildServer;
-		dom.popup.buyMenu.database.onclick = domEngine.showBuildNetwork;
-		dom.popup.buyMenu.network.onclick = domEngine.showBuildDatabase;
+		dom.popup.buyMenu.database.onclick = domEngine.showBuildDatabase;
+		dom.popup.buyMenu.network.onclick = domEngine.showBuildNetwork;
 		dom.popup.buyMenu.development.onclick = ()=>network.buyDevelopment();
 	}
 })();
