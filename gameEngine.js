@@ -170,7 +170,7 @@ module.exports = function(){
 		console.log(location.v);
 		console.log(self.gamePhase);
 		console.log(currentTurn.phase);
-		console.log(map.networkAvailable(player,location));
+		console.log(map.initialNetworkAvailable(player,location));
 		console.log(player.hasResources(gameConstants.costs.network));
 		if(location == null || location.u == null || location.v == null || location.u.x == null || location.u.y == null || location.v.x == null || location.v.y == null) return false;
 		if(self.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && map.initialNetworkAvailable(player, location)){
