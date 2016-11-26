@@ -241,7 +241,7 @@ var domEngine = new (function(){
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
 			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
 			dom.playerData.players[i].largestNetwork.innerHTML = e.largestNetwork;
-			dom.playerData.players[i].vp.innerHTML = e.vp;
+			dom.playerData.players[i].vp.innerHTML = e.VPs;
 			dom.playerData.players[i].row.style.display = "table-row";
 		});
 	};
