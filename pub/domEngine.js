@@ -162,21 +162,25 @@ var domEngine = new (function(){
 	};
 	this.showBuildServer = function(){
 		dom.popup.singleAction.button.value="Build Server";
+		canvasEngine.select = "vertex";
 		dom.popup.singleAction.button.onclick = ()=>network.buildServer(canvasEngine.getSelectedVertex());
 		domEngine.popup("singleAction");
 	}
 	this.showBuildNetwork = function(){
 		dom.popup.singleAction.button.value="Build Network";
+		canvasEngine.select = "edge";
 		dom.popup.singleAction.button.onclick = ()=>network.buildNetwork(canvasEngine.getSelectedEdge());
 		domEngine.popup("singleAction");
 	}
 	this.showBuildDatabase = function(){
 		dom.popup.singleAction.button.value="Build Database";
+		canvasEngine.select = "vertex";
 		dom.popup.singleAction.button.onclick = ()=>network.buildDatabase(canvasEngine.getSelectedVertex());
 		domEngine.popup("singleAction");
 	}
 	this.showEndTurn = function(){
 		dom.popup.singleAction.button.value = "End Turn";
+		canvasEngine.select = "none";
 		dom.popup.singleAction.button.onclick = ()=>network.endTurn();
 		domEngine.popup("singleAction");
 	}

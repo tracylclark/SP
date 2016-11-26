@@ -185,19 +185,20 @@ var canvasEngine = new (function(){
 			map.vertices.forEach(e=>e.selected = false);
 			map.edges.forEach(e=>e.selected = false);
 			map.tiles.forEach(e=>e.selected = false);
-			if(vert){
+			if(vert && canvasEngine.select === "vertex"){
 				vert.selected = true;
 			}
-			if(edge){
+			if(edge && canvasEngine.select === "edge"){
 				edge.selected = true;
 			}
-			if(tile){
+			if(tile && canvasEngine.select === "tile"){
 				tile.selected = true;
 			}
 			
 		}, true)
 		render();
 	};
+	this.select = "none";
 	this.getSelectedVertex = function(){
 		return map.vertices.find(e=>e.selected);
 	};
