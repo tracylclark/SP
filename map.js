@@ -90,7 +90,7 @@ module.exports = function(options){
 	}
 	this.buildDatabase = function(player, vertex){
 		vertices[vertex.x][vertex.y].database = true;
-		player.infrastructure.database.push(vertices[vertex.x][vertex.y]);
+		player.infrastructure.databases.push(vertices[vertex.x][vertex.y]);
 		player.vp +=1;
 	}
 	this.getResource = function(tileId, roll){
