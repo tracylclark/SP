@@ -88,7 +88,7 @@ function login(s, name){//credentials have been vetted at this point
 	s.on("broadcast", msg=>{
 		console.log(msg);
 		console.log(networkIO);
-		networkIO.emit("broadcast", s.username + ":: " +msg);
+		networkIO.emit("broadcast", name + ":: " +msg);
 	});
 	s.on("joinGame", ()=>{
 		if(players.length >= 4){
