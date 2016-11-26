@@ -17,7 +17,7 @@ function Spectator(socket, username){
 	this.username = username || "New User"; //later with username using login validation
 }
 var Player = require("./player.js");
-
+var networkIO = {};
 module.exports = function(io){
 	//handles all of the network traffic
 	this.init = function(gameEngineReference, playersReference){
@@ -25,6 +25,7 @@ module.exports = function(io){
 		players = playersReference;
 	};
 	this.io = io;
+	networkIO = io;
 	this.updateResources = function(){
 		players.forEach(e=>e.socket.emit("resourceUpdate", e.resources));
 	};
@@ -79,15 +80,15 @@ function login(s, name){//credentials have been vetted at this point
 		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
 		if (indexOfUser != -1){
 			console.log( s.username + " left.");
-			network.io.emit("system", s.username + " left.");
+			networkIO.emit("system", s.username + " left.");
 			spectators.splice(indexOfUser, 1); //index to remove at, how many elements to remove.
 		}
 	}
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
 		console.log(msg);
-		console.log(network.io);
-		network.io.emit("broadcast", s.username + ":: " +msg);
+		console.log(networkIO);
+		networkIO.emit("broadcast", s.username + ":: " +msg);
 	});
 	s.on("joinGame", ()=>{
 		if(players.length >= 4){
@@ -111,7 +112,7 @@ function login(s, name){//credentials have been vetted at this point
 
 function setupPlayerSocket(player){
 	player.socket.on("disconnect", ()=>{
-		network.io.emit("system", "A player left, game over");
+		networkIO.emit("system", "A player left, game over");
 		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(player.socket);
 		if(indexOfUser != -1){
 			players.splice(indexOfUser, 1);
