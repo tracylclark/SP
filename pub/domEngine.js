@@ -87,6 +87,9 @@ var domEngine = new (function(){
 					static:{
 						have: get("staticHave"),
 						for: get("staticFor"),
+						vendor31: get("vendor3:1"),
+						bank: get("bank"),
+						vendor21: get("vendor2:1"),
 						button: get("offerTradeButton")
 					},
 					offer:{
@@ -106,6 +109,14 @@ var domEngine = new (function(){
 						},
 						button: get("offerTradeButton")
 					}
+				},
+				tradeOffer:{
+					container: get("tradeOfferContainer"),
+					from: get("fromDisplay"),
+					have: get("haveDisplay"),
+					for: get("forDisplay"),
+					accept: get("acceptButton"),
+					reject: get("rejectButton")
 				}
 			}
 		};
@@ -177,6 +188,11 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.onclick = ()=>network.rollOff();
 		domEngine.popup("singleAction");
 	}
+	this.showRollDice = function(){
+		dom.popup.singleAction.button.value="Roll Dice";
+		dom.popup.singleAction.button.onclick = ()=>network.rollDice();
+		domEngine.popup("singleAction");
+	}
 	this.setPlayers = function(players){
 		players.sort((a,b)=>a.order < b.order).forEach((e,i)=>{
 			dom.playerData.players[i].username.innerHTML = e.username;
@@ -213,8 +229,52 @@ var domEngine = new (function(){
 	}
 	this.showTrade = function(){
 		canvasEngine.select = "none";
-		dom.popup.trade.container.style.visibility = "visible";
-
+		domEngine.popup("trade");
+		dom.popup.trade.static.button.onclick = ()=>{
+			var h = dom.popup.trade.static.have.value;
+			var f = dom.popup.trade.static.for.value;
+			var value =4;
+			if(dom.popup.trade.static.vendor21.checked) value = 2;
+			else if (dom.popup.trade.static.vendor31.checked) value = 3;
+			var have = {}
+			have[h]=value;
+			network.staticTrade({have:have, for:f});
+		}
+		dom.popup.trade.offer.button.onclick = ()=>{
+			var tradeObj = {
+				have:{
+					cpu : dom.trade.offer.have.cpu.value,
+					ram : dom.trade.offer.have.ram.value,
+					storage : dom.trade.offer.have.storage.value,
+					power : dom.trade.offer.have.power.value,
+					bandwidth : dom.trade.offer.have.bandwidth.value
+				},
+				for:{
+					cpu : dom.trade.offer.for.cpu.value,
+					ram : dom.trade.offer.for.ram.value,
+					storage : dom.trade.offer.for.storage.value,
+					power : dom.trade.offer.for.power.value,
+					bandwidth : dom.trade.offer.for.bandwidth.value
+				}
+			};
+			network.offerTrade(tradeObj);
+		}
+	}
+	this.showTradeOfferMenu = offer=>{
+		domEngine.popup("tradeOffer");
+		dom.popup.tradeOffer.from.innerHTML = offer.from+ " is offering the following trade...";
+		var f = "For ::";
+		var h = "Have ::";
+		for(key in offer.for){
+			if(offer.for[key]>0) f+= "  "+key+"-"+offer.for[key];
+		}
+		for(key in offer.have){
+			if(offer.have[key]>0) h+= "  "+key+"-"+offer.have[key];
+		}
+		dom.popup.tradeOffer.for.innerHTML = f;
+		dom.popup.tradeOffer.have.innerHTML = h;
+		dom.popup.tradeOffer.reject.onclick = ()=>network.tradeResponse(false);
+		dom.popup.tradeOffer.accept.onclick = ()=>network.tradeResponse(true);
 	}
 
 })();

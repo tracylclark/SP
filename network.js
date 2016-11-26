@@ -150,7 +150,25 @@ function setupPlayerSocket(player){
 	});
 
 	player.socket.on("offerTrade", offer=>{
-		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, offer, gameEngine.offerTrade));
+		offer.from = player.username;
+		if(offer.have && offer.have.cpu && offer.have.power && offer.have.bandwidth && offer.have.ram && offer.have.storage &&
+			offer.for && offer.for.cpu && offer.for.power && offer.for.bandwidth && offer.for.ram && offer.for.storage){
+			offer.have.cpu = offer.have.cpu >> 0;
+			offer.have.power = offer.have.power >> 0;
+			offer.have.bandwidth = offer.have.bandwidth >> 0;
+			offer.have.ram = offer.have.ram >> 0;
+			offer.have.storage = offer.have.storage >> 0;
+			offer.for.cpu = offer.for.cpu >> 0;
+			offer.for.power = offer.for.power >> 0;
+			offer.for.bandwidth = offer.for.bandwidth >> 0;
+			offer.for.ram = offer.for.ram >> 0;
+			offer.for.storage = offer.for.storage >> 0;
+		}
+		if(offer.have.cpu >= 0 && offer.have.power >= 0 && offer.have.bandwidth >= 0 && offer.have.ram >= 0 && offer.have.storage >= 0
+			offer.for.cpu >= 0 && offer.for.power >= 0 && offer.for.bandwidth >= 0 && offer.for.ram >= 0 && offer.for.storage >= 0){
+			player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, offer, gameEngine.offerTrade));
+		}
+		else player.socket.emit("actionSuccess", false);
 	});
 	player.socket.on("staticTrade", trade=>{ //trade object defines vendor or bank (based on vendors in player obj)
 		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, trade, gameEngine.staticTrade));

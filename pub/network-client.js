@@ -75,6 +75,9 @@ var network = new (function(){
   
   socket.on("gameTurn", (currentPlayer)=>{
 	 domEngine.systemMessage(currentPlayer + " has begun a new turn.");
+	 if(currentPlayer === name){
+	 	domEngine.showRollDice();
+	 }
   });
 
   
@@ -86,6 +89,7 @@ var network = new (function(){
 		domEngine.systemMessage("The current player has made a trade offer.");
 		domEngine.systemMessage(offer.have);
 		domEngine.systemMessage(offer.for);
+		if(offer.from != name) domEngine.showTradeOfferMenu();
   });
   socket.on("hacked", (hackerResults)=>{
 	o(`<hacked> ${hackerResults}`)
