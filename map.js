@@ -103,6 +103,8 @@ module.exports = function(options){
 	};
 	this.hasTile = function(targetPlayer, targetTile){
 		console.log("in hasTile");
+		console.log(targetPlayer);
+		console.log(targetTile);
 		console.log(targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)));
 		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)) != undefined;
 	}
