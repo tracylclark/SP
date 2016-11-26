@@ -170,7 +170,7 @@ module.exports = function(){
 			currentSetup.freeNetworks = 0;
 			map.buildNetwork(player, location);
 			network.updateMap();
-			player.emit("setupBuildComplete"); 
+			player.socket.emit("setupBuildComplete"); 
 			return true;
 		}
 		if(self.gamePhase === "game" && currentTurn.freeNetworks > 0 && map.networkAvailable(player, location)){
