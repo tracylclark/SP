@@ -58,7 +58,11 @@ module.exports = function(player, color){
 				total.add(gameMap.getResource(tileId, roll));
 			});
 		});
+		console.log("This roll has created the following resources: ");
+		console.log(total);
 		this.resources.add(total);
+		console.log("My resources are: ");
+		console.log(this.resources);
 	}.bind(this);
 	this.hasResources = function(resources){
 		return 	this.resources.cpu >= (resources.cpu||0) &&
