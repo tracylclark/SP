@@ -65,17 +65,17 @@ module.exports = function(options){
 		console.log(vertices[e.u.x][e.u.y].owner);
 		console.log(vertices[e.v.x][e.v.y].owner);
 		vertices[3][1].edges.forEach(e=>console.log(e));
-		console.log(vertices[e.u.x][e.u.y].edges.find(e=>findEdge(e).owner===player.username));
-		console.log(vertices[e.v.x][e.v.y].edges.find(e=>findEdge(e).owner===player.username));
+		console.log(vertices[e.u.x][e.u.y].edges.find(e=>edges[e].owner===player.username));
+		console.log(vertices[e.v.x][e.v.y].edges.find(e=>edges[e].owner===player.username));
 		if (!e || e.owner != null){
 			return false;
 		} 
 		//check u
-		if(vertices[e.u.x][e.u.y].owner === player.username || (vertices[e.u.x][e.u.y].owner === null&&vertices[e.u.x][e.u.y].edges.find(e=>findEdge(e).owner === player.username))){
+		if(vertices[e.u.x][e.u.y].owner === player.username || (vertices[e.u.x][e.u.y].owner === null&&vertices[e.u.x][e.u.y].edges.find(e=>edges[e].owner === player.username))){
 				return true;
 		}
 		//check v
-		if(vertices[e.v.x][e.v.y].owner === player.username || (vertices[e.v.x][e.v.y].owner === null&&vertices[e.v.x][e.v.y].edges.find(e=>findEdge(e).owner === player.username))){
+		if(vertices[e.v.x][e.v.y].owner === player.username || (vertices[e.v.x][e.v.y].owner === null&&vertices[e.v.x][e.v.y].edges.find(e=>edges[e].owner === player.username))){
 				return true;
 		}
 		return false;
