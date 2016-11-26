@@ -1,6 +1,7 @@
 //gameEngine.js
 var Map = new require('./map.js');
 var gameConstants = require('./gameConstants.js');
+var Resources = require('./resources.js');
 var map = {};
 var network = {};
 var players = [];
