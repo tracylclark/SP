@@ -104,8 +104,14 @@ module.exports = function(options){
 	this.hasTile = function(targetPlayer, targetTile){
 		console.log("in hasTile");
 		console.log(targetPlayer);
-		console.log(targetTile);
-		console.log(targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)));
+		console.log("Target Tile: " + targetTile);
+		console.log(targetPlayer.infrastructure.servers.find(e=>{
+			console.log(e.tiles);
+			return e.tiles.find(t=>{
+				console.log("Tile: " + t.id);
+				t.id===targetTile;
+			});
+		}));
 		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)) != undefined;
 	}
 	this.placeHacker = function(tileId){
