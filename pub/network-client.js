@@ -80,7 +80,7 @@ var network = new (function(){
 	});
 	socket.on("tradePhase", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " has entered the trade phase of their turn.");
-		domEngine.showTrade();
+		if (currentPlayer == name) domEngine.showTrade();
 	});
 	socket.on("tradeOffer", (offer)=>{
 		o(`<tradeOffer> ${offer}`);
@@ -185,6 +185,9 @@ var network = new (function(){
 		socket.emit("msg", `<tradeResponse> ${response}`);
 		socket.emit("tradeResponse", response);
 	};
+	this.endTrading = function(){
+		socket.emit("endTrading");
+	};
 
 	//purchases
 	this.buildNetwork = function(location){
@@ -209,4 +212,5 @@ var network = new (function(){
 		socket.emit("msg", `<claimLongestPath> ${pathList}`);
 		socket.emit("claimLongestPath", pathList);
 	};
+	
 })();

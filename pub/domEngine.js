@@ -108,7 +108,8 @@ var domEngine = new (function(){
 							ram: get("forRAM")
 						},
 						button: get("offerTradeButton")
-					}
+					},
+					endTrade: get("endTradeButton")
 				},
 				tradeOffer:{
 					container: get("tradeOfferContainer"),
@@ -243,22 +244,23 @@ var domEngine = new (function(){
 		dom.popup.trade.offer.button.onclick = ()=>{
 			var tradeObj = {
 				have:{
-					cpu : dom.trade.offer.have.cpu.value,
-					ram : dom.trade.offer.have.ram.value,
-					storage : dom.trade.offer.have.storage.value,
-					power : dom.trade.offer.have.power.value,
-					bandwidth : dom.trade.offer.have.bandwidth.value
+					cpu : dom.popup.trade.offer.have.cpu.value,
+					ram : dom.popup.trade.offer.have.ram.value,
+					storage : dom.popup.trade.offer.have.storage.value,
+					power : dom.popup.trade.offer.have.power.value,
+					bandwidth : dom.popup.trade.offer.have.bandwidth.value
 				},
 				for:{
-					cpu : dom.trade.offer.for.cpu.value,
-					ram : dom.trade.offer.for.ram.value,
-					storage : dom.trade.offer.for.storage.value,
-					power : dom.trade.offer.for.power.value,
-					bandwidth : dom.trade.offer.for.bandwidth.value
+					cpu : dom.popup.trade.offer.for.cpu.value,
+					ram : dom.popup.trade.offer.for.ram.value,
+					storage : dom.popup.trade.offer.for.storage.value,
+					power : dom.popup.trade.offer.for.power.value,
+					bandwidth : dom.popup.trade.offer.for.bandwidth.value
 				}
 			};
 			network.offerTrade(tradeObj);
 		}
+		dom.popup.trade.endTrade.onclick = ()=>network.endTrading();
 	}
 	this.showTradeOfferMenu = offer=>{
 		domEngine.popup("tradeOffer");
