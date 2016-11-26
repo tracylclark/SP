@@ -136,7 +136,7 @@ module.exports = function(){
 			currentSetup.freeNetworks = 1;
 			currentSetup.freeServers = 1;
 			currentSetup.round = 1;
-			network.io.emit("setupBuild", currentSetup.player.username);
+			network.io.emit("setupBuildServer", currentSetup.player.username);
 		}
 		return true;
 	};
@@ -152,6 +152,7 @@ module.exports = function(){
 			player.lastBuiltServer = location;
 			map.buildServer(player, location);
 			network.updateMap();
+			network.io.emit("setupBuildNetwork", currentSetup.player.username);
 			return true;
 		}
 		if(currentTurn.phase === "buy" && map.serverAvailable(location) && player.hasResources(costs.server)){
@@ -167,6 +168,7 @@ module.exports = function(){
 			currentSetup.freeNetworks = 0;
 			map.buildNetwork(player, location);
 			network.updateMap();
+			player.emit("setupBuildComplete"); 
 			return true;
 		}
 		if(self.gamePhase === "game" && currentTurn.freeNetworks > 0 && map.networkAvailable(player, location)){

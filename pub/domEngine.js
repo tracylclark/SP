@@ -126,6 +126,9 @@ var domEngine = new (function(){
 		dom.popup.container.style.visibility = "visible";
 		dom.popup[item].container.style.visibility = "visible";
 	}
+	this.hidePopup = function(){
+		dom.popup.container.style.visibility = "hidden";
+	}
 	this.showJoinGame = function(){
 		dom.resources.container.style.visibility = "visible";
 		dom.popup.singleAction.button.value="Join Game";
@@ -157,4 +160,25 @@ var domEngine = new (function(){
 			dom.playerData.players[i].row.display = "table-row";
 		});
 	};
+	this.showBuildServer = function(){
+		dom.popup.singleAction.button.value="Build Server";
+		dom.popup.singleAction.button.onclick = ()=>network.buildServer(canvasEngine.getSelectedVertex());
+		domEngine.popup("singleAction");
+	}
+	this.showBuildNetwork = function(){
+		dom.popup.singleAction.button.value="Build Network";
+		dom.popup.singleAction.button.onclick = ()=>network.buildNetwork(canvasEngine.getSelectedEdge());
+		domEngine.popup("singleAction");
+	}
+	this.showBuildDatabase = function(){
+		dom.popup.singleAction.button.value="Build Database";
+		dom.popup.singleAction.button.onclick = ()=>network.buildDatabase(canvasEngine.getSelectedVertex());
+		domEngine.popup("singleAction");
+	}
+	this.showEndTurn = function(){
+		dom.popup.singleAction.button.value = "End Turn";
+		dom.popup.singleAction.button.onclick = ()=>network.endTurn();
+		domEngine.popup("singleAction");
+	}
+
 })();

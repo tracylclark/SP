@@ -54,8 +54,19 @@ var network = new (function(){
  		domEngine.showRollOff();
  		domEngine.systemMessage("It is time to roll off to determine player order.");
    });
-   socket.on("setupBuild", (currentPlayer)=>{
- 		domEngine.systemMessage(currentPlayer + " must set up one server and one network.");
+   socket.on("setupBuildServer", (currentPlayer)=>{
+ 		domEngine.systemMessage(currentPlayer + " must set up a server.");
+ 		domEngine.hidePopup();
+ 		if(currentPlayer === name){
+ 			domEngine.showBuildServer();
+ 		}
+   });
+   socket.on("setupBuildNetwork", (currentPlayer)=>{
+   		domEngine.systemMessage(currentPlayer + " must set up a network.");
+   		domEngine.hidePopup();
+   		if(currentPlayer === name){
+   			domEngine.showBuildNetwork();
+   		}
    });
   socket.on("resourceUpdate", (resources)=>{
   	o(`<resourceUpdate> ${resources}`);
@@ -95,22 +106,25 @@ var network = new (function(){
 
   
   socket.on("buyPhase", (currentPlayer)=>{
-		domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");
+	domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");
   });
   socket.on("cardDraw", (card)=>{
-		domEngine.systemMessage("You gained a new development: " + card);
+	domEngine.systemMessage("You gained a new development: " + card);
   });
   socket.on("monopoly", ()=>{
-		domEngine.systemMessage("You have played a monopoly card. Please select a resource type.");
+	domEngine.systemMessage("You have played a monopoly card. Please select a resource type.");
   });
   socket.on("networkBuilding", ()=>{
-		domEngine.systemMessage("You have played a Network Building card. Place two network connections for free!");
+	domEngine.systemMessage("You have played a Network Building card. Place two network connections for free!");
   });
-	socket.on("placeHacker", ()=>{
-		domEngine.systemMessage("You may now place a hacker and select a target");
+  socket.on("placeHacker", ()=>{
+	domEngine.systemMessage("You may now place a hacker and select a target");
   });
   socket.on("selectGoodQuarterResources", ()=>{
-		domEngine.systemMessage("You have had a good quarter. Select two free resources.");
+	domEngine.systemMessage("You have had a good quarter. Select two free resources.");
+  });
+  socket.on("setupBuildComplete", ()=>{
+  	domEngine.showEndTurn();
   });
 
 
@@ -119,6 +133,7 @@ var network = new (function(){
 		socket.emit("createAccount", {username:un, password:pw});
 	}
 	this.login = function(un,pw){
+		name = un;
 		socket.emit("login", {username:un, password:pw});
 	}
 	this.broadcast = function(msg){
