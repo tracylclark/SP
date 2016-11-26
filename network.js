@@ -55,7 +55,8 @@ module.exports = function(io){
 			credentials.username = sanitize(credentials.username);
 			collection.find(credentials).toArray((err, docs)=>{
 				docs.forEach(e=>console.log(e));
-				if(err !== null){
+				if(!docs)console.log("ERROR EMPTY DOCS");
+				if(err !== null || docs.length==0){
 					socket.emit("loginResult", false);//message user about login failure
 				}
 				else{
