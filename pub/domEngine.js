@@ -24,8 +24,8 @@ var domEngine = new (function(){
 			resources:{
 				container:get("resourcesContainer"),
 				cpu:get("resourcesCPU"),
-				bandwidth:get("resourcesBandwidth"),
-				power:get("resourcesPower"),
+				bandwidth:("resourcesBandwidth"),
+				power:("resourcesPower"),
 				ram:get("resourcesRAM"),
 				storage:get("resourcesStorage")
 			},
@@ -81,6 +81,31 @@ var domEngine = new (function(){
 					token: get("startGameTokenOption"),
 					tile: get("startGameTileOption"),
 					vendor: get("startGameVendorOption")
+				},
+				trade:{
+					container: get("popupTrade"),
+					static:{
+						have: get("staticHave"),
+						for: get("staticFor"),
+						button: get("offerTradeButton")
+					},
+					offer:{
+						have: {
+							cpu: get("haveCPU"),
+							bandwidth: get("haveBandwidth"),
+							storage: get("haveStorage"),
+							power: get("havePower"),
+							ram: get("haveRAM")
+						},
+						for: {
+							cpu: get("forCPU"),
+							bandwidth: get("forBandwidth"),
+							storage: get("forStorage"),
+							power: get("forPower"),
+							ram: get("forRAM")
+						},
+						button: get("offerTradeButton")
+					}
 				}
 			}
 		};
@@ -123,21 +148,21 @@ var domEngine = new (function(){
 			if(e==="container")return;
 			dom.popup[e].container.style.visibility = "hidden";
 		});
-		//dom.popup.container.style.visibility = "visible";
-		dom.popup.container.style.display = "initial";
+		dom.popup.container.style.visibility = "visible";
 		dom.popup[item].container.style.visibility = "visible";
 	}
 	this.hidePopup = function(){
-		//dom.popup.container.style.visibility = "hidden";
-		dom.popup.container.style.display = "none";
+		dom.popup.container.style.visibility = "hidden";
 	}
-	this.showJoinGame = function(){
-		dom.resources.container.style.visibility = "visible";
+	this.showJoinGame = function(){ //logged in
 		dom.popup.singleAction.button.value="Join Game";
 		dom.popup.singleAction.button.onclick = ()=>network.joinGame();
 		domEngine.popup("singleAction");
 	}
-	this.showStartGame = function(){
+	this.showStartGame = function(){ //joined the game
+		dom.playerData.container.style.visibility = "visible";
+		dom.resources.container.style.visibility = "visible";
+		dom.resources.container.style.visibility = "visible";
 		dom.popup.startGame.button.onclick = ()=>{
 			network.startGame({
 				tileDistribution:dom.popup.startGame.tile.value, //other
@@ -186,4 +211,10 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.onclick = ()=>network.endTurn();
 		domEngine.popup("singleAction");
 	}
+	this.showTrade = function(){
+		canvasEngine.select = "none";
+		dom.popup.trade.container.style.visibility = "visible";
+
+	}
+
 })();

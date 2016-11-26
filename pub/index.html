@@ -39,7 +39,7 @@
 				<input id="chatButton" type="button" value="say"></input>
 			</div>
 			<div id="resourcesContainer" class ="container table">
-				<div class='row'><div class='cell'>CPU: </div><div id="resourcesCPU" class='cell'>0</div></div>
+				<div class='row'><div class='cell'>Resources: </div><div id="resourcesCPU" class='cell'>0</div></div>
 				<div class='row'><div class='cell'>Bandwidth: </div><div id="resourcesBandwidth" class='cell'>0</div></div>
 				<div class='row'><div class='cell'>RAM: </div><div id="resourcesRAM" class='cell'>0</div></div>
 				<div class='row'><div class='cell'>Storage: </div><div id="resourcesStorage" class='cell'>0</div></div>
@@ -107,6 +107,42 @@
 						<option value="random">Full Random</option>
 					</select><br>
 					<input type="button" value="Start Game" id="startGame">
+				</div>
+				<div id="popupTrade">
+					<div class="table">
+						<div class="row">
+							<div class="cell" id="offerTradeContainer">
+								<table><tr><td></td><td>Have:</td><td>For:</td></tr>
+									<tr><td>CPU</td><td><input class="trade" id="haveCPU"></td><td><input class="trade" id="forCPU"></td></tr>
+									<tr><td>Bandwidth</td><td><input class="trade" id="haveBandwidth"></td><td><input class="trade" id="forBandwidth"></td></tr>
+									<tr><td>RAM</td><td><input class="trade" id="haveRAM"></td><td><input class="trade" id="forRAM"></td></tr>
+									<tr><td>Storage</td><td><input class="trade" id="haveStorage"></td><td><input class="trade" id="forStorage"></td></tr>
+									<tr><td>Power</td><td><input class="trade" id="havePower"></td><td><input class="trade" id="forPower"></td></tr>
+								</table>
+								<input type="button" value="Interdivision Trade Offer" id="offerTradeButton">
+							</div>
+							<div class="cell" id="staticTradeContainer">
+								Have: <select id="staticHave">
+									<option value='cpu'>CPU</option>
+									<option value='bandwidth'>Bandwidth</option>
+									<option value='ram'>RAM</option>
+									<option value='storage'>Storage</option>
+									<option value='power'>Power</option>
+								</select><br>
+								For: <select id="staticFor">
+									<option value='cpu'>CPU</option>
+									<option value='bandwidth'>Bandwidth</option>
+									<option value='ram'>RAM</option>
+									<option value='storage'>Storage</option>
+									<option value='power'>Power</option>
+								</select><br>
+								<input type="radio" id="vendor">Vendor(2-1)<br>
+								<input type="radio" id="threeToOne">Vendor(3-1)<br>
+								<input type="radio" id="vendor">Bank (4-1)<br>
+								<input type="button" value="Bank / Vendor Exchange" id="offerTradeButton">
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
