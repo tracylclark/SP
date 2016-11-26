@@ -165,7 +165,7 @@ function setupPlayerSocket(player){
 			offer.for.storage = offer.for.storage >> 0;
 		}
 		if(offer.have.cpu >= 0 && offer.have.power >= 0 && offer.have.bandwidth >= 0 && offer.have.ram >= 0 && offer.have.storage >= 0
-			offer.for.cpu >= 0 && offer.for.power >= 0 && offer.for.bandwidth >= 0 && offer.for.ram >= 0 && offer.for.storage >= 0){
+			&& offer.for.cpu >= 0 && offer.for.power >= 0 && offer.for.bandwidth >= 0 && offer.for.ram >= 0 && offer.for.storage >= 0){
 			player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, offer, gameEngine.offerTrade));
 		}
 		else player.socket.emit("actionSuccess", false);
