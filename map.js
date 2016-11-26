@@ -64,6 +64,7 @@ module.exports = function(options){
 		console.log(e.owner);
 		console.log(vertices[e.u.x][e.u.y].owner);
 		console.log(vertices[e.v.x][e.v.y].owner);
+		vertices[3][1].edges.forEach(e=>console.log(e));
 		console.log(vertices[e.u.x][e.u.y].edges.find(e=>findEdge(e).owner===player.username));
 		console.log(vertices[e.v.x][e.v.y].edges.find(e=>findEdge(e).owner===player.username));
 		if (!e || e.owner != null){
