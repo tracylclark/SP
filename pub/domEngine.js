@@ -109,7 +109,7 @@ var domEngine = new (function(){
 		dom.chat.viewport.scrollTop = dom.chat.viewport.scrollHeight; //always scroll to bottom of chat window
 	}
 	this.systemMessage = function(msg){
-	  domEngine.chatDisplay("<div style='color:#323232;text-align:center;font-style:italic'>"+msg+"</div");
+	  domEngine.chatDisplay("<div style='color:#323232;text-align:center;font-style:italic'>"+msg+"</div>");
 	}
 	this.resourceUpdate = function(resources){
 		dom.resources.cpu.innerHTML = resources.cpu;
