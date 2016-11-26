@@ -7,18 +7,18 @@ module.exports = function(b, s, c, r, p){
 	this.power = p||0;
 
 	this.add = function(res){
-		this.bandwidth += res.bandwidth||0;
-		this.storage += res.storage||0;
-		this.cpu += res.cpu||0;
-		this.ram += res.ram||0;
-		this.power += res.power||0;
+		this.bandwidth += (res.bandwidth||0)>>0;
+		this.storage += (res.storage||0)>>0;
+		this.cpu += (res.cpu||0)>>0;
+		this.ram += (res.ram||0)>>0;
+		this.power += (res.power||0)>>0;
 	}
 	this.sub = function(res){
-		this.bandwidth -= res.bandwidth||0;
-		this.storage -= res.storage||0;
-		this.cpu -= res.cpu||0;
-		this.ram -= res.ram||0;
-		this.power -= res.power||0;
+		this.bandwidth -= (res.bandwidth||0)>>0;
+		this.storage -= (res.storage||0)>>0;
+		this.cpu -= (res.cpu||0)>>0;
+		this.ram -= (res.ram||0)>>0;
+		this.power -= (res.power||0)>>0;
 	}
 	this.parse = function(resourceList){ 
 			this.add(resourceList.map(e=>{ 

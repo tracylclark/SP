@@ -118,6 +118,13 @@ var domEngine = new (function(){
 					for: get("forDisplay"),
 					accept: get("acceptButton"),
 					reject: get("rejectButton")
+				},
+				buyMenu:{
+					container: get("buyMenuContainer"),
+					server: get("buildServerbutton"),
+					database: get("buildDatabaseButton"),
+					network: get("buildNetworkButton"),
+					development: get("buyDevelopmentButton");
 				}
 			}
 		};
@@ -278,5 +285,11 @@ var domEngine = new (function(){
 		dom.popup.tradeOffer.reject.onclick = ()=>network.tradeResponse(false);
 		dom.popup.tradeOffer.accept.onclick = ()=>network.tradeResponse(true);
 	}
-
+	this.showDiceRoll = function(roll){
+		//display animated dice
+		//they land on roll.roll1 and roll.roll2
+	}
+	this.showBuyMenu = function(){
+		domEngine.popup("buyMenu");
+	}
 })();

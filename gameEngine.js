@@ -323,7 +323,7 @@ module.exports = function(){
 		if(self.gamePhase !== "game" || currentTurn.phase !== "trade" || currentTurn.currentOffer === null || player === currentTurn.player) {
 			return false;
 		}
-		if(response){
+		if(response && player.hasResources(currentTurn.currentOffer.for)){
 			//accept
 			player.resources.add(currentTurn.currentOffer.have);
 			player.resources.sub(currentTurn.currentOffer.for);
