@@ -88,6 +88,11 @@ module.exports = function(options){
 		e.owner = player.username;
 		player.infrastructure.networks.push(e);
 	}
+	this.buildDatabase = function(player, edge){
+		vertices[vertex.x][vertex.y].database = true;
+		player.infrastructure.database.push(vertices[vertex.x][vertex.y]);
+		player.vp +=1;
+	}
 	this.getResource = function(tileId, roll){
 		var retVal = new Resources();
 		var tile = tiles[tileId];
