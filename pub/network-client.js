@@ -137,6 +137,9 @@ var network = new (function(){
 		domEngine.showDiceRoll(rollResult);
 		domEngine.systemMessage(rollResult.player + " rolled: (" + rollResult.roll1 + "," + rollResult.roll2 + ") : " + rollResult.total);
 	});
+	socket.on("handUpdate", hand=>{
+		domEngine.updateHand(hand);
+	})
 
 	//spectators
 	this.create = function(un,pw){

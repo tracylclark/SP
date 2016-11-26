@@ -211,7 +211,7 @@ module.exports = function(){
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
 			player.developmentCards.push(card[0]);
 			player.socket.emit("cardDraw", card[0].name); //draws a random card and adds to players development deck (returns the card)
-			//player.socket.updateCards(); same thing when a card is played --- network.updateHand() updates each player with their hand..
+			network.updateHand();
 			return true;
 		}
 		return false;
@@ -293,8 +293,10 @@ module.exports = function(){
 		}
 		var card = player.development.find(e=>e.name===development && e.new);
 		if(typeof card !== "undefined"){ 
-			//TODO:remove from dev cards
-			return card.play(player); //may return false if not allowed to play (VP)
+			if(card.play(player)){
+				network.updateHand();
+				return true;
+			}
 		}
 		return false;
 	};
@@ -376,8 +378,11 @@ module.exports = function(){
 			if(target === undefined && !map.hasTile(target)){
 				return false;
 			} 
-			player.resources.add(target.steal());
+			var stolen = target.steal();
+			player.resources.add(stolen);
 			network.io.emit("hacked", {hacker:player.username, target:hackerAction.target});
+			player.socket.emit("system", "You stole 1 "+Object.keys(stolen).find(e=>stolen[e]>0)+" from "+target.username);
+			target.socket.emit("system", "You had 1 "+Object.keys(stolen).find(e=>stolen[e]>0)+" stolen by "+player.username);
 			network.updateResources();
 			network.updateMap();
 

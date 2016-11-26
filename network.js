@@ -32,6 +32,9 @@ module.exports = function(io){
 	this.diceRoll = function(roll){
 		io.emit("diceRollResult", roll);
 	}
+	this.updateHand = function(){
+		players.forEach(e=>e.socket.emit("handUpdate", e.developmentCards));
+	}
 	this.updatePlayers = function(){
 		io.emit("playerUpdate", players.map((e,i)=>{
 			return {

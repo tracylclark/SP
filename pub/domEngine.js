@@ -232,7 +232,7 @@ var domEngine = new (function(){
 		});
 		canvasEngine.select="tile";
 		dom.popup.hackerMenu.button.onclick = ()=>network.placeHacker({target:dom.popup.hackerMenu.target.value, tile:canvasEngine.getSelectedTile()});
-	}
+	};
 	this.setPlayers = function(playerArray){
 		players = playerArray;
 		playerArray.forEach(e=>console.log(e));
@@ -245,6 +245,33 @@ var domEngine = new (function(){
 			dom.playerData.players[i].row.style.display = "table-row";
 		});
 	};
+	this.updateHand = function(hand){
+		dom.developments.container.visibility = "visible";
+		while(dom.developments.container.hasChildNodes()){
+			dom.developments.container.removeChild(dom.developments.container.firstChild);
+		} //remove all child elements
+		if(hand.length == 0){
+			dom.developments.container.appendChild(document.createTextNode("No development cards"));
+		}
+		hand.forEach(e=>{
+			var label = document.createTextNode(e.name);
+			var button = document.createElement("input");
+			button.value = "play";
+			button.type = "input";
+			button.onclick = ()=>network.playDevelopment(e.name);
+			var row = document.createElement("div");
+			row.class = "row";
+			var cellLabel = document.createElement("div");
+			cellLabel.class = "cell";
+			var cellButton = document.createElement("div");
+			cellButton.class = "cell";
+			cellLabel.appendChild(label);
+			cellButton.appendChild(button);
+			row.appendChild(cellLabel);
+			row.appendChild(cellButton);
+			dom.developments.container.appendChild(row);
+		});
+	}
 	this.showSetupBuildServer = function(){
 		dom.popup.singleAction.button.value="Build Server";
 		canvasEngine.select = "vertex";
