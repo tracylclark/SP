@@ -246,7 +246,7 @@ var domEngine = new (function(){
 		});
 	};
 	this.updateHand = function(hand){
-		dom.developments.container.visibility = "visible";
+		dom.developments.container.style.visibility = "visible";
 		while(dom.developments.container.hasChildNodes()){
 			dom.developments.container.removeChild(dom.developments.container.firstChild);
 		} //remove all child elements
@@ -257,7 +257,7 @@ var domEngine = new (function(){
 			var label = document.createTextNode(e.name);
 			var button = document.createElement("input");
 			button.value = "play";
-			button.type = "input";
+			button.type = "button";
 			button.onclick = ()=>network.playDevelopment(e.name);
 			var row = document.createElement("div");
 			row.class = "row";
