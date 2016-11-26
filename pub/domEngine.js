@@ -124,7 +124,7 @@ var domEngine = new (function(){
 					server: get("buildServerbutton"),
 					database: get("buildDatabaseButton"),
 					network: get("buildNetworkButton"),
-					development: get("buyDevelopmentButton");
+					development: get("buyDevelopmentButton")
 				}
 			}
 		};
