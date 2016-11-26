@@ -2,6 +2,7 @@
 
 var domEngine = new (function(){
 	var dom = {};
+	var players = [];
 	var get = (f)=>{return document.getElementById(f)};
 	this.init = function(){
 		dom = {
@@ -231,9 +232,10 @@ var domEngine = new (function(){
 		});
 		dom.popup.hackerMenu.button.onclick = ()=>placeHacker({target:dom.popup.hackerMenu.target.value, tile:canvasEngine.getSelectedTile()});
 	}
-	this.setPlayers = function(players){
-		players.forEach(e=>console.log(e));
-		players.sort((a,b)=>a.order - b.order).forEach((e,i)=>{
+	this.setPlayers = function(playerArray){
+		players = playerArray;
+		playerArray.forEach(e=>console.log(e));
+		playerArray.forEach((e,i)=>{
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
 			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
