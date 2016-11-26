@@ -308,9 +308,9 @@ module.exports = function(){
 			|| Object.keys(offer.have).length > 1){
 			return false;
 		}
-		if(offer.have.length === 4 
-		||(offer.have.length === 3 && player.vendors.find(e=>e ==="threeToOne") !== undefined)
-		||(offer.have.length === 2 && player.vendors.find(e=>e ===Object.keys(offer.have)[0]) !== undefined)){
+		if(offer.have[Object.keys(offer.have)[0]] === 4 
+		||(offer.have[Object.keys(offer.have)[0]] === 3 && player.vendors.find(e=>e ==="threeToOne") !== undefined)
+		||(offer.have[Object.keys(offer.have)[0]] === 2 && player.vendors.find(e=>e ===Object.keys(offer.have)[0]) !== undefined)){
 			var tradeOut = new Resources();
 			tradeOut[offer.for] += 1;
 			player.resources.add(tradeOut);

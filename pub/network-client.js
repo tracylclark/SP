@@ -85,8 +85,6 @@ var network = new (function(){
 	socket.on("tradeOffer", (offer)=>{
 		o(`<tradeOffer> ${offer}`);
 		domEngine.systemMessage("The current player has made a trade offer.");
-		domEngine.systemMessage(offer.have);
-		domEngine.systemMessage(offer.for);
 		if(offer.from != name) domEngine.showTradeOfferMenu(offer);
 	});
 	socket.on("hacked", (hackerResults)=>{
@@ -101,10 +99,10 @@ var network = new (function(){
 	socket.on("tradeRejected", (rejectingPlayer)=>{
 		o(`<tradeRejected> ${rejectingPlayer}`);
 		domEngine.systemMessage(rejectingPlayer + " has rejected the trade offer.");
-		if(rejectedPlayer == name)domEngine.hidePopup();
+		if(rejectingPlayer == name)domEngine.hidePopup();
 	});
 	socket.on("tradeComplete", (accept)=>{
-		o(`<tradeComplete> ${acceptingPlayer}`);
+		o(`<tradeComplete> ${accept.acceptingPlayer}`);
 		domEngine.systemMessage(accept.acceptingPlayer + " has accepted the trade offer!");
 		if(accept.currentPlayer !=name )domEngine.hidePopup();
 	});
