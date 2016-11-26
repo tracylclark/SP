@@ -24,7 +24,7 @@ module.exports = function(player, color){
 				this.infrastructure.databases.length +
 				(this.largestNetwork?2:0) +
 				(this.mostSecure?2:0);
-	}
+	}.bind(this);
 	this.steal = function(){
 		var res = [
 			Array(this.resources.bandwidth).fill("bandwidth"),
