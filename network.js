@@ -65,7 +65,7 @@ module.exports = function(io){
 			try{
 				collection.insertOne(credentials);
 				socket.emit("createAccountResult", true);
-				login(socket, credentials.username, io);
+				login(socket, credentials.username);
 			} catch(e){
 				socket.emit("createAccountResult", false);
 			}
@@ -73,21 +73,21 @@ module.exports = function(io){
 	});
 };
 
-function login(s, name, io){//credentials have been vetted at this point
+function login(s, name){//credentials have been vetted at this point
 	spectators.push(new Spectator(s, name));
 	function spectatorLeaves(){
 		var indexOfUser = spectators.map(function(e) { return e.socket; }).indexOf(s);
 		if (indexOfUser != -1){
 			console.log( s.username + " left.");
-			io.emit("system", s.username + " left.");
+			network.io.emit("system", s.username + " left.");
 			spectators.splice(indexOfUser, 1); //index to remove at, how many elements to remove.
 		}
 	}
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
 		console.log(msg);
-		console.log(io);
-		io.emit("broadcast", s.username + ":: " +msg);
+		console.log(network.io);
+		network.io.emit("broadcast", s.username + ":: " +msg);
 	});
 	s.on("joinGame", ()=>{
 		if(players.length >= 4){
@@ -103,15 +103,15 @@ function login(s, name, io){//credentials have been vetted at this point
 		var p = new Player(spectators.splice(indexOfUser, 1)[0], playerColors[players.length]); //index to remove at, how many elements to remove.
 		players.push(p);
 		p.socket.removeListener("disconnect", spectatorLeaves);
-		setupPlayerSocket(p, io);
+		setupPlayerSocket(p);
 		p.socket.emit("joinedGame");
 		//set up player socket callbacks
 	});
 }
 
-function setupPlayerSocket(player, io){
+function setupPlayerSocket(player){
 	player.socket.on("disconnect", ()=>{
-		io.emit("system", "A player left, game over");
+		network.io.emit("system", "A player left, game over");
 		var indexOfUser = players.map(function(e) { return e.socket; }).indexOf(player.socket);
 		if(indexOfUser != -1){
 			players.splice(indexOfUser, 1);
