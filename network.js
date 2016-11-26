@@ -85,6 +85,8 @@ function login(s, name, io){//credentials have been vetted at this point
 	}
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
+		console.log(msg);
+		console.log(io);
 		io.emit("broadcast", s.username + ":: " +msg);
 	});
 	s.on("joinGame", ()=>{
