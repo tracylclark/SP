@@ -90,7 +90,7 @@ var domEngine = new (function(){
 						vendor31: get("vendor3:1"),
 						bank: get("bank"),
 						vendor21: get("vendor2:1"),
-						button: get("offerTradeButton")
+						button: get("staticTradeButton")
 					},
 					offer:{
 						have: {
