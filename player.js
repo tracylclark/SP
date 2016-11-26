@@ -7,7 +7,7 @@ module.exports = function(player, color){
 	this.username = player.username;
 	this.color = color;
 	this.resources = new Resources();
-	this.victoryPoints = [];
+	this.victoryPoints = 0;
 	this.developmentCards = [];
 	this.infrastructure = {
 		servers: [],

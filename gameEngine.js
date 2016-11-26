@@ -82,7 +82,7 @@ function initializeDevelopmentDeck(){
 		'whiteHat': function(){
 			currentTurn.player.whiteHats++;
 			currentTurn.placeHacker = true;
-			currentTurn.player.emit("placeHacker");
+			currentTurn.player.socket.emit("placeHacker");
 			return true;
 		},
 		'networkBuilding': function(){
@@ -291,7 +291,7 @@ module.exports = function(){
 		if(self.gamePhase === "game" && currentTurn.playedDevelopment || currentTurn.phase == "roll"){
 			return false;
 		}
-		var card = player.developmentCards.find(e=>e.name===development && e.new);
+		var card = player.developmentCards.find(e=>e.name===development && !e.new);
 		if(typeof card !== "undefined"){ 
 			if(card.play(player)){
 				network.updateHand();
