@@ -108,11 +108,11 @@ module.exports = function(options){
 		console.log(targetPlayer.infrastructure.servers.find(e=>{
 			console.log(e.tiles);
 			return e.tiles.find(t=>{
-				console.log("Tile: " + t.id);
-				t.id===targetTile;
+				console.log("Tile: " + t);
+				t===targetTile;
 			});
 		}));
-		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)) != undefined;
+		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t===targetTile)) != undefined;
 	}
 	this.placeHacker = function(tileId){
 		if(!tiles[tileId] || tiles[tileId].hacker){
