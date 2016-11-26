@@ -94,7 +94,7 @@ module.exports = function(options){
 	this.getResource = function(tileId, roll){
 		var retVal = new Resources();
 		var tile = tiles[tileId];
-		if(tile.token.number === roll && !tile.hacker){
+		if(tile.token && tile.token.number === roll && !tile.hacker){
 			retVal[tile.resource] = 1;
 		}
 		return retVal;
