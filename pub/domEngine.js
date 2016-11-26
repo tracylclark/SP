@@ -123,11 +123,13 @@ var domEngine = new (function(){
 			if(e==="container")return;
 			dom.popup[e].container.style.visibility = "hidden";
 		});
-		dom.popup.container.style.visibility = "visible";
+		//dom.popup.container.style.visibility = "visible";
+		dom.popup.container.style.display = "initial";
 		dom.popup[item].container.style.visibility = "visible";
 	}
 	this.hidePopup = function(){
-		dom.popup.container.style.visibility = "hidden";
+		//dom.popup.container.style.visibility = "hidden";
+		dom.popup.container.style.display = "none";
 	}
 	this.showJoinGame = function(){
 		dom.resources.container.style.visibility = "visible";
@@ -184,5 +186,4 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.onclick = ()=>network.endTurn();
 		domEngine.popup("singleAction");
 	}
-
 })();
