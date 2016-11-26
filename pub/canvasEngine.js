@@ -199,13 +199,13 @@ var canvasEngine = new (function(){
 		render();
 	};
 	this.getSelectedVertex = function(){
-
+		return map.vertices.find(e=>e.selected);
 	};
 	this.getSelectedEdge = function(){
-
+		return map.edges.find(e=>e.selected);
 	}
 	this.getSelectedTile = function(){
-
+		return map.tiles.find(e=>e.selected);
 	}
 	this.resize = function(){
 		canvas.style.width = canvas.width = window.innerWidth;
@@ -236,5 +236,4 @@ var canvasEngine = new (function(){
 		}
 		return cartesianCoords;
 	}
-
 })();
