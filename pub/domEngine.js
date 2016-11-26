@@ -136,7 +136,8 @@ var domEngine = new (function(){
 		};
 		dom.chat.button.onclick = ()=>{
 			network.broadcast(dom.chat.input.value); //clean on the server side
-		}
+		};
+		domEngine.hidePopup();
 	}
 	this.hideLogin =function(){
 		dom.login.container.style.display = "none";
@@ -165,13 +166,17 @@ var domEngine = new (function(){
 	this.popup = function(item){
 		Object.keys(dom.popup).forEach(e=>{
 			if(e==="container")return;
-			dom.popup[e].container.style.visibility = "hidden";
+			// dom.popup[e].container.style.visibility = "hidden";
+			dom.popup[e].container.style.display = "none";
 		});
-		dom.popup.container.style.visibility = "visible";
-		dom.popup[item].container.style.visibility = "visible";
+		// dom.popup.container.style.visibility = "visible";
+		// dom.popup[item].container.style.visibility = "visible";
+		dom.popup.container.style.display = "initial";
+		dom.popup[item].container.style.display = "initial";
 	}
 	this.hidePopup = function(){
-		dom.popup.container.style.visibility = "hidden";
+		// dom.popup.container.style.visibility = "hidden";
+		dom.popup.container.style.display = "none";
 	}
 	this.showJoinGame = function(){ //logged in
 		dom.popup.singleAction.button.value="Join Game";

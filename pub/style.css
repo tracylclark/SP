@@ -100,11 +100,11 @@
 	position: absolute;
 	bottom: 20px;
 	left: 45%;
-	visibility: hidden;
+	/*visibility: hidden;*/
 }
 .trade{
 	width:3em;
 }
 #popupTrade{
-	visibility: hidden;
+	/*visibility: hidden;*/
 }
