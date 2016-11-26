@@ -66,7 +66,7 @@ function initializeDevelopmentDeck(){
 				currentTurn.cardPlayed = e;
 				if(cardFunctionMap[e]()){
 					var cardIndex = currentTurn.player.developmentCards.indexOf(this);
-					network.io.emit("playedDevelopment", {player: currentTurn.player, card:e});
+					network.io.emit("playedDevelopment", {player: currentTurn.player.username, card:e});
 					currentTurn.player.developmentCards.splice(cardIndex, 1);//remove from player deck
 					return true;			
 				}
@@ -80,13 +80,9 @@ function initializeDevelopmentDeck(){
 			return true;
 		},
 		'whiteHat': function(){
-			console.log("playing white hat");
-			console.log(currentTurn.player.whiteHats);
 			currentTurn.player.whiteHats++;
-			console.log(currentTurn.player.whiteHats);
 			currentTurn.placeHacker = true;
 			currentTurn.player.socket.emit("placeHacker");
-			console.log("before whiteHat function return true");
 			return true;
 		},
 		'networkBuilding': function(){
