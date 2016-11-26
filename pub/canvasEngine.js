@@ -75,6 +75,7 @@ var canvasEngine = new (function(){
 	}
 	function Edge(edge){
 		this.selected = false;
+		this.coords = {u:edge.u, v:edge.v};
 		this.draw = function(ctx){
 			var coordsV = translateVertexCoords(edge.v);
 			var coordsU = translateVertexCoords(edge.u);

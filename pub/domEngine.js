@@ -163,19 +163,19 @@ var domEngine = new (function(){
 	this.showBuildServer = function(){
 		dom.popup.singleAction.button.value="Build Server";
 		canvasEngine.select = "vertex";
-		dom.popup.singleAction.button.onclick = ()=>network.buildServer(canvasEngine.getSelectedVertex());
+		dom.popup.singleAction.button.onclick = ()=>network.buildServer(canvasEngine.getSelectedVertex().coords);
 		domEngine.popup("singleAction");
 	}
 	this.showBuildNetwork = function(){
 		dom.popup.singleAction.button.value="Build Network";
 		canvasEngine.select = "edge";
-		dom.popup.singleAction.button.onclick = ()=>network.buildNetwork(canvasEngine.getSelectedEdge());
+		dom.popup.singleAction.button.onclick = ()=>network.buildNetwork(canvasEngine.getSelectedEdge().coords);
 		domEngine.popup("singleAction");
 	}
 	this.showBuildDatabase = function(){
 		dom.popup.singleAction.button.value="Build Database";
 		canvasEngine.select = "vertex";
-		dom.popup.singleAction.button.onclick = ()=>network.buildDatabase(canvasEngine.getSelectedVertex());
+		dom.popup.singleAction.button.onclick = ()=>network.buildDatabase(canvasEngine.getSelectedVertex().coords);
 		domEngine.popup("singleAction");
 	}
 	this.showEndTurn = function(){
