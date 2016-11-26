@@ -140,7 +140,7 @@ module.exports = function(){
 		}
 		return true;
 	};
-  	this.currentPlayerOnly = function(player, payload, callback){
+	this.currentPlayerOnly = function(player, payload, callback){
 		if(currentTurn.player === player || currentSetup.player === player){
 			return callback(player, payload);
 		}

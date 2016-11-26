@@ -47,92 +47,87 @@ var network = new (function(){
 		canvasEngine.setPlayers(playerArray);
 		domEngine.setPlayers(playerArray);
 	});
-   socket.on("rollOffResult", (rollResult)=>{
+	socket.on("rollOffResult", (rollResult)=>{
 			domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll2 + ") : " + rollResult.rollOff.total);
-   });
-   socket.on("rollOff", ()=>{
+	});
+	socket.on("rollOff", ()=>{
 		domEngine.showRollOff();
 		domEngine.systemMessage("It is time to roll off to determine player order.");
-   });
-   socket.on("setupBuildServer", (currentPlayer)=>{
+	});
+	socket.on("setupBuildServer", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " must set up a server.");
 		domEngine.hidePopup();
 		if(currentPlayer === name){
 			domEngine.showBuildServer();
 		}
-   });
-   socket.on("setupBuildNetwork", (currentPlayer)=>{
+	});
+	socket.on("setupBuildNetwork", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " must set up a network.");
 		domEngine.hidePopup();
 		if(currentPlayer === name){
 			domEngine.showBuildNetwork();
 		}
-   });
-  socket.on("resourceUpdate", (resources)=>{
+	});
+	socket.on("resourceUpdate", (resources)=>{
 	o(`<resourceUpdate> ${resources}`);
 	domEngine.resourceUpdate(resources);
-  });
-  
-  socket.on("gameTurn", (currentPlayer)=>{
-	 domEngine.systemMessage(currentPlayer + " has begun a new turn.");
-	 if(currentPlayer === name){
-	 	domEngine.showRollDice();
-	 }
-  });
-
-  
-  socket.on("tradePhase", (currentPlayer)=>{
+	});
+	socket.on("gameTurn", (currentPlayer)=>{
+		domEngine.systemMessage(currentPlayer + " has begun a new turn.");
+		if(currentPlayer === name){
+		domEngine.showRollDice();
+	}
+	});
+	socket.on("tradePhase", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " has entered the trade phase of their turn.");
-  });
-  socket.on("tradeOffer", (offer)=>{
-	o(`<tradeOffer> ${offer}`);
+		domEngine.showTrade();
+	});
+	socket.on("tradeOffer", (offer)=>{
+		o(`<tradeOffer> ${offer}`);
 		domEngine.systemMessage("The current player has made a trade offer.");
 		domEngine.systemMessage(offer.have);
 		domEngine.systemMessage(offer.for);
 		if(offer.from != name) domEngine.showTradeOfferMenu();
-  });
-  socket.on("hacked", (hackerResults)=>{
-	o(`<hacked> ${hackerResults}`)
+	});
+	socket.on("hacked", (hackerResults)=>{
+		o(`<hacked> ${hackerResults}`)
 		domEngine.systemMessage(hackerResults.hacker + " has targetted " + hackerResults.target + " with a cyberattack.");
-  });
-  socket.on("offerRescinded", ()=>{
-	o(`<offerRescinded>`);
+	});
+	socket.on("offerRescinded", ()=>{
+		o(`<offerRescinded>`);
 		domEngine.systemMessage("The current offer has been rescinded.");
-  });
-  socket.on("tradeRejected", (rejectingPlayer)=>{
-	o(`<tradeRejected> ${rejectingPlayer}`);
+	});
+	socket.on("tradeRejected", (rejectingPlayer)=>{
+		o(`<tradeRejected> ${rejectingPlayer}`);
 		domEngine.systemMessage(rejectingPlayer + " has rejected the trade offer.");
-  });
-  socket.on("tradeComplete", (acceptingPlayer)=>{
-	o(`<tradeComplete> ${acceptingPlayer}`);
+	});
+	socket.on("tradeComplete", (acceptingPlayer)=>{
+		o(`<tradeComplete> ${acceptingPlayer}`);
 		domEngine.systemMessage(acceptingPlayer + " has accepted the trade offer!");
-  });
-
-  
-  socket.on("buyPhase", (currentPlayer)=>{
+	});
+	socket.on("buyPhase", (currentPlayer)=>{
 	domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");
-  });
-  socket.on("cardDraw", (card)=>{
-	domEngine.systemMessage("You gained a new development: " + card);
-  });
-  socket.on("monopoly", ()=>{
-	domEngine.systemMessage("You have played a monopoly card. Please select a resource type.");
-  });
-  socket.on("networkBuilding", ()=>{
-	domEngine.systemMessage("You have played a Network Building card. Place two network connections for free!");
-  });
-  socket.on("placeHacker", ()=>{
-	domEngine.systemMessage("You may now place a hacker and select a target");
-  });
-  socket.on("selectGoodQuarterResources", ()=>{
-	domEngine.systemMessage("You have had a good quarter. Select two free resources.");
-  });
-  socket.on("setupBuildComplete", ()=>{
-	domEngine.showEndTurn();
-  });
+	});
+	socket.on("cardDraw", (card)=>{
+		domEngine.systemMessage("You gained a new development: " + card);
+	});
+	socket.on("monopoly", ()=>{
+		domEngine.systemMessage("You have played a monopoly card. Please select a resource type.");
+	});
+	socket.on("networkBuilding", ()=>{
+		domEngine.systemMessage("You have played a Network Building card. Place two network connections for free!");
+	});
+	socket.on("placeHacker", ()=>{
+		domEngine.systemMessage("You may now place a hacker and select a target");
+	});
+	socket.on("selectGoodQuarterResources", ()=>{
+		domEngine.systemMessage("You have had a good quarter. Select two free resources.");
+	});
+	socket.on("setupBuildComplete", ()=>{
+		domEngine.showEndTurn();
+	});
 
-
-//spectators
+	//spectators
 	this.create = function(un,pw){
 		socket.emit("createAccount", {username:un, password:pw});
 	}
@@ -149,7 +144,7 @@ var network = new (function(){
 		socket.emit("joinGame");
 	};
 
-//players and setup
+	//players and setup
 	this.startGame = function(options){
 		socket.emit("msg", `<startGame> ${options}`);
 		socket.emit("startGame", options);
@@ -163,7 +158,7 @@ var network = new (function(){
 		socket.emit("endTurn");
 	};
 
-//Game Turn
+	//Game Turn
 	this.rollDice = function(){
 		socket.emit("msg", `<rollDice>`);
 		socket.emit("rollDice");
@@ -191,7 +186,6 @@ var network = new (function(){
 		socket.emit("tradeResponse", response);
 	};
 
-
 	//purchases
 	this.buildNetwork = function(location){
 		socket.emit("msg", `<buildNetwork> ${location}`);
@@ -215,6 +209,4 @@ var network = new (function(){
 		socket.emit("msg", `<claimLongestPath> ${pathList}`);
 		socket.emit("claimLongestPath", pathList);
 	};
-
-
 })();

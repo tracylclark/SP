@@ -3,8 +3,8 @@
 	var Map = new require('./map.js');
 	var m = new Map({
 		tileDistribution:"default", //other
-	  tokenDistribution:"default", //"random"
-	  vendorDistribution:"default", //"slightShift" //other
+		tokenDistribution:"default", //"random"
+		vendorDistribution:"default", //"slightShift" //other
 	});
 */
 
