@@ -87,11 +87,11 @@ var network = new (function(){
 		domEngine.systemMessage("The current player has made a trade offer.");
 		domEngine.systemMessage(offer.have);
 		domEngine.systemMessage(offer.for);
-		if(offer.from != name) domEngine.showTradeOfferMenu();
+		if(offer.from != name) domEngine.showTradeOfferMenu(offer);
 	});
 	socket.on("hacked", (hackerResults)=>{
 		o(`<hacked> ${hackerResults}`)
-		domEngine.systemMessage(hackerResults.hacker + " has targetted " + hackerResults.target + " with a cyberattack.");
+		domEngine.systemMessage(hackerResults.hacker + " has targeted " + hackerResults.target + " with a cyberattack.");
 	});
 	socket.on("offerRescinded", ()=>{
 		o(`<offerRescinded>`);
@@ -125,6 +125,10 @@ var network = new (function(){
 	});
 	socket.on("setupBuildComplete", ()=>{
 		domEngine.showEndTurn();
+	});
+	socket.on("diceRollResult", rollResult=>{
+		domEngine.showDiceRoll(rollResult);
+		domEngine.systemMessage(rollResult.player + " rolled: (" + rollResult.roll1 + "," + rollResult.roll2 + ") : " + rollResult.total);
 	});
 
 	//spectators
