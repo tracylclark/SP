@@ -83,8 +83,10 @@ function initializeDevelopmentDeck(){
 			console.log("playing white hat");
 			console.log(currentTurn.player.whiteHats);
 			currentTurn.player.whiteHats++;
+			console.log(currentTurn.player.whiteHats);
 			currentTurn.placeHacker = true;
 			currentTurn.player.socket.emit("placeHacker");
+			console.log("before whiteHat function return true");
 			return true;
 		},
 		'networkBuilding': function(){
