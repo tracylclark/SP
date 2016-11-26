@@ -147,6 +147,7 @@ module.exports = function(){
 		return false;
 	};
 	this.buildServer = function(player, location){
+		if(location == null || location.x == null || location.y == null) return false;
 		if(self.gamePhase === "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
 			currentSetup.freeServers = 0;
 			player.lastBuiltServer = location;
@@ -164,6 +165,7 @@ module.exports = function(){
 		return false;
 	};
 	this.buildNetwork = function(player, location){
+		if(location == null || location.u == null || location.v == null || location.u.x == null || location.u.y == null || location.v.x == null || location.v.y == null) return false;
 		if(self.gamePhase === "setup" && currentSetup.freeNetworks > 0 && currentSetup.freeServers === 0 && map.initialNetworkAvailable(player, location)){
 			currentSetup.freeNetworks = 0;
 			map.buildNetwork(player, location);
@@ -186,6 +188,7 @@ module.exports = function(){
 		return false;
 	};
 	this.buildDatabase = function(player, location){
+		if(location == null || location.x == null || location.y == null) return false;
 		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(costs.database)){
 			map.buildDatabase(player, location);
 			player.resources.sub(costs.database);
