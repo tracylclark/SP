@@ -116,11 +116,12 @@ module.exports = function(){
 		self.gamePhase = "setup";
 		network.io.emit("rollOff");
 		network.updateMap();
+		initializeDevelopmentDeck();
 		return true;
 	};
 	this.getMap = function(){
 		return map.getSerializedMap();
-	}
+	};
 	this.rollOff = function(player){
 		if(player.rollOff !== null || self.gamePhase !== "setup"){
 			return false;
