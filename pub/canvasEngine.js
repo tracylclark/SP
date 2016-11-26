@@ -128,6 +128,7 @@ var canvasEngine = new (function(){
 		var corners = map.vertices.filter(e=>e.tiles.find(t=>t===tile.id) !== undefined).map(e=>e.coords).sort((a,b)=>a.y - b.y);//sorts top half and bottom half
 		corners = corners.slice(0,3).sort((a,b)=>a.x-b.x).concat(corners.slice(3,6).sort((a,b)=>b.x-a.x));
 		this.selected = false;
+		this.id = tile.id;
 		this.wasClicked = function(click){
 			var topLeft = translateVertexCoords(corners[0]);
 			var bottomRight = translateVertexCoords(corners[3]);
@@ -142,6 +143,8 @@ var canvasEngine = new (function(){
 				var coords = translateVertexCoords(e);
 				ctx.lineTo(coords.x,coords.y);
 			})
+			ctx.lineWidth = size/25;
+			ctx.strokeStyle = "#000000";
 			if(this.selected){
 				ctx.lineWidth = size/4;
 				ctx.strokeStyle = "#ededed";
@@ -210,7 +213,7 @@ var canvasEngine = new (function(){
 		return map.edges.find(e=>e.selected);
 	}
 	this.getSelectedTile = function(){
-		return map.tiles.find(e=>e.selected);
+		return map.tiles.find(e=>e.selected).id;
 	}
 	this.resize = function(){
 		canvas.style.width = canvas.width = window.innerWidth;

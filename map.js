@@ -102,7 +102,7 @@ module.exports = function(options){
 		return retVal;
 	};
 	this.placeHacker = function(tileId){
-		if(tileId === tiles.find(e=>e.hacker).id){
+		if(!tiles[tileId] || tileId === tiles.find(e=>e.hacker).id){
 			return false;
 		}
 		tiles.find(e=>e.hacker).hacker = false;
