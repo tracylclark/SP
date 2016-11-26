@@ -375,7 +375,8 @@ module.exports = function(){
 			var target = players.find(e=>e.username === hackerAction.target);
 			if(target === undefined || !map.hasTile(target, hackerAction.tile)){ 
 				return false;
-			} 
+			}
+			console.log("in between guard statements"); 
 			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
 				return false;
 			}

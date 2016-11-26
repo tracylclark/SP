@@ -102,10 +102,13 @@ module.exports = function(options){
 		return retVal;
 	};
 	this.hasTile = function(targetPlayer, targetTile){
+		console.log("in hasTile");
+		console.log(targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)));
 		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t.id===targetTile)) != undefined;
 	}
 	this.placeHacker = function(tileId){
-		if(!tiles[tileId] || tileId === tiles.find(e=>e.hacker).id){
+		if(!tiles[tileId] || tiles[tileId].hacker){
+			console.log("place hacker invalid");
 			return false;
 		}
 		tiles.find(e=>e.hacker).hacker = false;
