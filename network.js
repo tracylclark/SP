@@ -52,7 +52,9 @@ module.exports = function(io){
 		console.log("Client connected.");
 		socket.on("msg", msg=>console.log(msg)); //debug test
 		socket.on("login", credentials=>{
+			credentials.username = sanitize(credentials.username);
 			collection.find(credentials).toArray((err, docs)=>{
+				docs.forEach(e=>console.log(e));
 				if(err !== null){
 					socket.emit("loginResult", false);//message user about login failure
 				}
@@ -64,6 +66,7 @@ module.exports = function(io){
 		});
 		socket.on("createAccount", credentials=>{
 			try{
+				credentials.username = sanitize(credentials.username);
 				collection.insertOne(credentials);
 				socket.emit("createAccountResult", true);
 				login(socket, credentials.username);
@@ -86,9 +89,7 @@ function login(s, name){//credentials have been vetted at this point
 	}
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
-		console.log(msg);
-		console.log(networkIO);
-		networkIO.emit("broadcast", name + ":: " +msg);
+		networkIO.emit("broadcast", name + ":: " +sanitize(msg));
 	});
 	s.on("joinGame", ()=>{
 		if(players.length >= 4){
@@ -109,7 +110,9 @@ function login(s, name){//credentials have been vetted at this point
 		//set up player socket callbacks
 	});
 }
-
+function sanitize(str){
+	return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 function setupPlayerSocket(player){
 	player.socket.on("disconnect", ()=>{
 		networkIO.emit("system", "A player left, game over");
