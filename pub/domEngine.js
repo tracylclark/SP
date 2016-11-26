@@ -230,6 +230,7 @@ var domEngine = new (function(){
 			dom.popup.hackerMenu["target"+j].value = e.username;
 			j++;
 		});
+		canvasEngine.select="tile";
 		dom.popup.hackerMenu.button.onclick = ()=>network.placeHacker({target:dom.popup.hackerMenu.target.value, tile:canvasEngine.getSelectedTile()});
 	}
 	this.setPlayers = function(playerArray){

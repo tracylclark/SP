@@ -93,6 +93,7 @@ var network = new (function(){
 	socket.on("hacked", (hackerResults)=>{
 		o(`<hacked> ${hackerResults}`)
 		domEngine.systemMessage(hackerResults.hacker + " has targeted " + hackerResults.target + " with a cyberattack.");
+		canvasEngine.select="none";
 	});
 	socket.on("offerRescinded", (currentPlayer)=>{
 		o(`<offerRescinded>`);
