@@ -54,8 +54,6 @@ module.exports = function(io){
 		socket.on("login", credentials=>{
 			credentials.username = sanitize(credentials.username);
 			collection.find(credentials).toArray((err, docs)=>{
-				docs.forEach(e=>console.log(e));
-				if(!docs)console.log("ERROR EMPTY DOCS");
 				if(err !== null || docs.length==0){
 					socket.emit("loginResult", false);//message user about login failure
 				}
@@ -68,9 +66,14 @@ module.exports = function(io){
 		socket.on("createAccount", credentials=>{
 			try{
 				credentials.username = sanitize(credentials.username);
-				collection.insertOne(credentials);
-				socket.emit("createAccountResult", true);
-				login(socket, credentials.username);
+				var res = collection.insertOne(credentials);
+				if(res.insertedId){
+					socket.emit("createAccountResult", true);
+					login(socket, credentials.username);
+				}
+				else{
+					socket.emit("createAccountResult", false);
+				}
 			} catch(e){
 				socket.emit("createAccountResult", false);
 			}
