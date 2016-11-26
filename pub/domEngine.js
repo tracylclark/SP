@@ -322,9 +322,9 @@ var domEngine = new (function(){
 	this.showBuyMenu = function(){
 		domEngine.popup("buyMenu");
 		dom.popup.buyMenu.endTurn.onclick = ()=>network.endTurn();
-		dom.popup.buyMenu.server.onclick = domMenu.showBuildServer;
-		dom.popup.buyMenu.database.onclick = domMenu.showBuildNetwork;
-		dom.popup.buyMenu.network.onclick = domMenu.showBuildDatabase;
+		dom.popup.buyMenu.server.onclick = domEngine.showBuildServer;
+		dom.popup.buyMenu.database.onclick = domEngine.showBuildNetwork;
+		dom.popup.buyMenu.network.onclick = domEngine.showBuildDatabase;
 		dom.popup.buyMenu.development.onclick = ()=>network.buyDevelopment();
 	}
 })();
