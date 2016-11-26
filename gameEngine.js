@@ -210,7 +210,8 @@ module.exports = function(){
 			network.updateResources();
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
 			player.developmentCards.push(card[0]);
-			player.socket.emit("cardDraw", card.name); //draws a random card and adds to players development deck (returns the card)
+			player.socket.emit("cardDraw", card[0].name); //draws a random card and adds to players development deck (returns the card)
+			//player.socket.updateCards(); same thing when a card is played --- network.updateHand() updates each player with their hand..
 			return true;
 		}
 		return false;

@@ -22,11 +22,11 @@ module.exports = function(options){
 	gameMapConstants.vertexTileAdjacencies.forEach(e=>vertices[e.x][e.y].tiles = e.tiles); //links vertices & tiles  
 	/* public properties */
 	this.getSerializedMap = function(){
-		return {//JSON.stringify({
+		return {
 			vertices: vertices,
 			tiles: tiles,
 			edges: edges
-		};//);
+		};
 	};
 	this.initialServerAvailable = function(vertex){
 		if(vertices[vertex.x][vertex.y].accessible == false){
@@ -50,10 +50,13 @@ module.exports = function(options){
 		return false;
 	};
 	this.serverAvailable = function(player, vertex){
+		console.log(vertex.x);
+		console.log(vertex.y);
+		console.log(vertex);
 		if(!this.initialServerAvailable(vertex)){
 			return false;
 		}
-		if(!vertices[vertex.x][vertex.y].edges.find(e=>e.owner === player.username)){
+		if(!vertices[vertex.x][vertex.y].edges.find(e=>edges[e].owner === player.username)){
 			return false;
 		}
 		return true;		
