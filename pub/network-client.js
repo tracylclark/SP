@@ -101,10 +101,12 @@ var network = new (function(){
 	socket.on("tradeRejected", (rejectingPlayer)=>{
 		o(`<tradeRejected> ${rejectingPlayer}`);
 		domEngine.systemMessage(rejectingPlayer + " has rejected the trade offer.");
+		if(rejectedPlayer == name)domEngine.hidePopup();
 	});
-	socket.on("tradeComplete", (acceptingPlayer)=>{
+	socket.on("tradeComplete", (accept)=>{
 		o(`<tradeComplete> ${acceptingPlayer}`);
-		domEngine.systemMessage(acceptingPlayer + " has accepted the trade offer!");
+		domEngine.systemMessage(accept.acceptingPlayer + " has accepted the trade offer!");
+		if(accept.currentPlayer !=name )domEngine.hidePopup();
 	});
 	socket.on("buyPhase", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");

@@ -331,7 +331,7 @@ module.exports = function(){
 			currentTurn.player.resources.sub(currentTurn.currentOffer.have);
 			currentOffer = null;
 			network.updateResources();
-			network.io.emit("tradeComplete", player.username);
+			network.io.emit("tradeComplete", {acceptingPlayer: player.username, currentPlayer: currentTurn.player.username});
 			return true;
 		}
 		else {
