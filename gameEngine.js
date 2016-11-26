@@ -150,6 +150,9 @@ module.exports = function(){
 		return false;
 	};
 	this.buildServer = function(player, location){
+		console.log(location);
+		console.log(location.x);
+		console.log(location.y);
 		if(location == null || location.x == null || location.y == null) return false;
 		if(self.gamePhase === "setup" && currentSetup.freeServers > 0 && map.initialServerAvailable(location)){
 			currentSetup.freeServers = 0;
