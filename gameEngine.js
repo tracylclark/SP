@@ -162,7 +162,7 @@ module.exports = function(){
 			network.io.emit("setupBuildNetwork", currentSetup.player.username);
 			return true;
 		}
-		if(currentTurn.phase === "buy" && map.serverAvailable(location) && player.hasResources(gameConstants.costs.server)){
+		if(currentTurn.phase === "buy" && map.serverAvailable(player, location) && player.hasResources(gameConstants.costs.server)){
 			map.buildServer(player, location);
 			player.resources.sub(gameConstants.costs.server);
 			network.updateMap();

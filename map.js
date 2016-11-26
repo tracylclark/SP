@@ -50,9 +50,6 @@ module.exports = function(options){
 		return false;
 	};
 	this.serverAvailable = function(player, vertex){
-		console.log(vertex);
-		console.log(vertex.x);
-		console.log(vertex.y);
 		if(!this.initialServerAvailable(vertex)){
 			return false;
 		}
