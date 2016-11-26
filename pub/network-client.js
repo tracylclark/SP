@@ -124,6 +124,7 @@ var network = new (function(){
 	});
 	socket.on("placeHacker", ()=>{
 		domEngine.systemMessage("You may now place a hacker and select a target");
+		domEngine.showHackerMenu();
 	});
 	socket.on("selectGoodQuarterResources", ()=>{
 		domEngine.systemMessage("You have had a good quarter. Select two free resources.");

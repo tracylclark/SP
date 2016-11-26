@@ -129,7 +129,9 @@ var canvasEngine = new (function(){
 		corners = corners.slice(0,3).sort((a,b)=>a.x-b.x).concat(corners.slice(3,6).sort((a,b)=>b.x-a.x));
 		this.selected = false;
 		this.wasClicked = function(click){
-			return false;
+			var topLeft = translateVertexCoords(corners[0]);
+			var bottomRight = translateVertexCoords(corners[3]);
+			return click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y;
 		}
 		this.draw = function(ctx){
 			ctx.strokeStyle = "#a1a1a1";

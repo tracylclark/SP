@@ -131,6 +131,14 @@ var domEngine = new (function(){
 					network: get("buildNetworkButton"),
 					development: get("buyDevelopmentButton"),
 					endTurn:get("endTurn")
+				},
+				hackerMenu:{
+					container: get("hackerMenuContainer"),
+					button: get("placeHacker"),
+					target: get("hackerTarget"),
+					target1: get("target1"),
+					target2: get("target2"),
+					target3: get("target3")
 				}
 			}
 		};
@@ -211,6 +219,17 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.value="Roll Dice";
 		dom.popup.singleAction.button.onclick = ()=>network.rollDice();
 		domEngine.popup("singleAction");
+	}
+	this.showHackerMenu = function(){
+		domEngine.popup("hackerMenu");
+		var j  = 1;
+		players.forEach((e, i)=>{
+			if(e.username === name) return;
+			dom.popup.hackerMenu["target"+j].innerHTML = e.username;
+			dom.popup.hackerMenu["target"+j].value = e.username;
+			j++;
+		});
+		dom.popup.hackerMenu.button.onclick = ()=>placeHacker({target:dom.popup.hackerMenu.target.value, tile:canvasEngine.getSelectedTile()});
 	}
 	this.setPlayers = function(players){
 		players.forEach(e=>console.log(e));
