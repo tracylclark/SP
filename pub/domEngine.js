@@ -230,7 +230,7 @@ var domEngine = new (function(){
 			dom.popup.hackerMenu["target"+j].value = e.username;
 			j++;
 		});
-		dom.popup.hackerMenu.button.onclick = ()=>placeHacker({target:dom.popup.hackerMenu.target.value, tile:canvasEngine.getSelectedTile()});
+		dom.popup.hackerMenu.button.onclick = ()=>network.placeHacker({target:dom.popup.hackerMenu.target.value, tile:canvasEngine.getSelectedTile()});
 	}
 	this.setPlayers = function(playerArray){
 		players = playerArray;
@@ -241,7 +241,7 @@ var domEngine = new (function(){
 			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
 			dom.playerData.players[i].largestNetwork.innerHTML = e.largestNetwork;
 			dom.playerData.players[i].vp.innerHTML = e.vp;
-			dom.playerData.players[i].row.display = "table-row";
+			dom.playerData.players[i].row.style.display = "table-row";
 		});
 	};
 	this.showSetupBuildServer = function(){

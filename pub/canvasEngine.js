@@ -131,6 +131,7 @@ var canvasEngine = new (function(){
 		this.wasClicked = function(click){
 			var topLeft = translateVertexCoords(corners[0]);
 			var bottomRight = translateVertexCoords(corners[3]);
+			if(click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y) console.log("that's me");
 			return click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y;
 		}
 		this.draw = function(ctx){
