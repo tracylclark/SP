@@ -80,6 +80,8 @@ function initializeDevelopmentDeck(){
 			return true;
 		},
 		'whiteHat': function(){
+			console.log("playing white hat");
+			console.log(currentTurn.player.whiteHats);
 			currentTurn.player.whiteHats++;
 			currentTurn.placeHacker = true;
 			currentTurn.player.socket.emit("placeHacker");
@@ -288,10 +290,13 @@ module.exports = function(){
 		return false;
 	};
 	this.playDevelopment = function(player, development){
+		console.log("Player "+player.username);
+		console.log("Development "+development);
 		if(self.gamePhase === "game" && currentTurn.playedDevelopment || currentTurn.phase == "roll"){
 			return false;
 		}
 		var card = player.developmentCards.find(e=>e.name===development && !e.new);
+		console.log("Card found "+card.name);
 		if(typeof card !== "undefined"){ 
 			if(card.play(player)){
 				network.updateHand();
