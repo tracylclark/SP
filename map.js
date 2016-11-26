@@ -88,7 +88,7 @@ module.exports = function(options){
 		e.owner = player.username;
 		player.infrastructure.networks.push(e);
 	}
-	this.buildDatabase = function(player, edge){
+	this.buildDatabase = function(player, vertex){
 		vertices[vertex.x][vertex.y].database = true;
 		player.infrastructure.database.push(vertices[vertex.x][vertex.y]);
 		player.vp +=1;
