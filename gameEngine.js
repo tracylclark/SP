@@ -98,7 +98,6 @@ function initializeDevelopmentDeck(){
 			return false;
 		}
 	};
-	developmentDeck.forEach(e=>console.log(e.name));
 }
 
 module.exports = function(){
@@ -208,7 +207,9 @@ module.exports = function(){
 		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(gameConstants.costs.development) && developmentDeck.length > 0){
 			player.resources.sub(gameConstants.costs.development);
 			network.updateResources();
+			developmentDeck.forEach(e=>console.log(e.name));
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
+			console.log("Drew: " + card[0].name);
 			player.developmentCards.push(card[0]);
 			player.socket.emit("cardDraw", card[0].name); //draws a random card and adds to players development deck (returns the card)
 			network.updateHand();
