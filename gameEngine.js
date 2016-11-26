@@ -83,6 +83,7 @@ function initializeDevelopmentDeck(){
 			currentTurn.player.whiteHats++;
 			currentTurn.placeHacker = true;
 			currentTurn.player.socket.emit("placeHacker");
+			network.updatePlayers();
 			return true;
 		},
 		'networkBuilding': function(){
@@ -155,6 +156,7 @@ module.exports = function(){
 			player.lastBuiltServer = location;
 			map.buildServer(player, location);
 			network.updateMap();
+			network.updatePlayers();
 			network.io.emit("setupBuildNetwork", currentSetup.player.username);
 			return true;
 		}
@@ -162,6 +164,7 @@ module.exports = function(){
 			map.buildServer(player, location);
 			player.resources.sub(gameConstants.costs.server);
 			network.updateMap();
+			network.updatePlayers();
 			network.updateResources();
 			return true;
 		}
@@ -196,6 +199,7 @@ module.exports = function(){
 		if(self.gamePhase === "game" && currentTurn.phase === "buy" && map.databaseAvailable(player, location) && player.hasResources(gameConstants.costs.database)){
 			map.buildDatabase(player, location);
 			player.resources.sub(gameConstants.costs.database);
+			network.updatePlayers();
 			network.updateMap();
 			network.updateResources();
 			return true;
