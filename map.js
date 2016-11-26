@@ -95,7 +95,6 @@ module.exports = function(options){
 		var retVal = new Resources();
 		var tile = tiles[tileId];
 		if(tile.token.number === roll && !tile.hacker){
-			console.log("Generating: " + tile.resource);
 			retVal[tile.resource] = 1;
 		}
 		return retVal;

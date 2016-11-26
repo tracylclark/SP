@@ -24,8 +24,8 @@ var domEngine = new (function(){
 			resources:{
 				container:get("resourcesContainer"),
 				cpu:get("resourcesCPU"),
-				bandwidth:("resourcesBandwidth"),
-				power:("resourcesPower"),
+				bandwidth:get("resourcesBandwidth"),
+				power:get("resourcesPower"),
 				ram:get("resourcesRAM"),
 				storage:get("resourcesStorage")
 			},
