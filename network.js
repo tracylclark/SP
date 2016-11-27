@@ -50,6 +50,21 @@ module.exports = function(io){
 			return p;
 		}));
 	}.bind(this);
+	this.checkMostSecure = function(){
+		var currentLargest = players.find(e=>e.mostSecure); //this will be undefined if not claimed yet
+		players.forEach(e=>{
+			if(currentLargest == undefined && e.whiteHats>=3){
+			 	e.mostSecure = true;
+			 	io.emit("system", e.username + " has been named 'most secure'.");
+			}
+			else if(currentLargest != undefined && currentLargest.whiteHats < e.whiteHats){
+				currentLargest.mostSecure = false;
+				e.mostSecure = true;
+				io.emit("system", e.username + " has been named 'most secure'.");
+			}
+		});
+		this.updatePlayers();
+	}.bind(this);
 	this.updateMap = function(){
 		io.emit("mapUpdate", gameEngine.getMap());
 	};

@@ -83,7 +83,7 @@ function initializeDevelopmentDeck(){
 			currentTurn.player.whiteHats++;
 			currentTurn.placeHacker = true;
 			currentTurn.player.socket.emit("placeHacker");
-			network.updatePlayers();
+			network.checkMostSecure();
 			return true;
 		},
 		'networkBuilding': function(){
