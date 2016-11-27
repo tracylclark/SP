@@ -240,8 +240,8 @@ var canvasEngine = new (function(){
 		map.edges.forEach(e=>e.draw(ctx));
 		map.vertices.forEach(e=>e.draw(ctx));
 		if(canvasEngine.roll.spin){
-			roll.hold = !roll.hold;
-			if(roll.hold){
+			canvasEngine.roll.hold = !canvasEngine.roll.hold;
+			if(canvasEngine.roll.hold){
 				canvasEngine.roll.currentLeft = Math.floor((Math.random()*6)+1);
 				canvasEngine.roll.currentRight = Math.floor((Math.random()*6)+1);
 			}
