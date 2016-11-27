@@ -113,6 +113,7 @@ var network = new (function(){
 	});
 	socket.on("buyPhase", (currentPlayer)=>{
 		domEngine.systemMessage(currentPlayer + " has entered the buy phase of their turn.");
+		domEngine.hidePopup();
 		if(currentPlayer == name)domEngine.showBuyMenu();
 	});
 	socket.on("cardDraw", (card)=>{
