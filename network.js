@@ -37,7 +37,7 @@ module.exports = function(io){
 	}
 	this.updatePlayers = function(){
 		io.emit("playerUpdate", players.map((e,i)=>{
-			return {
+			var p = {
 				username: e.username,
 				color: e.color,
 				order: i,
@@ -46,10 +46,16 @@ module.exports = function(io){
 				largestNetwork: e.largestNetwork,
 				VPs: e.getVPs()
 			};
-		}));
-	};
+			if(p.VPs >= 10) this.gameWin(p.username+ " won the game with " + p.VPs + " victory points.");
+			return p;
+		}.bind(this)));
+	}.bind(this);
 	this.updateMap = function(){
 		io.emit("mapUpdate", gameEngine.getMap());
+	};
+	this.gameWin = function(msg){
+		io.emit("gameWin", msg);
+		gameEngine.gamePhase = "postgame";
 	}
 	io.on("connect", socket=>{
 		console.log("Client connected.");
