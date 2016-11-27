@@ -45,9 +45,9 @@ var canvasEngine = new (function(){
 		this.coords = vertex.coords;
 		this.wasClicked = function(click){
 			var coords = translateVertexCoords(vertex.coords);
-			if(vertex.coords.x === 2 && vertex.coords.y === 2){
-				console.log(`[2,2] dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
-			}
+			// if(vertex.coords.x === 2 && vertex.coords.y === 2){
+			// 	console.log(`[2,2] dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
+			// }
 			return size*.1 >= Math.sqrt(Math.pow(click.x - coords.x, 2) + Math.pow(click.y - coords.y, 2));
 		}
 		this.draw = function(ctx){
@@ -141,7 +141,7 @@ var canvasEngine = new (function(){
 		this.wasClicked = function(click){
 			var topLeft = translateVertexCoords(corners[0]);
 			var bottomRight = translateVertexCoords(corners[3]);
-			if(click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y) console.log("that's me");
+			// if(click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y) console.log("that's me");
 			return click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y;
 		}
 		this.draw = function(ctx){

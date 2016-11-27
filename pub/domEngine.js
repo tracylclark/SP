@@ -237,7 +237,7 @@ var domEngine = new (function(){
 		canvasEngine.roll.show = true;
 	}
 	this.showDiceRoll = function(roll){
-		console.log(roll);
+		// console.log(roll);
 		setTimeout(()=>{
 			canvasEngine.roll.spin = false;
 			canvasEngine.roll.currentLeft = roll.roll1;
@@ -275,7 +275,7 @@ var domEngine = new (function(){
 	};
 	this.setPlayers = function(playerArray){
 		players = playerArray;
-		playerArray.forEach(e=>console.log(e));
+		// playerArray.forEach(e=>console.log(e));
 		playerArray.forEach((e,i)=>{
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
