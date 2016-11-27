@@ -70,7 +70,7 @@ var canvasEngine = new (function(){
 			ctx.fill();
 			ctx.fillStyle = "#FFFFFF";
 			ctx.font=size*.2+"px arial";
-			ctx.fillText(structure, coords.x-(size*.1), coords.y-(size*.05));
+			ctx.fillText(structure, coords.x, coords.y);
 		}.bind(this);
 	}
 	function Edge(edge){
