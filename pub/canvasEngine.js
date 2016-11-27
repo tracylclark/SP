@@ -43,11 +43,11 @@ var canvasEngine = new (function(){
 		}
 		this.draw = function(ctx){
 			if(!vertex.accessible){return;}
-			var vertexSize = size*0.05;
+			var vertexSize = size*0.1;
 			var coords = translateVertexCoords(vertex.coords);
 			var structure = '';
 			if(vertex.owner != null){
-				vertexSize = size*0.1;
+				vertexSize = size*0.2;
 				structure = 'S';
 				if(vertex.database){
 					structure+=' D';
@@ -65,12 +65,12 @@ var canvasEngine = new (function(){
 				ctx.strokeStyle = "#ededed";
 			}
 			ctx.beginPath();
-			ctx.arc(coords.x,coords.y,size*.1,0,2*Math.PI);
+			ctx.arc(coords.x,coords.y,vertexSize,0,2*Math.PI);
 			ctx.stroke();
 			ctx.fill();
-			ctx.fillStyle = "#000000";
+			ctx.strokeStyle = "#FFFFFF";
 			ctx.font=size*.1+"px Arial";
-			ctx.fillText(structure, coords-(size*.1), coords-(size*.05));
+			ctx.strokeText(structure, coords-(size*.1), coords-(size*.05));
 		}.bind(this);
 	}
 	function Edge(edge){
