@@ -48,7 +48,7 @@ var network = new (function(){
 		domEngine.setPlayers(playerArray);
 	});
 	socket.on("rollOffResult", (rollResult)=>{
-		domEngine.showDiceRoll(rollResult);
+		if(rollResult.player=name)domEngine.showDiceRoll(rollResult);
 		domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll2 + ") : " + rollResult.rollOff.total);
 	});
 	socket.on("rollOff", ()=>{
@@ -137,7 +137,7 @@ var network = new (function(){
 		domEngine.showEndTurn();
 	});
 	socket.on("diceRollResult", rollResult=>{
-		domEngine.showDiceRoll(rollResult);
+		if(rollResult.player = name)domEngine.showDiceRoll(rollResult);
 		domEngine.systemMessage(rollResult.player + " rolled: (" + rollResult.roll1 + "," + rollResult.roll2 + ") : " + rollResult.total);
 	});
 	socket.on("handUpdate", hand=>{
