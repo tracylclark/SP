@@ -222,14 +222,42 @@ var domEngine = new (function(){
 		};
 		domEngine.popup("startGame");
 	}
+	// this.showRollOff = function(){
+	// 	dom.popup.singleAction.button.value="Roll Off";
+	// 	dom.popup.singleAction.button.onclick = ()=>network.rollOff();
+	// 	domEngine.popup("singleAction");
+	// }
+	// this.showRollDice = function(){
+	// 	dom.popup.singleAction.button.value="Roll Dice";
+	// 	dom.popup.singleAction.button.onclick = ()=>network.rollDice();
+	// 	domEngine.popup("singleAction");
+	// }
+	function startRoll(){
+		canvasEngine.roll.spin = true;
+		canvasEngine.roll.show = true;
+	}
+	this.showDiceRoll = function(roll){
+		setTimeout(()=>{
+			canvasEngine.roll.spin = false;
+			canvasEngine.roll.currentLeft = roll.roll1;
+			canvasEngine.roll.currentRight = roll.roll2;
+			setTimeout(()=>{canvasEngine.roll.show = false;},1000)
+		},1000)
+	}
 	this.showRollOff = function(){
 		dom.popup.singleAction.button.value="Roll Off";
-		dom.popup.singleAction.button.onclick = ()=>network.rollOff();
+		dom.popup.singleAction.button.onclick = ()=>{
+			startRoll();
+			network.rollOff();
+		}
 		domEngine.popup("singleAction");
 	}
 	this.showRollDice = function(){
 		dom.popup.singleAction.button.value="Roll Dice";
-		dom.popup.singleAction.button.onclick = ()=>network.rollDice();
+		dom.popup.singleAction.button.onclick = ()=>{
+			startRoll();
+			network.rollDice();
+		}
 		domEngine.popup("singleAction");
 	}
 	this.showHackerMenu = function(){
