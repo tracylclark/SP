@@ -130,6 +130,7 @@ var network = new (function(){
 	});
 	socket.on("selectGoodQuarterResources", ()=>{
 		domEngine.systemMessage("You have had a good quarter. Select two free resources.");
+		domEngine.showGoodQuarterMenu();
 	});
 	socket.on("setupBuildComplete", ()=>{
 		domEngine.showEndTurn();
@@ -178,7 +179,10 @@ var network = new (function(){
 	};
 	this.monopolize = function(resource){
 		socket.emit("monopolize", resource);
-	}
+	};
+	this.selectedGoodQuarterResources = function(resources){
+		socket.emit("selectedGoodQuarterResources", resources);
+	};
 	//Game Turn
 	this.rollDice = function(){
 		socket.emit("msg", `<rollDice>`);

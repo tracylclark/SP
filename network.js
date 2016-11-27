@@ -178,6 +178,9 @@ function setupPlayerSocket(player){
 	});
 	player.socket.on("monopolize", resource=>{
 		player.socket.emit("actionSuccess", gameEngine.monopolize(player, resource));
+	});
+	player.socket.on("selectedGoodQuarterResources", resources=>{
+		player.socket.emit("actionSuccess", gameEngine.claimGoodQuarterResources(player, resources));
 	})
 	player.socket.on("offerTrade", offer=>{
 		offer.from = player.username;

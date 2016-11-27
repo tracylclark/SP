@@ -37,6 +37,7 @@ function Turn(player){
 	this.cardPlayed = null;
 	this.placeHacker = false;
 	this.canMonopolize = false;
+	this.hasGoodQuarter = false;
 	this.freeNetworks = 0; //this is used to allocate free networks if a buildNetworks development card is played
 }
 function Setup(player){
@@ -77,7 +78,8 @@ function initializeDevelopmentDeck(){
 	}); 
 	var cardFunctionMap = {
 		'goodQuarter': function(){
-			currentTurn.player.socket.emit("SelectGoodQuarterResources");
+			currentTurn.player.socket.emit("selectGoodQuarterResources");
+			currentTurn.hasGoodQuarter = true;
 			return true;
 		},
 		'whiteHat': function(){
@@ -420,6 +422,21 @@ module.exports = function(){
 		//return true; 
 		//else return false
 	};
+	this.claimGoodQuarterResources = function(player, resources){
+		if(currentTurn.hasGoodQuarter && resources.firstChoice && resources.secondChoice){
+			var resource = new Resources()
+			resource[resources.firstChoice] +=1;
+			resource[resources.secondChoice] +=1;
+			player.resources.add(resource);
+			currentTurn.hasGoodQuarter = false;
+			network.updateResources();
+			network.io.emit("system", player.username + " had a good quarter and claimed the resources: " + resources.firstChoice + " and " + resources.secondChoice);
+			if(currentTurn.phase=="trade") network.io.emit("tradePhase", currentTurn.player.username);
+			else network.io.emit("buyPhase", currentTurn.player.username);
+			return true;
+		}
+		return false;
+	}
 	this.monopolize = function(player, resourceChosen){
 		if(currentTurn.canMonopolize){
 			var total = new Resources();
