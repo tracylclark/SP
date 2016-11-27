@@ -94,9 +94,9 @@ function initializeDevelopmentDeck(){
 		},
 		'monopoly': function(){
 			currentTurn.player.socket.emit("monopoly"); //choose a resource to monopolize
-			this.canMonopolize = true;
+			currentTurn.canMonopolize = true;
 			return true;
-		}.bind(this),
+		},
 		'VPSupport': function(){
 			var vpCount = 0;
 			vpCount = currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + currentTurn.player.getVPs();
@@ -421,6 +421,7 @@ module.exports = function(){
 		//else return false
 	};
 	this.monopolize = function(player, resourceChosen){
+		console.log("Can monopolize " +currentTurn.canMonopolize);
 		if(currentTurn.canMonopolize){
 			var total = new Resources();
 			players.filter(e=>e!==player).forEach(e=>total.add(e.monopolize(resourceChosen))); //remove resources from otherPlayers
