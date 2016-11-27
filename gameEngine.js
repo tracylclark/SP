@@ -138,7 +138,7 @@ module.exports = function(){
 			return false;
 		}
 		player.rollOff = new Roll();
-		network.io.emit("rollOffResult", {player:currentSetup.player.username, rollOff:player.rollOff});
+		network.io.emit("rollOffResult", {player:player.username, rollOff:player.rollOff});
 		if(!players.find(e=>e.rollOff === null)){
 			players.sort((a,b)=>{
 				if(a.rollOff.total > b.rollOff.total) return -1;
