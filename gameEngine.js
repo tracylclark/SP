@@ -66,8 +66,8 @@ function initializeDevelopmentDeck(){
 			new: true,
 			play:function(){
 				if(currentTurn.cardPlayed!=null) return false;
-				currentTurn.cardPlayed = e;
 				if(cardFunctionMap[e]()){
+					currentTurn.cardPlayed = e;
 					var cardIndex = currentTurn.player.developmentCards.indexOf(this);
 					network.io.emit("playedDevelopment", {player: currentTurn.player.username, card:e});
 					currentTurn.player.developmentCards.splice(cardIndex, 1);//remove from player deck
