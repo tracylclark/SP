@@ -421,13 +421,14 @@ module.exports = function(){
 		//else return false
 	};
 	this.monopolize = function(player, resourceChosen){
-		console.log("Can monopolize " +currentTurn.canMonopolize);
 		if(currentTurn.canMonopolize){
 			var total = new Resources();
 			players.filter(e=>e!==player).forEach(e=>total.add(e.monopolize(resourceChosen))); //remove resources from otherPlayers
 			player.resources.add(total); //add the created resource obj to the current players resources
 			network.updateResources();
-			network.io.emit("system", player + " monopolized " + resourceChosen + ".");
+			network.io.emit("system", player.username + " monopolized " + resourceChosen + ".");
+			if(currentTurn.phase=="trade") network.io.emit("tradePhase", currentPlayer.username);
+			else network.io.emit("buyPhase", currentPlayer.username);
 			currentTurn.canMonopolize = false;
 			return true;
 		}
