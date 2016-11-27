@@ -49,8 +49,10 @@ var canvasEngine = new (function(){
 			if(vertex.owner != null){
 				vertexSize = size*0.2;
 				structure = 'S';
+				console.log(structure);
 				if(vertex.database){
 					structure+=' D';
+					console.log(structure);
 				}
 				var playerColor = players.find(e=>e.username === vertex.owner).color;
 				ctx.fillStyle = playerColors[playerColor];
