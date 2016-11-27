@@ -139,16 +139,20 @@ var network = new (function(){
 	});
 	socket.on("handUpdate", hand=>{
 		domEngine.updateHand(hand);
-	})
+	});
+	socket.on("gameWin", msg=>{
+		domEngine.systemMessage(msg);
+		domEngine.hidePopup();
+	});
 
 	//spectators
 	this.create = function(un,pw){
 		socket.emit("createAccount", {username:un, password:pw});
-	}
+	};
 	this.login = function(un,pw){
 		name = un;
 		socket.emit("login", {username:un, password:pw});
-	}
+	};
 	this.broadcast = function(msg){
 		socket.emit("msg", `<broadcast> ${msg}`);
 		socket.emit("broadcast", msg);
