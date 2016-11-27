@@ -49,10 +49,8 @@ var canvasEngine = new (function(){
 			if(vertex.owner != null){
 				vertexSize = size*0.2;
 				structure = 'S';
-				console.log(structure);
 				if(vertex.database){
 					structure+=' D';
-					console.log(structure);
 				}
 				var playerColor = players.find(e=>e.username === vertex.owner).color;
 				ctx.fillStyle = playerColors[playerColor];
@@ -71,7 +69,7 @@ var canvasEngine = new (function(){
 			ctx.stroke();
 			ctx.fill();
 			ctx.strokeStyle = "#FFFFFF";
-			ctx.font=size*.1+"px Arial";
+			ctx.font=size*.1+"px arial";
 			ctx.strokeText(structure, coords-(size*.1), coords-(size*.05));
 		}.bind(this);
 	}
