@@ -65,6 +65,7 @@ function initializeDevelopmentDeck(){
 			name:e,
 			new: true,
 			play:function(){
+				if(currentTurn.cardPlayed!=null) return false;
 				currentTurn.cardPlayed = e;
 				if(cardFunctionMap[e]()){
 					var cardIndex = currentTurn.player.developmentCards.indexOf(this);
