@@ -287,7 +287,7 @@ module.exports = function(){
 		if(self.gamePhase === "game" && currentTurn.phase==="roll"){
 			currentTurn.player.developmentCards.forEach(c=>c.new = false);
 			var roll = new Roll();
-			roll.player = player.username;
+			roll.player = currentTurn.player.username;
 			network.diceRoll(roll); //send the roll to the network to be emitted 
 			if(roll.total!=7){
 				players.forEach(e=>e.generateResources(roll.total, map)); 
