@@ -121,7 +121,7 @@ var network = new (function(){
 		domEngine.systemMessage("You have played a monopoly card. Please select a resource type.");
 	});
 	socket.on("networkBuilding", ()=>{
-		domEngine.systemMessage("You have played a Network Building card. Place two network connections for free!");
+		domEngine.systemMessage("You have played a Network Building card. Place two network connections for free this round using the build menu! Any free networks not built this round are lost.");
 	});
 	socket.on("placeHacker", ()=>{
 		domEngine.systemMessage("You may now place a hacker and select a target");
