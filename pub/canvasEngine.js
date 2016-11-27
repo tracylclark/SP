@@ -273,6 +273,7 @@ var canvasEngine = new (function(){
 		[[1,0,1],[1,0,1],[1,0,1]]
 	];
 	function drawDie(ctx, num, x, y){
+		console.log(num);
 		ctx.fillStyle = "#000000";
 		ctx.fillRect(x,y,size,size);
 		ctx.fillStyle = "#ffffae";
