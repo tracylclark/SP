@@ -427,8 +427,8 @@ module.exports = function(){
 			player.resources.add(total); //add the created resource obj to the current players resources
 			network.updateResources();
 			network.io.emit("system", player.username + " monopolized " + resourceChosen + ".");
-			if(currentTurn.phase=="trade") network.io.emit("tradePhase", currentPlayer.username);
-			else network.io.emit("buyPhase", currentPlayer.username);
+			if(currentTurn.phase=="trade") network.io.emit("tradePhase", currentTurn.player.username);
+			else network.io.emit("buyPhase", currentTurn.player.username);
 			currentTurn.canMonopolize = false;
 			return true;
 		}
