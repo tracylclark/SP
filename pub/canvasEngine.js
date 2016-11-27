@@ -70,7 +70,7 @@ var canvasEngine = new (function(){
 			ctx.fill();
 			ctx.strokeStyle = "#FFFFFF";
 			ctx.font=size*.1+"px arial";
-			ctx.strokeText(structure, coords-(size*.1), coords-(size*.05));
+			ctx.strokeText(structure, coords.x-(size*.1), coords.y-(size*.05));
 		}.bind(this);
 	}
 	function Edge(edge){
