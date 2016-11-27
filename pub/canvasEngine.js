@@ -47,10 +47,10 @@ var canvasEngine = new (function(){
 			var coords = translateVertexCoords(vertex.coords);
 			var structure = '';
 			if(vertex.owner != null){
-				vertexSize = size*0.2;
+				vertexSize = size*0.15;
 				structure = 'S';
 				if(vertex.database){
-					structure+=' D';
+					structure = 'D';
 				}
 				var playerColor = players.find(e=>e.username === vertex.owner).color;
 				ctx.fillStyle = playerColors[playerColor];
@@ -68,9 +68,9 @@ var canvasEngine = new (function(){
 			ctx.arc(coords.x,coords.y,vertexSize,0,2*Math.PI);
 			ctx.stroke();
 			ctx.fill();
-			ctx.strokeStyle = "#FFFFFF";
-			ctx.font=size*.1+"px arial";
-			ctx.strokeText(structure, coords.x-(size*.1), coords.y-(size*.05));
+			ctx.fillStyle = "#FFFFFF";
+			ctx.font=size*.2+"px arial";
+			ctx.fillText(structure, coords.x-(size*.1), coords.y-(size*.05));
 		}.bind(this);
 	}
 	function Edge(edge){
