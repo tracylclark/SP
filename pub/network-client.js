@@ -119,6 +119,7 @@ var network = new (function(){
 	});
 	socket.on("monopoly", ()=>{
 		domEngine.systemMessage("You have played a monopoly card. Please select a resource type.");
+		domEngine.showMonopolyMenu();
 	});
 	socket.on("networkBuilding", ()=>{
 		domEngine.systemMessage("You have played a Network Building card. Place two network connections for free this round using the build menu! Any free networks not built this round are lost.");
@@ -175,7 +176,9 @@ var network = new (function(){
 		socket.emit("msg", `<endTurn>`);
 		socket.emit("endTurn");
 	};
-
+	this.monopolize = function(resource){
+		socket.emit("monopolize", resource);
+	}
 	//Game Turn
 	this.rollDice = function(){
 		socket.emit("msg", `<rollDice>`);

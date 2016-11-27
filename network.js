@@ -176,7 +176,9 @@ function setupPlayerSocket(player){
 	player.socket.on("placeHacker", tile=>{
 		player.socket.emit("actionSuccess", gameEngine.currentPlayerOnly(player, tile, gameEngine.placeHacker));
 	});
-
+	player.socket.on("monopolize", resource=>{
+		player.socket.emit("actionSuccess", gameEngine.monopolize(player, resource));
+	})
 	player.socket.on("offerTrade", offer=>{
 		offer.from = player.username;
 		if(offer.have && offer.have.cpu && offer.have.power && offer.have.bandwidth && offer.have.ram && offer.have.storage &&

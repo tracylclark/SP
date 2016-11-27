@@ -36,6 +36,7 @@ function Turn(player){
 	this.phase = "roll";
 	this.cardPlayed = null;
 	this.placeHacker = false;
+	this.canMonopolize = false;
 	this.freeNetworks = 0; //this is used to allocate free networks if a buildNetworks development card is played
 }
 function Setup(player){
@@ -93,8 +94,9 @@ function initializeDevelopmentDeck(){
 		},
 		'monopoly': function(){
 			currentTurn.player.socket.emit("monopoly"); //choose a resource to monopolize
+			this.canMonopolize = true;
 			return true;
-		},
+		}.bind(this),
 		'VPSupport': function(){
 			var vpCount = 0;
 			vpCount = currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + currentTurn.player.getVPs();
@@ -418,21 +420,16 @@ module.exports = function(){
 		//return true; 
 		//else return false
 	};
-	function mostSecure(players){		
-		//every time a whiteHat dev card is played, check for mostSecure
-		//if new player has it, remove mostSecure player from before, subtract the VP and add to new mostSecure player
-		//must have at least 3 whiteHats to receive in first place
-		//if same player as last time, don't announce, just update (send announcement to players)
-
-	}
-	function monopolize(player, resourceChosen){
-		var total = new Resources();
-		players.filter(e=>e!==player).forEach(e=>total.add(e.monopolize(resourceChosen))); //remove resources from otherPlayers
-		player.resources.add(total); //add the created resource obj to the current players resources
-		network.updateResources();
-		//find out how many of the chosen resource all players but current have
-		//set other players resource to zero
-		//add total to currentPlayers resource
-		//announce to other players
+	this.monopolize = function(player, resourceChosen){
+		if(currentTurn.canMonopolize){
+			var total = new Resources();
+			players.filter(e=>e!==player).forEach(e=>total.add(e.monopolize(resourceChosen))); //remove resources from otherPlayers
+			player.resources.add(total); //add the created resource obj to the current players resources
+			network.updateResources();
+			network.io.emit("system", player + " monopolized " + resourceChosen + ".");
+			currentTurn.canMonopolize = false;
+			return true;
+		}
+		return false;
 	}
 };

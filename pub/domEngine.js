@@ -140,6 +140,11 @@ var domEngine = new (function(){
 					target1: get("target1"),
 					target2: get("target2"),
 					target3: get("target3")
+				},
+				monopoly:{
+					container: get("monopolyMenuContainer"),
+					button: get("monopolyButton"),
+					select: get("monopolySelect")
 				}
 			}
 		};
@@ -375,5 +380,9 @@ var domEngine = new (function(){
 		dom.popup.buyMenu.database.onclick = domEngine.showBuildDatabase;
 		dom.popup.buyMenu.network.onclick = domEngine.showBuildNetwork;
 		dom.popup.buyMenu.development.onclick = ()=>network.buyDevelopment();
+	}
+	this.showMonopolyMenu = function(){
+		domEngine.popup("monopoly");
+		dom.popup.monopoly.button.onclick = ()=>network.monopolize(dom.popup.monopoly.select.value);
 	}
 })();
