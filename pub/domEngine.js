@@ -236,12 +236,12 @@ var domEngine = new (function(){
 		canvasEngine.roll.spin = true;
 		canvasEngine.roll.show = true;
 	}
-	this.showDiceRoll = function(rollObj){
-		console.log(rollObj.roll);
+	this.showDiceRoll = function(roll){
+		console.log(roll);
 		setTimeout(()=>{
 			canvasEngine.roll.spin = false;
-			canvasEngine.roll.currentLeft = rollObj.roll.roll1;
-			canvasEngine.roll.currentRight = rollObj.roll.roll2;
+			canvasEngine.roll.currentLeft = roll.roll1;
+			canvasEngine.roll.currentRight = roll.roll2;
 			setTimeout(()=>{canvasEngine.roll.show = false;},5000)
 		},1000)
 	}

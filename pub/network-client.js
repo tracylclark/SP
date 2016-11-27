@@ -48,7 +48,7 @@ var network = new (function(){
 		domEngine.setPlayers(playerArray);
 	});
 	socket.on("rollOffResult", (rollResult)=>{
-		if(rollResult.player=name)domEngine.showDiceRoll(rollResult);
+		if(rollResult.player=name)domEngine.showDiceRoll(rollResult.rollOff);
 		domEngine.systemMessage(rollResult.player + " rolled off: (" + rollResult.rollOff.roll1 + "," + rollResult.rollOff.roll2 + ") : " + rollResult.rollOff.total);
 	});
 	socket.on("rollOff", ()=>{
