@@ -137,7 +137,7 @@ var network = new (function(){
 		domEngine.showEndTurn();
 	});
 	socket.on("diceRollResult", rollResult=>{
-		if(rollResult.player = name)domEngine.showDiceRoll(rollResult);
+		if(rollResult.player == name)domEngine.showDiceRoll(rollResult);
 		domEngine.systemMessage(rollResult.player + " rolled: (" + rollResult.roll1 + "," + rollResult.roll2 + ") : " + rollResult.total);
 	});
 	socket.on("handUpdate", hand=>{
