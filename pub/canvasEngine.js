@@ -165,6 +165,10 @@ var canvasEngine = new (function(){
 				ctx.fillText("H", hackerCoords.x-(size*.5),hackerCoords.y+(size*.2));
 				ctx.strokeText("H",  hackerCoords.x-(size*.5),hackerCoords.y+(size*.2));
 			}
+			ctx.strokeStyle = "#000000";
+			ctx.font = size*.35 + "px arial";
+			var resourceCoords = translateVertexCoords(corners[5]);
+			ctx.strokeText(tile.resource, resourceCoords.x+(size*.3), resourceCoords.y-(size*.3));
 		};
 		//assuming you have a hex image (transparent corners, hex top is on first row of the image, hex left is in first column)
 		//you can find the top left corner postition by the converted x-coord of the first corner, and the converted y-coord of the second corner.
