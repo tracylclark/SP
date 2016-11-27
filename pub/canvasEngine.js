@@ -6,7 +6,8 @@ var canvasEngine = new (function(){
 		spin: false,
 		show: false,
 		currentLeft: 1,
-		currentRight: 1
+		currentRight: 1,
+		hold: true
 	};
 	const sqrt3 = Math.sqrt(3); //cached
 	const size = 80; //width of a hexagon(scales everything)
@@ -239,8 +240,11 @@ var canvasEngine = new (function(){
 		map.edges.forEach(e=>e.draw(ctx));
 		map.vertices.forEach(e=>e.draw(ctx));
 		if(canvasEngine.roll.spin){
-			canvasEngine.roll.currentLeft = Math.floor((Math.random()*6)+1);
-			canvasEngine.roll.currentRight = Math.floor((Math.random()*6)+1);
+			roll.hold = !roll.hold;
+			if(roll.hold){
+				canvasEngine.roll.currentLeft = Math.floor((Math.random()*6)+1);
+				canvasEngine.roll.currentRight = Math.floor((Math.random()*6)+1);
+			}
 		}
 		if(canvasEngine.roll.show){
 			drawDie(ctx,canvasEngine.roll.currentLeft,size*15, size*3);
@@ -273,7 +277,6 @@ var canvasEngine = new (function(){
 		[[1,0,1],[1,0,1],[1,0,1]]
 	];
 	function drawDie(ctx, num, x, y){
-		console.log(num);
 		ctx.fillStyle = "#000000";
 		ctx.fillRect(x,y,size,size);
 		ctx.fillStyle = "#ffffae";

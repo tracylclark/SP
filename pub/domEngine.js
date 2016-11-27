@@ -237,11 +237,12 @@ var domEngine = new (function(){
 		canvasEngine.roll.show = true;
 	}
 	this.showDiceRoll = function(roll){
+		console.log(roll);
 		setTimeout(()=>{
 			canvasEngine.roll.spin = false;
 			canvasEngine.roll.currentLeft = roll.roll1;
 			canvasEngine.roll.currentRight = roll.roll2;
-			setTimeout(()=>{canvasEngine.roll.show = false;},1000)
+			setTimeout(()=>{canvasEngine.roll.show = false;},5000)
 		},1000)
 	}
 	this.showRollOff = function(){
