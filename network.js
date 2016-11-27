@@ -48,7 +48,7 @@ module.exports = function(io){
 			};
 			if(p.VPs >= 10) this.gameWin(p.username+ " won the game with " + p.VPs + " victory points.");
 			return p;
-		}.bind(this)));
+		}));
 	}.bind(this);
 	this.updateMap = function(){
 		io.emit("mapUpdate", gameEngine.getMap());
