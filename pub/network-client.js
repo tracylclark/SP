@@ -1,7 +1,6 @@
 //network-client.js
 
 var network = new (function(){
-
 	var socket = io();
 	socket.emit("msg", "Hello world");
 	socket.on("mapUpdate", e=>{
@@ -32,8 +31,6 @@ var network = new (function(){
 		domEngine.systemMessage(msg);
 	});
 	socket.on("actionSuccess", successMsg=>{
-		//o(`<actionSuccess> ${successMsg}`);
-		//if(DEBUG)domEngine.systemMessage("actionSuccess:"+successMsg);
 		if(!successMsg){
 				domEngine.systemMessage("action failed!");
 		}
@@ -43,7 +40,6 @@ var network = new (function(){
 		domEngine.systemMessage("Welcome to the Game");
 	})
 	socket.on("playerUpdate", playerArray=>{
-		//o(`<playerUpdate> ${playerArray}`);
 		canvasEngine.setPlayers(playerArray);
 		domEngine.setPlayers(playerArray);
 	});
@@ -70,7 +66,6 @@ var network = new (function(){
 		}
 	});
 	socket.on("resourceUpdate", (resources)=>{
-	//o(`<resourceUpdate> ${resources}`);
 	domEngine.resourceUpdate(resources);
 	});
 	socket.on("gameTurn", (currentPlayer)=>{
@@ -87,27 +82,22 @@ var network = new (function(){
 		if (currentPlayer == name) domEngine.showTrade();
 	});
 	socket.on("tradeOffer", (offer)=>{
-		//o(`<tradeOffer> ${offer}`);
 		domEngine.systemMessage("The current player has made a trade offer.");
 		if(offer.from != name) domEngine.showTradeOfferMenu(offer);
 	});
 	socket.on("hacked", (hackerResults)=>{
-		//o(`<hacked> ${hackerResults}`)
 		domEngine.systemMessage(hackerResults.hacker + " has targeted " + hackerResults.target + " with a cyberattack.");
 		canvasEngine.select="none";
 	});
 	socket.on("offerRescinded", (currentPlayer)=>{
-		//o(`<offerRescinded>`);
 		domEngine.systemMessage("The current offer has been rescinded.");
 		if(name != currentPlayer)domEngine.hidePopup();
 	});
 	socket.on("tradeRejected", (rejectingPlayer)=>{
-		//o(`<tradeRejected> ${rejectingPlayer}`);
 		domEngine.systemMessage(rejectingPlayer + " has rejected the trade offer.");
 		if(rejectingPlayer == name)domEngine.hidePopup();
 	});
 	socket.on("tradeComplete", (accept)=>{
-		//o(`<tradeComplete> ${accept.acceptingPlayer}`);
 		domEngine.systemMessage(accept.acceptingPlayer + " has accepted the trade offer!");
 		if(accept.currentPlayer !=name )domEngine.hidePopup();
 	});

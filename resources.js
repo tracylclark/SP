@@ -1,4 +1,5 @@
 //resources.js
+
 module.exports = function(b, s, c, r, p){
 	this.bandwidth = b||0;
 	this.storage = s||0;

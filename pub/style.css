@@ -16,14 +16,10 @@
 	pointer-events: none;
 }
 #loginContainer{
-	/*margin-left: auto;
-	margin-right: auto;*/
 	font-size: 20px;
 	top: 10px;
 	position: absolute;
 	right: 10px;
-	/*width:50%;
-	height:25%;*/
 }
 #loginError{
 	color:#a10000;
@@ -33,9 +29,7 @@
 	display: block;
 	background-color: #a1a1a1;
 	pointer-events: all;
-	/*border: 3px solid #000;*/
 }
-
 #chatContainer{
 	position:absolute;
 	width: 40%;
@@ -100,11 +94,10 @@
 	position: absolute;
 	bottom: 20px;
 	left: 45%;
-	/*visibility: hidden;*/
 }
 .trade{
 	width:3em;
 }
 #popupTrade{
-	/*visibility: hidden;*/
+	
 }

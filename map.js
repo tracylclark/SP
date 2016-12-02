@@ -1,13 +1,4 @@
 //map.js
-/*
-	var Map = new require('./map.js');
-	var m = new Map({
-		tileDistribution:"default", //other
-		tokenDistribution:"default", //"random"
-		vendorDistribution:"default", //"slightShift" //other
-	});
-*/
-
 
 var Resources = require("./resources.js");
 
@@ -102,16 +93,6 @@ module.exports = function(options){
 		return retVal;
 	};
 	this.hasTile = function(targetPlayer, targetTile){
-		// console.log("in hasTile");
-		// console.log(targetPlayer);
-		// console.log("Target Tile: " + targetTile);
-		// console.log(targetPlayer.infrastructure.servers.find(e=>{
-		// 	console.log(e.tiles);
-		// 	return e.tiles.find(t=>{
-		// 		console.log("Tile: " + t);
-		// 		t===targetTile;
-		// 	});
-		// }));
 		return targetPlayer.infrastructure.servers.find(e=>e.tiles.find(t=>t===targetTile)) != undefined;
 	}
 	this.placeHacker = function(tileId){
@@ -149,7 +130,7 @@ module.exports = function(options){
 	function Edge(u, v){
 		this.u = u;
 		this.v = v;
-		this.owner = null; //when a player places a road, it is created and contained in the edge object
+		this.owner = null; //when a player places a network, it is created and contained in the edge object
 	}
 	function Tile(id, type){
 		this.id = id;
@@ -189,7 +170,6 @@ module.exports = function(options){
 			var keys = ["00","02","04","06","08","10"]; //randomly choose starting position from tokenLocationMap
 			tokenSet = gameMapConstants.tokenLocationMap[keys[Math.floor(Math.random()*6)]]; 
 		}
-		//tiles.forEach((e,i)=>e.token = gameMapConstants.defaultTokenObjects[tokenSet[i]]); //now distribute tokens
 		var i = 0;
 		var j = 0;
 		while(i<19){
@@ -206,7 +186,7 @@ module.exports = function(options){
 		if (vendorDistribution == "default"){
 			order = gameMapConstants.frameSets[0].slice(); //make a copy of the frameSet we want
 		}
-		else if(vendorDistribution == "slightShift"){ //don't really like this name, think on it, this is when the frame shifts but still using default vendor list
+		else if(vendorDistribution == "slightShift"){ //this is when the frame shifts but still using default vendor list
 			let i = Math.floor(Math.random() * gameMapConstants.frameSets.length); //get a  random number between 0 and 6
 			order = gameMapConstants.frameSets[i].slice();
 		}

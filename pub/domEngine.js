@@ -192,16 +192,12 @@ var domEngine = new (function(){
 	this.popup = function(item){
 		Object.keys(dom.popup).forEach(e=>{
 			if(e==="container")return;
-			// dom.popup[e].container.style.visibility = "hidden";
 			dom.popup[e].container.style.display = "none";
 		});
-		// dom.popup.container.style.visibility = "visible";
-		// dom.popup[item].container.style.visibility = "visible";
 		dom.popup.container.style.display = "initial";
 		dom.popup[item].container.style.display = "initial";
 	}
 	this.hidePopup = function(){
-		// dom.popup.container.style.visibility = "hidden";
 		dom.popup.container.style.display = "none";
 	}
 	this.showJoinGame = function(){ //logged in
@@ -222,16 +218,6 @@ var domEngine = new (function(){
 		};
 		domEngine.popup("startGame");
 	}
-	// this.showRollOff = function(){
-	// 	dom.popup.singleAction.button.value="Roll Off";
-	// 	dom.popup.singleAction.button.onclick = ()=>network.rollOff();
-	// 	domEngine.popup("singleAction");
-	// }
-	// this.showRollDice = function(){
-	// 	dom.popup.singleAction.button.value="Roll Dice";
-	// 	dom.popup.singleAction.button.onclick = ()=>network.rollDice();
-	// 	domEngine.popup("singleAction");
-	// }
 	function startRoll(){
 		canvasEngine.roll.spin = true;
 		canvasEngine.roll.show = true;
@@ -275,7 +261,6 @@ var domEngine = new (function(){
 	};
 	this.setPlayers = function(playerArray){
 		players = playerArray;
-		// playerArray.forEach(e=>console.log(e));
 		playerArray.forEach((e,i)=>{
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;

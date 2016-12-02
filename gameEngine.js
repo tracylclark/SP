@@ -9,23 +9,6 @@ var developmentDeck = gameConstants.developmentCardLabels.slice();
 var currentTurn = new Turn(null);
 var currentSetup = new Setup(null);
 var rejectList = [];
-/*
-	pregame
-		connect new clients
-		clients join game
-		startGame(options)=>
-	setup
-		rolloff
-		place servers
-		place networks
-		get first resources =>
-	game
-		currentTurn cycle roll=>trade=>buy
-		On victory =>
-	postgame
-		winner
-
-*/
 
 function validResource(q){
 	return q === "ram" || q === "cpu" || q === "bandwidth" || q === "power" || q === "storage";
@@ -222,9 +205,7 @@ module.exports = function(){
 		if(self.gamePhase === "game" && currentTurn.phase === "buy" && player.hasResources(gameConstants.costs.development) && developmentDeck.length > 0){
 			player.resources.sub(gameConstants.costs.development);
 			network.updateResources();
-			// developmentDeck.forEach(e=>console.log(e.name));
 			var card = developmentDeck.splice(Math.floor(Math.random()*developmentDeck.length), 1);//random card
-			// console.log("Drew: " + card[0].name);
 			player.developmentCards.push(card[0]);
 			player.socket.emit("cardDraw", card[0].name); //draws a random card and adds to players development deck (returns the card)
 			network.updateHand();
@@ -321,7 +302,6 @@ module.exports = function(){
 			if(Object.keys(offer.for).find(e=>!validResource(e))){
 				return false;
 			}
-			//player.socket.broadcast.emit("tradeOffer", offer);
 			network.io.emit("tradeOffer", offer);
 			currentTurn.currentOffer = offer;
 			rejectList = [];
@@ -393,7 +373,7 @@ module.exports = function(){
 				return false;
 			}
 			console.log("in between guard statements"); 
-			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change
+			if(!map.placeHacker(hackerAction.tile)){ //returns false if not a tile or not a change, enforces placing on a tile touching owned vertices
 				return false;
 			}
 			currentTurn.placeHacker = false;
@@ -419,6 +399,7 @@ module.exports = function(){
 		var tmpPathLength = 0; //tmp var to store the path length being traced
 		//coords.forEach((e, i)=>) //for each coord pair find in edges, make sure they are all touching, make sure player is owner
 		//if all this AND longer than current longest path, store coords for longest path and player as longest path
+			//would need coords to check for broken path on current longest
 		//remove VP from last longest path holder, set VP for current longest path holder
 		//return true; 
 		//else return false

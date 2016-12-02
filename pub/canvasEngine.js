@@ -1,4 +1,5 @@
 //canvasEngine.js
+
 var canvasEngine = new (function(){
 
 	this.select = "none";
@@ -45,9 +46,6 @@ var canvasEngine = new (function(){
 		this.coords = vertex.coords;
 		this.wasClicked = function(click){
 			var coords = translateVertexCoords(vertex.coords);
-			// if(vertex.coords.x === 2 && vertex.coords.y === 2){
-			// 	console.log(`[2,2] dx: ${click.x - coords.x}  dy: ${click.y - coords.y}`);
-			// }
 			return size*.1 >= Math.sqrt(Math.pow(click.x - coords.x, 2) + Math.pow(click.y - coords.y, 2));
 		}
 		this.draw = function(ctx){
@@ -117,23 +115,13 @@ var canvasEngine = new (function(){
 				box.left -= size*.2;
 				box.right += size*.2;
 			}
-			// if(edge.v.x === 2 && edge.v.y === 2 && edge.u.x == 3 && edge.u.y === 2){
-			// 	console.log(`[2,2]->[3,2] dx: ${click.x - box.left}  dy: ${click.y - box.top}`);
-			// 	console.log(click.x < box.right);
-			// 	console.log(click.x > box.left);
-			// 	console.log(click.y > box.top);
-			// 	console.log(click.y < box.bottom);
-			// }
 			return click.x < box.right && click.x > box.left && click.y > box.top && click.y < box.bottom;
 		};
 	}
 	function Tile(tile){
-		//find all vertices that touch this tile.
-		//map to an array of just the coords of these vertices (the corners)
-		//sort the corners by y value (top before bottom)
-		//take each half, and sort the top by x value, the bottom by the inverse
-		//concat the top and bottom back together.
-		//this results in a list of corners in clockwise order starting with the top left
+		//find all vertices that touch this tile, map to an array of just the coords of these vertices (the corners)
+		//sort the corners by y value (top before bottom) and take each half: sort the top by x value, the bottom by the inverse
+		//concat the top and bottom back together, this results in a list of corners in clockwise order starting with the top left
 		var corners = map.vertices.filter(e=>e.tiles.find(t=>t===tile.id) !== undefined).map(e=>e.coords).sort((a,b)=>a.y - b.y);//sorts top half and bottom half
 		corners = corners.slice(0,3).sort((a,b)=>a.x-b.x).concat(corners.slice(3,6).sort((a,b)=>b.x-a.x));
 		this.selected = false;
@@ -141,7 +129,6 @@ var canvasEngine = new (function(){
 		this.wasClicked = function(click){
 			var topLeft = translateVertexCoords(corners[0]);
 			var bottomRight = translateVertexCoords(corners[3]);
-			// if(click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y) console.log("that's me");
 			return click.x > topLeft.x && click.x < bottomRight.x && click.y > topLeft.y && click.y < bottomRight.y;
 		}
 		this.draw = function(ctx){
@@ -195,7 +182,6 @@ var canvasEngine = new (function(){
 		ctx = canvas.getContext( "2d" );
 		canvasEngine.resize();
 		window.onresize = canvasEngine.resize;
-
 		canvas.addEventListener("mousedown", (event)=>{
 			var rect = canvas.getBoundingClientRect();
 			var click = {x:event.pageX - rect.left - camera.x, y:event.pageY - rect.top - camera.y};
@@ -214,7 +200,6 @@ var canvasEngine = new (function(){
 			if(tile && canvasEngine.select === "tile"){
 				tile.selected = true;
 			}
-
 		}, true)
 		render();
 	};

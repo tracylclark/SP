@@ -1,4 +1,5 @@
 //network.js
+
 var mongoClient = require("mongodb").MongoClient;
 var db = {};
 var collection = {};
@@ -137,9 +138,8 @@ function login(s, name){//credentials have been vetted at this point
 		var p = new Player(spectators.splice(indexOfUser, 1)[0], playerColors[players.length]); //index to remove at, how many elements to remove.
 		players.push(p);
 		p.socket.removeListener("disconnect", spectatorLeaves);
-		setupPlayerSocket(p);
+		setupPlayerSocket(p); //set up player socket callbacks
 		p.socket.emit("joinedGame");
-		//set up player socket callbacks
 	});
 }
 function sanitize(str){
