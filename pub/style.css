@@ -78,7 +78,7 @@
 #playerDataContainer{
 	font-size: 20px;
 	position:absolute;
-	left: 65%;
+	right: 20px;
 	bottom: 20px;
 	visibility: hidden;
 }
