@@ -40,6 +40,7 @@ var network = new (function(){
 	socket.on("joinedGame", ()=>{
 		domEngine.showStartGame();
 		domEngine.systemMessage("Welcome to the Game");
+		domEngine.showCosts();
 	})
 	socket.on("playerUpdate", playerArray=>{
 		canvasEngine.setPlayers(playerArray);

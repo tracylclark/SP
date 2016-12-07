@@ -110,6 +110,8 @@
 	position: absolute;
 	top: 150px;
 	right: 20px;
+	background-color: #a1a1a1;
+	visibility: hidden;
 }
 .costsCell{
 	border: 2px solid black;

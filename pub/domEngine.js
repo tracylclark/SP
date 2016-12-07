@@ -24,6 +24,9 @@ var domEngine = new (function(){
 			userName:{
 				userName:get("userName")
 			},
+			costs:{
+				costs:get("costs");
+			},
 			chat:{
 				container:get("chatContainer"),
 				viewport:get("chatViewport"),
@@ -417,5 +420,8 @@ var domEngine = new (function(){
 	this.displayName = function(un){
 		dom.userName.userName.style.visibility = "visible";
 		dom.userName.userName.innerHTML = "You are playing as "+un;
+	}
+	this.showCosts = function(){
+		dom.costs.costs.style.visibility = "visible";
 	}
 })();
