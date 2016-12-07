@@ -11,6 +11,7 @@ var network = new (function(){
 	socket.on("loginResult", function(res){
 		if(res){
 			domEngine.hideLogin();
+			domEngine.displayName(un);
 		}
 		else{
 			domEngine.loginError("Failed to login, ensure your username and password are correct.");
