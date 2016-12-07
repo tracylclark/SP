@@ -25,7 +25,7 @@ var domEngine = new (function(){
 				userName:get("userName")
 			},
 			costs:{
-				costs:get("costs");
+				costs:get("costs")
 			},
 			chat:{
 				container:get("chatContainer"),
