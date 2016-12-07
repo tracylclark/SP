@@ -22,7 +22,7 @@ var domEngine = new (function(){
 				error:get("loginError")
 			},
 			userName:{
-				userName:get("userName");
+				userName:get("userName")
 			}
 			chat:{
 				container:get("chatContainer"),
