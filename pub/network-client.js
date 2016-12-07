@@ -19,6 +19,7 @@ var network = new (function(){
 	socket.on("createAccountResult", function(res){
 		if(res){
 			domEngine.hideLogin();
+			domEngine.displayName(un);
 		}
 		else{
 			domEngine.loginError("Failed to create account, try a different username.");
@@ -146,7 +147,6 @@ var network = new (function(){
 	this.login = function(un,pw){
 		name = un;
 		socket.emit("login", {username:un, password:pw});
-		domEngine.displayName(un);
 	};
 	this.broadcast = function(msg){
 		socket.emit("msg", `<broadcast> ${msg}`);
