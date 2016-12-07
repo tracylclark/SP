@@ -25,6 +25,9 @@
 	color:#a10000;
 	visibility: hidden;
 }
+#userName{
+	visibility: hidden;
+}
 .container{
 	display: block;
 	background-color: #a1a1a1;

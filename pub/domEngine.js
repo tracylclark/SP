@@ -21,6 +21,9 @@ var domEngine = new (function(){
 				password:get("loginPassword"),
 				error:get("loginError")
 			},
+			userName:{
+				userName:get("userName");
+			}
 			chat:{
 				container:get("chatContainer"),
 				viewport:get("chatViewport"),
@@ -410,5 +413,8 @@ var domEngine = new (function(){
 	this.showGoodQuarterMenu = function(){
 		domEngine.popup("goodQuarter");
 		dom.popup.goodQuarter.button.onclick = ()=>network.selectedGoodQuarterResources({firstChoice: dom.popup.goodQuarter.firstChoice.value, secondChoice: dom.popup.goodQuarter.secondChoice.value});
+	}
+	this.displayName = function(un){
+		dom.userName.innerHTML = "You are playing as "+un;
 	}
 })();

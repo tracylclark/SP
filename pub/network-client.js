@@ -146,6 +146,7 @@ var network = new (function(){
 	this.login = function(un,pw){
 		name = un;
 		socket.emit("login", {username:un, password:pw});
+		domEngine.displayName(un);
 	};
 	this.broadcast = function(msg){
 		socket.emit("msg", `<broadcast> ${msg}`);
