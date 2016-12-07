@@ -27,7 +27,7 @@
 }
 #userName{
 	visibility: hidden;
-	background-color: rgba(0,0,255);
+	background-color: rgba(#ffffff);
 	font-size: 20px;
 }
 .container{
