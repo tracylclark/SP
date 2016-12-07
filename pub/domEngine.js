@@ -262,6 +262,7 @@ var domEngine = new (function(){
 	this.setPlayers = function(playerArray){
 		players = playerArray;
 		playerArray.forEach((e,i)=>{
+			dom.playeData.players[i].username.style.color = canvasEngine.playerColors[e.color];
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
 			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
