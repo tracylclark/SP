@@ -415,6 +415,7 @@ var domEngine = new (function(){
 		dom.popup.goodQuarter.button.onclick = ()=>network.selectedGoodQuarterResources({firstChoice: dom.popup.goodQuarter.firstChoice.value, secondChoice: dom.popup.goodQuarter.secondChoice.value});
 	}
 	this.displayName = function(un){
+		dom.userName.style.visibility = "visible";
 		dom.userName.innerHTML = "You are playing as "+un;
 	}
 })();
