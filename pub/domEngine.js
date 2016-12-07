@@ -1,5 +1,10 @@
 //domEngine.js
-
+var playerColors = {
+		"purple":"#660066",
+		"red": "#990000",
+		"green": "#008141",
+		"orange": "#ff3300"
+}
 var domEngine = new (function(){
 	var dom = {};
 	var players = [];
@@ -262,7 +267,7 @@ var domEngine = new (function(){
 	this.setPlayers = function(playerArray){
 		players = playerArray;
 		playerArray.forEach((e,i)=>{
-			dom.playerData.players[i].username.style.color = canvasEngine.playerColors[e.color];
+			dom.playerData.players[i].username.style.color = playerColors[e.color];
 			dom.playerData.players[i].username.innerHTML = e.username;
 			dom.playerData.players[i].whiteHats.innerHTML = e.whiteHats;
 			dom.playerData.players[i].mostSecure.innerHTML = e.mostSecure;
