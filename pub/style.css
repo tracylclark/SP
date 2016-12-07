@@ -106,3 +106,24 @@
 #popupTrade{
 	
 }
+#costs{
+	position: absolute;
+	top: 100px;
+	right: 20px;
+}
+.costsCell{
+	border: 2px solid black;
+	font-size: 15px;
+	text-align: center;
+}
+.headCostsCell{
+	font-size: 15px;
+	text-align: center;
+	border-top: 2px solid black;
+}
+.outerLeft{
+	border-left: 2px solid black;
+}
+.outerRight{
+	border-right: 2px solid black;
+}
