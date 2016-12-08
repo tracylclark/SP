@@ -19,11 +19,13 @@ module.exports = function(player, color){
 	this.mostSecure = false;
 	this.whiteHats = 0;
 	this.rollOff = null;
+	this.playedVPCards = 0;
 	this.getVPs = function(){
 		return  this.infrastructure.servers.length +
 				this.infrastructure.databases.length +
 				(this.largestNetwork?2:0) +
-				(this.mostSecure?2:0);
+				(this.mostSecure?2:0)+
+				this.playedVPCards;
 	}.bind(this);
 	this.steal = function(){
 		var res = [
