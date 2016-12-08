@@ -123,10 +123,9 @@ function login(s, name){//credentials have been vetted at this point
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
 		if(msg=="batman"){
-			networkIO.emit("broadcast", '  /(_M_)\
+			networkIO.emit("broadcast", "  /(_M_)\
  |       |
-  \(~V~)/
-'); //http://www.asciiworld.com/-Batman,88-.html
+  \(~V~)/"); //http://www.asciiworld.com/-Batman,88-.html
 
 		}
 		else networkIO.emit("broadcast", name + ":: " +sanitize(msg));
