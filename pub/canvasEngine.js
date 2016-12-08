@@ -232,8 +232,8 @@ var canvasEngine = new (function(){
 			}
 		}
 		if(canvasEngine.roll.show){
-			drawDie(ctx,canvasEngine.roll.currentLeft,size*15, size*3);
-			drawDie(ctx,canvasEngine.roll.currentRight,size*16.5, size*3);
+			drawDie(ctx,canvasEngine.roll.currentLeft,size*12, size*6);
+			drawDie(ctx,canvasEngine.roll.currentRight,size*13.5, size*6);
 		}
 		ctx.restore();
 		requestAnimationFrame(render);
