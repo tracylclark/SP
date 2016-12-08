@@ -123,18 +123,19 @@ function login(s, name){//credentials have been vetted at this point
 	s.on("disconnect", spectatorLeaves);
 	s.on("broadcast", msg=>{
 		if(msg=="batman"){
-			networkIO.emit("broadcast", '       _==/          i     i          \==_
-     /XX/            |\___/|            \XX\
-   /XXXX\            |XXXXX|            /XXXX\
-  |XXXXXX\_         _XXXXXXX_         _/XXXXXX|
+			networkIO.emit("broadcast", '
+       _==/          i     i          \\==_
+     /XX/            |\\___/|            \\XX\
+   /XXXX\\            |XXXXX|            /XXXX\
+  |XXXXXX\\_         _XXXXXXX_         _/XXXXXX|
  XXXXXXXXXXXxxxxxxxXXXXXXXXXXXxxxxxxxXXXXXXXXXXX
 |XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 |XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
- XXXXXX/^^^^"\XXXXXXXXXXXXXXXXXXXXX/^^^^^\XXXXXX
-  |XXX|       \XXX/^^\XXXXX/^^\XXX/       |XXX|
-    \XX\       \X/    \XXX/    \X/       /XX/
-       "\       "      \X/      "      /"
+ XXXXXX/^^^^"\\XXXXXXXXXXXXXXXXXXXXX/^^^^^\\XXXXXX
+  |XXX|       \\XXX/^^\\XXXXX/^^\\XXX/       |XXX|
+    \\XX\\       \\X/    \\XXX/    \\X/       /XX/
+       "\\       "      \\X/      "      /"
 '); //http://www.asciiworld.com/-Batman,88-.html
 
 		}
