@@ -246,6 +246,7 @@ var domEngine = new (function(){
 		dom.popup.singleAction.button.value="Roll Off";
 		dom.popup.singleAction.button.onclick = ()=>{
 			startRoll();
+			domEngine.hidePopup();
 			network.rollOff();
 		}
 		domEngine.popup("singleAction");
