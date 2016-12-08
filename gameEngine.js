@@ -87,8 +87,8 @@ function initializeDevelopmentDeck(){
 			var vpCount = 0;
 			vpCount = currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + currentTurn.player.getVPs();
 			if(vpCount>=10){
-				network.gameWin(currentTurn.player.username + " played " + currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + " victory points cards. They won the game with "+vpCount+" victory points.");
 				network.updatePlayers();
+				network.gameWin(currentTurn.player.username + " played " + currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + " victory points cards. They won the game with "+vpCount+" victory points.");
 				return true;
 			}	
 			return false;
@@ -265,7 +265,7 @@ module.exports = function(){
 		return false;
 	};
 	this.rollDice = function(player){
-		//players.forEach(e=>e.resources.add({cpu:5,bandwidth:5,power:5,ram:5,storage:5})); DEBUG: Generate Extra Resources
+		players.forEach(e=>e.resources.add({cpu:5,bandwidth:5,power:5,ram:5,storage:5})); //DEBUG: Generate Extra Resources
 		if(self.gamePhase === "game" && currentTurn.phase==="roll"){
 			currentTurn.player.developmentCards.forEach(c=>c.new = false);
 			var roll = new Roll();
