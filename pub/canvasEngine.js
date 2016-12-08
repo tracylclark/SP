@@ -15,7 +15,7 @@ var canvasEngine = new (function(){
 
 	var camera = {
 		x: 50,
-		y: 20,
+		y: 40,
 		zoom: 1
 	};
 	var ctx = {};
