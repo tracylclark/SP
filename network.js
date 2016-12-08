@@ -124,7 +124,7 @@ function login(s, name){//credentials have been vetted at this point
 	s.on("broadcast", msg=>{
 		if(msg=="batman"){
 			networkIO.emit("broadcast", "<pre>" + String.fromCharCode(32,32,32,32,32,32,32, 95, 78, 92, 13, 32, 32, 32, 32, 32, 32, 47, 95, 32, 124, 13, 32, 32, 32, 32, 32, 32, 66, 95, 124, 124, 46, 13, 32, 32, 32, 32, 32, 32, 47, 95, 32, 124, 32, 39, 46, 13, 32, 32, 32, 32, 32, 32, 48, 95, 32, 109, 46, 44, 44, 59, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 65, 82, 86, 13, 32, 32, 32, 32, 32, 32, 47, 47, 95, 124)
-+ "</pre>"); //http://www.asciiworld.com/-Batman,88-.html
++ "</pre>"); //http://www.chris.com/ascii/index.php?art=comics/batman converted to char codes by me
 
 		}
 		else networkIO.emit("broadcast", name + ":: " +sanitize(msg));
