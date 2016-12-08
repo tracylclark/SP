@@ -391,7 +391,7 @@ module.exports = function(){
 			if(currentTurn.phase === "roll"){
 				currentTurn.phase = "trade";
 			}
-			network.io.emit(currentTurn.phase+"tradePhase", player.username);
+			network.io.emit(currentTurn.phase+"Phase", player.username);
 
 			return true;
 		}
