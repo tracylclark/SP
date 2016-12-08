@@ -88,6 +88,7 @@ function initializeDevelopmentDeck(){
 			vpCount = currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + currentTurn.player.getVPs();
 			if(vpCount>=10){
 				network.gameWin(currentTurn.player.username + " played " + currentTurn.player.developmentCards.filter(e=>e.name==='VPSupport').length + " victory points cards. They won the game with "+vpCount+" victory points.");
+				network.updatePlayers();
 				return true;
 			}	
 			return false;
