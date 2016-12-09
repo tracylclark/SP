@@ -147,6 +147,8 @@ var canvasEngine = new (function(){
 			}
 			ctx.stroke();
 			ctx.fill();
+			ctx.lineWidth = size/25;
+			ctx.strokeStyle = "#000000";
 			if(tile.token){
 				var tokenCoords = translateVertexCoords(corners[0]);
 				ctx.fillStyle = "#000000";
