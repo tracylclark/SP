@@ -15,11 +15,3 @@ module.exports ={
 		"whiteHat", "whiteHat", "whiteHat", "whiteHat", "whiteHat", "VPSupport", 
 		"VPSupport","VPSupport","VPSupport","VPSupport"]	
 }
-
-
-/*
-year of plenty = goodQuarter
-road building = networkBuilding
-monopoly = monopoly
-VPSupport = all 5 of the +1 to VP cards
-*/

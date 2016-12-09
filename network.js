@@ -75,7 +75,6 @@ module.exports = function(io){
 	}
 	io.on("connect", socket=>{
 		console.log("Client connected.");
-		socket.on("msg", msg=>console.log(msg)); //debug test
 		socket.on("login", credentials=>{
 			credentials.username = sanitize(credentials.username);
 			if(players.find(e=>e.username===credentials.username)||spectators.find(e=>e.username===credentials.username)){

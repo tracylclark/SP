@@ -4,7 +4,7 @@ var network = new (function(){
 	var socket = io();
 	socket.emit("msg", "Hello world");
 	socket.on("mapUpdate", e=>{
-		canvasEngine.setMap(e);//(JSON.parse(e));
+		canvasEngine.setMap(e);
 	});
 	setTimeout(()=>socket.emit("gimme the map"), 1000);
 
